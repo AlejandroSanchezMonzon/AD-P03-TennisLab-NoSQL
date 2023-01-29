@@ -8,7 +8,7 @@ CREATE TABLE Usuario (
     rol TEXT NOT NULL
 );
 
-selectUsuario:
+selectUsuarios:
 SELECT * FROM Usuario;
 
 selectUsuarioById:
