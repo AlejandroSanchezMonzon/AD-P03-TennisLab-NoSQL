@@ -2,6 +2,10 @@ package es.dam.adp03_springmongodb.repositories.usuarios
 
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
+import es.dam.adp03_springmongodb.models.TipoUsuario
+import es.dam.adp03_springmongodb.models.Usuario
+import es.dam.adp03_springmongodb.services.ktorfit.KtorFitClient
+import es.dam.adp03_springmongodb.services.sqldelight.SqlDeLightClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -9,11 +13,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import mappers.toModel
-import models.TipoUsuario
-import models.Usuario
 import mu.KotlinLogging
-import services.ktorfit.KtorFitClient
-import services.sqldelight.SqlDeLightClient
+import org.bson.types.ObjectId
 import java.util.*
 
 
@@ -29,7 +30,7 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
                 logger.debug { "Refrescando los datos de la cache..." }
                 cache.removeAllUsuarios()
                 remote.getAllUsuarios().data?.forEach { usuario ->
-                    cache.createUsuario(usuario.id.toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
+                    cache.createUsuario(usuario.id.toString().toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
                 }
                 delay(COOLDOWN)
             } while (true)
@@ -53,7 +54,7 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
         logger.debug { "Cache -> save($entity)" }
         val dto = remote.createUsuario(entity)
         val usuario = Usuario(
-            id = dto.id,
+            id = ObjectId(dto.id),
             uuid = UUID.fromString(dto.uuid),
             nombre = dto.nombre,
             apellido = dto.apellido,
@@ -62,14 +63,14 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
             rol = TipoUsuario.valueOf(dto.rol)
         )
 
-        cache.createUsuario(usuario.id.toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
+        cache.createUsuario(usuario.id.toString().toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
         return usuario
     }
 
     suspend fun update(entity: Usuario): Usuario {
         logger.debug { "Cache -> update($entity)" }
         cache.updateUsuario(
-            id = entity.id.toLong(),
+            id = entity.id.toString().toLong(),
             uuid = entity.uuid.toString(),
             nombre = entity.nombre,
             apellido = entity.apellido,
@@ -81,7 +82,7 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
         val dto = remote.updateUsuario(entity.id, entity)
 
         return Usuario(
-            id = dto.id,
+            id = ObjectId(dto.id),
             uuid = UUID.fromString(dto.uuid),
             nombre = dto.nombre,
             apellido = dto.apellido,
@@ -94,7 +95,7 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
     suspend fun delete(entity: Usuario): Usuario {
         logger.debug { "Cache -> delete($entity)" }
 
-        cache.deleteUsuario(entity.id.toLong())
+        cache.deleteUsuario(entity.id.toString().toLong())
         remote.deleteUsuario(entity.id)
 
         return entity

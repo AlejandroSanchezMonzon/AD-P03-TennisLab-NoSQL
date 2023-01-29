@@ -1,7 +1,8 @@
 package es.dam.adp03_springmongodb.repositories.pedidos
 
-import models.Pedido
-import es.dam.adp03_springmongodb.repositories.CRUDRepository
+import es.dam.adp03_springmongodb.models.Pedido
+import org.bson.types.ObjectId
+import org.springframework.data.mongodb.repository.MongoRepository
 
-interface IPedidosRepository: CRUDRepository<Pedido, String> {
+interface IPedidosRepository: MongoRepository<Pedido, ObjectId> {
 }

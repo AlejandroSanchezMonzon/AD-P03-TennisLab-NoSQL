@@ -1,20 +1,21 @@
 package es.dam.adp03_springmongodb.repositories.tareas
 
-import exceptions.RestException
+import es.dam.adp03_springmongodb.exceptions.RestException
+import es.dam.adp03_springmongodb.models.Tarea
+import es.dam.adp03_springmongodb.models.TipoTarea
+import es.dam.adp03_springmongodb.repositories.CRUDRepository
+import es.dam.adp03_springmongodb.services.ktorfit.KtorFitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
-import models.Tarea
-import models.TipoTarea
 import mu.KotlinLogging
-import services.ktorfit.KtorFitClient
+import org.bson.types.ObjectId
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
-
-class TareasRestRepository: ITareasRepository {
+class TareasRestRepository: CRUDRepository<Tarea, ObjectId> {
 
     private val client by lazy { KtorFitClient.instance }
 
@@ -30,7 +31,7 @@ class TareasRestRepository: ITareasRepository {
         }
     }
 
-    override suspend fun findById(id: String): Tarea {
+    override suspend fun findById(id: ObjectId): Tarea {
         logger.debug { "finById(id=$id)" }
         val call = client.getTareaById(id)
         try {
@@ -48,7 +49,7 @@ class TareasRestRepository: ITareasRepository {
             val res = client.createTarea(entity)
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Tarea(
-                id = res.id,
+                id = ObjectId(res.id),
                 uuid = UUID.fromString(res.uuid),
                 precio = res.precio,
                 descripcion = res.descripcion,
@@ -66,7 +67,7 @@ class TareasRestRepository: ITareasRepository {
             val res = client.updateTarea(entity.id, entity)
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
             return Tarea(
-                id = res.id,
+                id = ObjectId(res.id),
                 uuid = UUID.fromString(res.uuid),
                 precio = res.precio,
                 descripcion = res.descripcion,
