@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.util.*
 
-@Document
+@Document("usuarios")
 @Serializable
 data class Usuario(
     @Id @Contextual
