@@ -1,6 +1,7 @@
 package services.ktorfit
 
 import de.jensklingenberg.ktorfit.http.*
+import dto.*
 import models.Tarea
 import models.Usuario
 
