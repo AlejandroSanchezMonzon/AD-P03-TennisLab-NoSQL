@@ -14,7 +14,7 @@ interface KtorFitRest {
     suspend fun getUsuarioById(@Path("id") id: String): GetUsuarioByIdDTO
 
     @POST("/users")
-    suspend fun createUusario(@Body usuario: Usuario): CreateUsuarioDTO
+    suspend fun createUsuario(@Body usuario: Usuario): CreateUsuarioDTO
 
     @PUT("/users/{id}")
     suspend fun updateUsuario(@Path("id") id: String, @Body usuario: Usuario): UpdateUsuarioDTO
