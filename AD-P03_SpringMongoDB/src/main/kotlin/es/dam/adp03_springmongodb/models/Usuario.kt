@@ -1,14 +1,17 @@
 package es.dam.adp03_springmongodb.models
 
 import kotlinx.serialization.Contextual
-import org.bson.codecs.pojo.annotations.BsonId
-import org.litote.kmongo.newId
+import kotlinx.serialization.Serializable
+import org.bson.types.ObjectId
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.util.*
 
+@Document
 @Serializable
 data class Usuario(
-    @BsonId
-    val id: String = newId<Usuario>().toString(),
+    @Id @Contextual
+    val id: ObjectId = ObjectId.get(),
     @Contextual
     val uuid: UUID = UUID.randomUUID(),
     val nombre: String,

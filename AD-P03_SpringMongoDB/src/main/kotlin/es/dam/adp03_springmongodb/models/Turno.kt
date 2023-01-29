@@ -1,15 +1,16 @@
 package es.dam.adp03_springmongodb.models
 
 import kotlinx.serialization.Contextual
-import org.bson.codecs.pojo.annotations.BsonId
-import org.litote.kmongo.newId
+import kotlinx.serialization.Serializable
+import org.bson.types.ObjectId
+import org.springframework.data.annotation.Id
 import java.time.LocalDateTime
 import java.util.UUID
 
 @Serializable
 data class Turno(
-    @BsonId
-    val id: String = newId<Turno>().toString(),
+    @Id @Contextual
+    val id: ObjectId = ObjectId.get(),
     @Contextual
     val uuid: UUID = UUID.randomUUID(),
     @Contextual
