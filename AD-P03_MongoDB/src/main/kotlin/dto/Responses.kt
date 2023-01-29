@@ -59,4 +59,3 @@ data class UpdateTareaDTO(
     val descripcion: String,
     val tipo: String,
     val turno: Turno)
-
