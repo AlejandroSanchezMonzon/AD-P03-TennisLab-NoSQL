@@ -3,8 +3,8 @@ package es.dam.adp03_springmongodb.services.ktorfit
 import de.jensklingenberg.ktorfit.http.*
 import dto.*
 import es.dam.adp03_springmongodb.dto.*
+import es.dam.adp03_springmongodb.models.Usuario
 import models.Tarea
-import models.Usuario
 
 interface KtorFitRest {
     // Usuarios

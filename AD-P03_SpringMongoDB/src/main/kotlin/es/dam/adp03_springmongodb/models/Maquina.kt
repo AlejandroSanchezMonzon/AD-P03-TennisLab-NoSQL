@@ -1,15 +1,18 @@
 package es.dam.adp03_springmongodb.models
 
 import kotlinx.serialization.Contextual
-import org.bson.codecs.pojo.annotations.BsonId
-import org.litote.kmongo.newId
+import kotlinx.serialization.Serializable
+import org.bson.types.ObjectId
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDate
 import java.util.*
 
+@Document("maquinas")
 @Serializable
 data class Maquina(
-    @BsonId
-    val id: String = newId<Maquina>().toString(),
+    @Id @Contextual
+    val id: ObjectId = ObjectId.get(),
     @Contextual
     val uuid: UUID = UUID.randomUUID(),
     val marca: String,
