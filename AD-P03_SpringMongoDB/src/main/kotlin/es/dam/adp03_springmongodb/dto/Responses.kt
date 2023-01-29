@@ -1,10 +1,8 @@
 package es.dam.adp03_springmongodb.dto
+import es.dam.adp03_springmongodb.models.Turno
+import es.dam.adp03_springmongodb.models.Usuario
 import kotlinx.serialization.Serializable
 import models.Tarea
-import models.Turno
-import models.Usuario
-import kotlin.collections.ArrayList
-
 
 @Serializable
 data class GetAllUsuariosDTO(
@@ -49,7 +47,8 @@ data class CreateTareaDTO(
     val precio: Float,
     val descripcion: String,
     val tipo: String,
-    val turno: Turno)
+    val turno: Turno
+)
 
 @Serializable
 data class UpdateTareaDTO(

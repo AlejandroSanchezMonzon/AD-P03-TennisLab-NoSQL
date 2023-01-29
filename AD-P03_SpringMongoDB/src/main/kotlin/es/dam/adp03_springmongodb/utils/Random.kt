@@ -1,6 +1,6 @@
 package es.dam.adp03_springmongodb.utils
 
-import models.TipoUsuario
+import es.dam.adp03_springmongodb.models.TipoUsuario
 
 fun randomUseType(): TipoUsuario {
     return listOf(
