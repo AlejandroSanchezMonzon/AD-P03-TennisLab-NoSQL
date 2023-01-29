@@ -16,7 +16,8 @@ private val logger = KotlinLogging.logger {}
 class PedidosRepository: IPedidosRepository {
     override suspend fun findAll(): Flow<Pedido> {
         logger.debug { "findAll()" }
-        return MongoDbManager.database.getCollection<Pedido>().find().asFlow()      }
+        return MongoDbManager.database.getCollection<Pedido>().find().asFlow()
+    }
 
     override suspend fun findById(id: String): Pedido {
         logger.debug { "findById($id)" }
