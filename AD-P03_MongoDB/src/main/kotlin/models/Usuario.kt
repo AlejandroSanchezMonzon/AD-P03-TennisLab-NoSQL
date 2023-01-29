@@ -16,7 +16,7 @@ data class Usuario(
     val apellido: String,
     val email: String,
     val password: String,
-    val rol: TipoUsuario)
+    var rol: TipoUsuario)
 
 enum class TipoUsuario(){
     ADMIN_ENCARGADO,
