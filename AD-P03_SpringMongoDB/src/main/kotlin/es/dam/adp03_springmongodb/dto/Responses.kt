@@ -1,8 +1,8 @@
 package es.dam.adp03_springmongodb.dto
+import es.dam.adp03_springmongodb.models.Tarea
 import es.dam.adp03_springmongodb.models.Turno
 import es.dam.adp03_springmongodb.models.Usuario
 import kotlinx.serialization.Serializable
-import models.Tarea
 
 @Serializable
 data class GetAllUsuariosDTO(

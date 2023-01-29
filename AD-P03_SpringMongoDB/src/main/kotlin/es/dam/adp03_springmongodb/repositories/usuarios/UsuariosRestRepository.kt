@@ -1,19 +1,21 @@
 package es.dam.adp03_springmongodb.repositories.usuarios
 
-import exceptions.RestException
+import es.dam.adp03_springmongodb.exceptions.RestException
+import es.dam.adp03_springmongodb.models.TipoUsuario
+import es.dam.adp03_springmongodb.models.Usuario
+import es.dam.adp03_springmongodb.repositories.CRUDRepository
+import es.dam.adp03_springmongodb.services.ktorfit.KtorFitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
-import models.TipoUsuario
-import models.Usuario
 import mu.KotlinLogging
-import services.ktorfit.KtorFitClient
+import org.bson.types.ObjectId
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
-class UsuariosRestRepository: IUsuariosRepository {
+    class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
 
     private val client by lazy { KtorFitClient.instance }
 
@@ -29,7 +31,7 @@ class UsuariosRestRepository: IUsuariosRepository {
         }
     }
 
-    override suspend fun findById(id: String): Usuario {
+    override suspend fun findById(id: ObjectId): Usuario {
         logger.debug { "finById(id=$id)" }
         val call = client.getUsuarioById(id)
         try {
@@ -47,7 +49,7 @@ class UsuariosRestRepository: IUsuariosRepository {
             val res = client.createUsuario(entity)
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Usuario(
-                id = res.id,
+                id = ObjectId(res.id),
                 uuid = UUID.fromString(res.uuid),
                 nombre = res.nombre,
                 apellido = res.apellido,
@@ -67,7 +69,7 @@ class UsuariosRestRepository: IUsuariosRepository {
             val res = client.updateUsuario(entity.id, entity)
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
             return Usuario(
-                id = res.id,
+                id = ObjectId(res.id),
                 uuid = UUID.fromString(res.uuid),
                 nombre = res.nombre,
                 apellido = res.apellido,

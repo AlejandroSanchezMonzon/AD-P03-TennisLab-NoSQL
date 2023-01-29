@@ -1,7 +1,10 @@
 package es.dam.adp03_springmongodb.repositories.turnos
 
-import models.Turno
-import es.dam.adp03_springmongodb.repositories.CRUDRepository
+import es.dam.adp03_springmongodb.models.Turno
+import org.bson.types.ObjectId
+import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.stereotype.Repository
 
-interface ITurnosRepository: CRUDRepository<Turno, String> {
+@Repository
+interface ITurnosRepository: MongoRepository<Turno, ObjectId> {
 }
