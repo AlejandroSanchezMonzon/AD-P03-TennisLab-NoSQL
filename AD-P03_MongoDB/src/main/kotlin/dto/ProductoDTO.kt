@@ -1,14 +1,14 @@
 package dto
 
 import kotlinx.serialization.Serializable
-import models.Turno
 
 @Serializable
-data class LoginDTO(
+data class ProductoDTO(
     val id: String,
     val uuid: String,
-    val precio: Float,
-    val descripcion: String,
     val tipo: String,
-    val turno: Turno
+    val marca: String,
+    val modelo: String,
+    val precio: Float,
+    val stock: Int
 )

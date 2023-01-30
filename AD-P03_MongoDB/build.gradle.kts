@@ -58,6 +58,9 @@ dependencies {
 
     // Terminal
     implementation("com.github.ajalt.mordant:mordant:2.0.0-beta8")
+
+    //Codificación contraseñas
+    implementation("com.google.guava:guava:31.1-jre")
 }
 
 tasks.test {
