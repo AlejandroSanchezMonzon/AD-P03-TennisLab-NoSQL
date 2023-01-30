@@ -43,15 +43,21 @@ dependencies {
 
     // SqlDeLight
     implementation("com.squareup.sqldelight:runtime:1.5.4")
+
     // SQLite
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.4")
+
     // Corrutinas SqlDeLight
     implementation("com.squareup.sqldelight:coroutines-extensions-jvm:1.5.4")
 
     // KMongo Asíncrono
     implementation("org.litote.kmongo:kmongo-async:4.7.2")
+
     // KMongo Síncrono
     implementation("org.litote.kmongo:kmongo:4.7.2")
+
+    // Terminal
+    implementation("com.github.ajalt.mordant:mordant:2.0.0-beta8")
 }
 
 tasks.test {
