@@ -18,5 +18,5 @@ data class Turno(
     @Contextual
     val final: LocalDateTime,
     val maquina: Maquina,
-    val enrodador: Usuario
+    val encordador: Usuario
 )

@@ -2,7 +2,7 @@ package utils
 
 import models.TipoUsuario
 
-fun randomUseType(): TipoUsuario {
+fun randomUserType(): TipoUsuario {
     return listOf(
         TipoUsuario.TENISTA,
         TipoUsuario.ADMIN_ENCARGADO,
