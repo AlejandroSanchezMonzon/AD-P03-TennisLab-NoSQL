@@ -4,9 +4,11 @@ import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import database.AppDatabase
 import mu.KotlinLogging
+import org.springframework.stereotype.Service
 
 private val logger = KotlinLogging.logger {}
 
+@Service
 object SqlDeLightClient {
     private val driver: SqlDriver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
 
