@@ -15,7 +15,7 @@ data class Usuario(
     val nombre: String,
     val apellido: String,
     val email: String,
-    val password: String,
+    var password: String,
     var rol: TipoUsuario)
 
 enum class TipoUsuario(){
