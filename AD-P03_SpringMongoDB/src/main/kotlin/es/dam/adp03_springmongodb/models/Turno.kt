@@ -24,5 +24,5 @@ data class Turno(
     @DocumentReference()
     val maquina: Maquina,
     @DocumentReference()
-    val enrodador: Usuario
+    val encordador: Usuario
 )
