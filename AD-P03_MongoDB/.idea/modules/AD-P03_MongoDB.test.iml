@@ -14,6 +14,7 @@
           <stringArguments>
             <stringArg name="classpath">
               <args>
+                <arg>$MODULE_DIR$/../../build/classes/kotlin/main</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.sqldelight/coroutines-extensions-jvm/1.5.4/e9db72fcfcbd1b468065c74110addda498594daf/sqldelight-coroutines-extensions-jvm-1.5.4.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.sqldelight/sqlite-driver/1.5.4/a985ba372ec768b9ba1fbb015e2c1839f1c369a3/sqlite-driver-1.5.4.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.sqldelight/jdbc-driver/1.5.4/a1ff7d697db063c2bcc8265a3721062f43b3783e/jdbc-driver-1.5.4.jar</arg>
@@ -24,6 +25,7 @@
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-json-jvm/1.4.1/e6430b33f06dcdff88998abfcb2e78bc3cd0a1f6/kotlinx-serialization-json-jvm-1.4.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.jensklingenberg.ktorfit/ktorfit-lib-jvm/1.0.0-beta16/b57ce3aec9f0c6f09d83beefb5be6bd31e138bab/ktorfit-lib-jvm-1.0.0-beta16.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-content-negotiation-jvm/2.1.3/879ae79de9b9956d3df5591a697da765ba55574a/ktor-client-content-negotiation-jvm-2.1.3.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ajalt.mordant/mordant-jvm/2.0.0-beta8/2e6412ff892403299f2dc5db7a98cef3f27c9498/mordant-jvm-2.0.0-beta8.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-serialization-kotlinx-jvm/2.1.3/51ca95f2b2d22a8161916030983d4240ed89439c/ktor-serialization-kotlinx-jvm-2.1.3.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-core-jvm/1.4.1/e0c2c11e5d0d541ca343c8f09602c0c2287d15a1/kotlinx-serialization-core-jvm-1.4.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.jensklingenberg.ktorfit/ktorfit-annotations-jvm/1.0.0-beta16/760c0af2043a2fa533ffd0e1c5bf8ed436b01622/ktorfit-annotations-jvm-1.0.0-beta16.jar</arg>
@@ -34,6 +36,7 @@
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-events-jvm/2.1.3/fe0a8843347f6dbd768b89eb7bd88fd502d40f0b/ktor-events-jvm-2.1.3.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-websockets-jvm/2.1.3/67811306207dac366d792c5b1d0d0c10263a3c5f/ktor-websockets-jvm-2.1.3.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-http-jvm/2.1.3/db0e297e5b37101af54df5e294cb729dd6cc19a2/ktor-http-jvm-2.1.3.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ajalt.colormath/colormath-jvm/3.2.1/33e53e5e43b3ca40199ad9ef7a19e41c73a7dd4c/colormath-jvm-3.2.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-utils-jvm/2.1.3/88d0613187fea03d1b0015b665ceb0b926b4951b/ktor-utils-jvm-2.1.3.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-io-jvm/2.1.3/38646a4965f01113605e2a0ea510f20399a8d20/ktor-io-jvm-2.1.3.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.7.21/5407c3593c58860cec5ee3f66c468396b42f4c2b/kotlin-stdlib-jdk8-1.7.21.jar</arg>
@@ -113,7 +116,7 @@
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.intellij.deps/trove4j/1.0.20200330/3afb14d5f9ceb459d724e907a21145e8ff394f02/trove4j-1.0.20200330.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.6.0/330f2244e9030119ab3030fc3fededc86713d9cc/jna-5.6.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-util-io/1.7.21/6189c4d41042a074ec2c8d70648ddfd4f97f9880/kotlin-util-io-1.7.21.jar</arg>
-                <arg>$USER_HOME$/AppData/Local/JetBrains/IntelliJIdea2022.3/kotlin-dist-for-ide/1.7.21/lib/kotlinx-serialization-compiler-plugin.jar</arg>
+                <arg>$KOTLIN_BUNDLED$/lib/kotlinx-serialization-compiler-plugin.jar</arg>
               </args>
             </arrayArg>
             <arrayArg name="pluginOptions" />
@@ -146,6 +149,7 @@
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.4.1" level="project" />
     <orderEntry type="library" name="Gradle: de.jensklingenberg.ktorfit:ktorfit-lib-jvm:1.0.0-beta16" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-client-content-negotiation-jvm:2.1.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.ajalt.mordant:mordant-jvm:2.0.0-beta8" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.21" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.7.21" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.4.5" level="project" />
@@ -173,6 +177,7 @@
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.4.1" level="project" />
     <orderEntry type="library" name="Gradle: de.jensklingenberg.ktorfit:ktorfit-annotations-jvm:1.0.0-beta16" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-serialization-jvm:2.1.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.ajalt.colormath:colormath-jvm:3.2.1" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:mongodb-driver-reactivestreams:4.7.2" level="project" />
     <orderEntry type="library" name="Gradle: org.litote:kreflect:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.litote.kmongo:kmongo-data:4.7.2" level="project" />
@@ -194,6 +199,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.xerial:sqlite-jdbc:3.34.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: io.ktor:ktor-client-cio-jvm:2.1.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.6.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains:markdown-jvm:0.3.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.platform:junit-platform-engine:1.6.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:1.6.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: io.ktor:ktor-http-cio-jvm:2.1.3" level="project" />

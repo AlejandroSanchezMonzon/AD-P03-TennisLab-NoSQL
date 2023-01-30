@@ -11,8 +11,8 @@ data class Tarea(
     @Contextual
     val uuid: UUID = UUID.randomUUID(),
     val precio: Float,
-    val descripcion: String,
     val tipo: TipoTarea,
+    val descripcion: String,
     val turno: Turno
 )
 
