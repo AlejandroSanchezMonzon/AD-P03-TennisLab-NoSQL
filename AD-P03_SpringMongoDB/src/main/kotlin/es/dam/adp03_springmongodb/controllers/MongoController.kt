@@ -14,6 +14,7 @@ import es.dam.adp03_springmongodb.repositories.turnos.ITurnosRepository
 import es.dam.adp03_springmongodb.repositories.usuarios.IUsuariosRepository
 import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosCacheRepository
 import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosRestRepository
+import es.dam.adp03_springmongodb.utils.cifrarPassword
 import es.dam.adp03_springmongodb.utils.randomUserType
 import kotlinx.coroutines.flow.Flow
 import mu.KotlinLogging
@@ -43,6 +44,7 @@ class MongoController
     suspend fun descargarDatos(){
         usuariosRestRepository.findAll().collect{ usuario ->
             usuario.rol = randomUserType()
+            usuario.password = cifrarPassword(usuario.nombre)
             usuariosRepository.save(usuario)
         }
         getMaquinasInit().forEach { maquina -> maquinasRepository.save(maquina) }
