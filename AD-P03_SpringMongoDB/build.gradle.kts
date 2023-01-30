@@ -54,6 +54,9 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:2.1.3")
     implementation("io.ktor:ktor-client-content-negotiation:2.1.3")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
+
+    //Codificación contraseñas
+    implementation("com.google.guava:guava:31.1-jre")
 }
 
 tasks.withType<KotlinCompile> {
