@@ -54,6 +54,9 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:2.1.3")
     implementation("io.ktor:ktor-client-content-negotiation:2.1.3")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
+
+    // Terminal
+    implementation("com.github.ajalt.mordant:mordant:2.0.0-beta8")
 }
 
 tasks.withType<KotlinCompile> {

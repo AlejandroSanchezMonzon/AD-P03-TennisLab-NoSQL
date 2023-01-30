@@ -11,10 +11,12 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import org.bson.types.ObjectId
+import org.springframework.stereotype.Repository
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
+@Repository
 class TareasRestRepository: CRUDRepository<Tarea, ObjectId> {
 
     private val client by lazy { KtorFitClient.instance }

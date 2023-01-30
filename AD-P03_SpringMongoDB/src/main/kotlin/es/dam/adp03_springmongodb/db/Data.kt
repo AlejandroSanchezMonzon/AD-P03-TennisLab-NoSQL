@@ -1,18 +1,17 @@
-package db
+package es.dam.adp03_springmongodb.db
 
+import es.dam.adp03_springmongodb.models.*
+import es.dam.adp03_springmongodb.repositories.usuarios.IUsuariosRepository
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.toList
-import models.*
-import repositories.usuarios.UsuariosRepository
+import org.bson.types.ObjectId
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
-val usuariosRepository = UsuariosRepository()
-
-suspend fun getTurnosInit() = listOf(
+suspend fun getTurnosInit(usuariosRepository: IUsuariosRepository) = listOf(
     Turno(
-        id = "0",
+        id = ObjectId("0"),
         uuid = UUID.randomUUID(),
         comienzo = LocalDateTime.of(2022, 12, 7, 17, 48),
         final = LocalDateTime.of(2022, 12, 7, 18, 30),
@@ -22,7 +21,7 @@ suspend fun getTurnosInit() = listOf(
         }.toList()[0]
     ),
     Turno(
-        id = "1",
+        id = ObjectId("1"),
         uuid = UUID.randomUUID(),
         comienzo = LocalDateTime.of(2022, 12, 5, 16, 5),
         final = LocalDateTime.of(2022, 12, 6, 9, 0),
@@ -32,7 +31,7 @@ suspend fun getTurnosInit() = listOf(
         }.toList()[1]
     ),
     Turno(
-        id = "2",
+        id = ObjectId("2"),
         uuid = UUID.randomUUID(),
         comienzo = LocalDateTime.of(2022, 12, 1, 9, 0),
         final = LocalDateTime.of(2022, 12, 2, 20, 0),
@@ -51,7 +50,7 @@ suspend fun getTurnosInit() = listOf(
 
 fun getProductosInit() = listOf(
     Producto(
-        id = "0",
+        id = ObjectId("0"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.COMPLEMENTO,
         marca = "ADIDAS",
@@ -60,7 +59,7 @@ fun getProductosInit() = listOf(
         stock = 35,
     ),
     Producto(
-        id = "1",
+        id = ObjectId("1"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.RAQUETA,
         marca = "DUNLOP",
@@ -69,7 +68,7 @@ fun getProductosInit() = listOf(
         stock = 10,
     ),
     Producto(
-        id = "2",
+        id = ObjectId("2"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.COMPLEMENTO,
         marca = "J'HAYBER",
@@ -78,7 +77,7 @@ fun getProductosInit() = listOf(
         stock = 20,
     ),
     Producto(
-        id = "3",
+        id = ObjectId("3"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.CORDAJE,
         marca = "JOMA",
@@ -87,7 +86,7 @@ fun getProductosInit() = listOf(
         stock = 100,
     ),
     Producto(
-        id = "4",
+        id = ObjectId("4"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.CORDAJE,
         marca = "ADIDAS",
@@ -96,7 +95,7 @@ fun getProductosInit() = listOf(
         stock = 18,
     ),
     Producto(
-        id = "5",
+        id = ObjectId("5"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.RAQUETA,
         marca = "BULLPADEL",
@@ -105,7 +104,7 @@ fun getProductosInit() = listOf(
         stock = 1,
     ),
     Producto(
-        id = "6",
+        id = ObjectId("6"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.RAQUETA,
         marca = "DUNLOP",
@@ -114,7 +113,7 @@ fun getProductosInit() = listOf(
         stock = 11,
     ),
     Producto(
-        id = "7",
+        id = ObjectId("7"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.COMPLEMENTO,
         marca = "ASICS",
@@ -123,7 +122,7 @@ fun getProductosInit() = listOf(
         stock = 89,
     ),
     Producto(
-        id = "8",
+        id = ObjectId("8"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.CORDAJE,
         marca = "ASICS",
@@ -132,7 +131,7 @@ fun getProductosInit() = listOf(
         stock = 96,
     ),
     Producto(
-        id = "9",
+        id = ObjectId("9"),
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.CORDAJE,
         marca = "BABOLAT",
@@ -148,9 +147,9 @@ fun getProductosInit() = listOf(
  * @return La lista de Pedidos.
  */
 
-suspend fun getPedidosInit() = listOf(
+suspend fun getPedidosInit(usuariosRepository: IUsuariosRepository) = listOf(
     Pedido(
-        id = "0",
+        id = ObjectId("0"),
         uuid = UUID.randomUUID(),
         tareas = null,
         productos = listOf(getProductosInit()[2]),
@@ -165,9 +164,9 @@ suspend fun getPedidosInit() = listOf(
         precio = 120.0f
     ),
     Pedido(
-        id = "1",
+        id = ObjectId("1"),
         uuid = UUID.randomUUID(),
-        tareas = listOf(getTareasInit()[0]),
+        tareas = listOf(getTareasInit(usuariosRepository)[0]),
         productos = null,
         estado = TipoEstado.EN_PROCESO,
         usuario = usuariosRepository.findAll().filter {
@@ -180,7 +179,7 @@ suspend fun getPedidosInit() = listOf(
         precio = 70.95f
     ),
     Pedido(
-        id = "2",
+        id = ObjectId("2"),
         uuid = UUID.randomUUID(),
         tareas = null,
         productos = listOf(getProductosInit()[0]),
@@ -195,9 +194,9 @@ suspend fun getPedidosInit() = listOf(
         precio = 57.0f
     ),
     Pedido(
-        id = "3",
+        id = ObjectId("3"),
         uuid = UUID.randomUUID(),
-        tareas = listOf(getTareasInit()[1], getTareasInit()[3]),
+        tareas = listOf(getTareasInit(usuariosRepository)[1], getTareasInit(usuariosRepository)[3]),
         productos = listOf(getProductosInit()[1]),
         estado = TipoEstado.TERMINADO,
         usuario = usuariosRepository.findAll().filter {
@@ -210,9 +209,9 @@ suspend fun getPedidosInit() = listOf(
         precio = 50.15f
     ),
     Pedido(
-        id = "4",
+        id = ObjectId("4"),
         uuid = UUID.randomUUID(),
-        tareas = listOf(getTareasInit()[2]),
+        tareas = listOf(getTareasInit(usuariosRepository)[2]),
         productos = null,
         estado = TipoEstado.TERMINADO,
         usuario = usuariosRepository.findAll().filter {
@@ -231,9 +230,9 @@ suspend fun getPedidosInit() = listOf(
  *
  * @return La lista de Tareas.
  */
-suspend fun getTareasInit() = listOf(
+suspend fun getTareasInit(usuariosRepository: IUsuariosRepository) = listOf(
     Tarea(
-        id = "0",
+        id = ObjectId("0"),
         uuid = UUID.randomUUID(),
         precio = 100.0f,
         tipo = TipoTarea.ENCORDADO,
@@ -242,10 +241,10 @@ suspend fun getTareasInit() = listOf(
                 "tensionVertical = 22.5, " +
                 "cordajeVertical = Luxilon, " +
                 "nudos = 4",
-        turno = getTurnosInit()[0]
+        turno = getTurnosInit(usuariosRepository)[0]
     ),
     Tarea(
-        id = "1",
+        id = ObjectId("1"),
         uuid = UUID.randomUUID(),
         precio = 150.0f,
         tipo = TipoTarea.ENCORDADO,
@@ -254,28 +253,28 @@ suspend fun getTareasInit() = listOf(
                 "tensionVertical = 22.5, " +
                 "cordajeVertical = Wilson, " +
                 "nudos = 4",
-        turno = getTurnosInit()[1]
+        turno = getTurnosInit(usuariosRepository)[1]
     ),
     Tarea(
-        id = "2",
+        id = ObjectId("2"),
         uuid = UUID.randomUUID(),
         precio = 70.0f,
         tipo = TipoTarea.PERSONALIZACION,
         descripcion = "peso = 0.3, " +
                 "balance = 320.0, " +
                 "rigidez = 70.0",
-        turno = getTurnosInit()[2]
+        turno = getTurnosInit(usuariosRepository)[2]
 
     ),
     Tarea(
-        id = "3",
+        id = ObjectId("3"),
         uuid = UUID.randomUUID(),
         precio = 49.99f,
         tipo = TipoTarea.PERSONALIZACION,
         descripcion = "peso = 0.24, " +
                 "balance = 330.0, " +
                 "rigidez = 72.0",
-        turno = getTurnosInit()[0]
+        turno = getTurnosInit(usuariosRepository)[0]
     )
 )
 
@@ -287,7 +286,7 @@ suspend fun getTareasInit() = listOf(
 
 fun getMaquinasInit() = listOf(
     Maquina(
-        id = "0",
+        id = ObjectId("0"),
         uuid = UUID.randomUUID(),
         marca = "Vevor",
         modelo = "2021",
@@ -299,7 +298,7 @@ fun getMaquinasInit() = listOf(
                 "tensionMinima = 20.0"
     ),
     Maquina(
-        id = "1",
+        id = ObjectId("1"),
         uuid = UUID.randomUUID(),
         marca = "Vevor",
         modelo = "2022",
@@ -311,7 +310,7 @@ fun getMaquinasInit() = listOf(
                 "tensionMinima = 20.0"
     ),
     Maquina(
-        id = "2",
+        id = ObjectId("2"),
         uuid = UUID.randomUUID(),
         marca = "Gamma",
         modelo = "X2",
@@ -323,7 +322,7 @@ fun getMaquinasInit() = listOf(
                 "rigidez = 80.0"
     ),
     Maquina(
-        id = "3",
+        id = ObjectId("3"),
         uuid = UUID.randomUUID(),
         marca = "Indoostrial",
         modelo = "2600",

@@ -1,10 +1,10 @@
-package utils
+package es.dam.adp03_springmongodb.utils
 
 import com.github.ajalt.mordant.terminal.Terminal
-import controllers.MongoController
-import models.Usuario
-import repositories.usuarios.UsuariosCacheRepository
-import services.sqldelight.SqlDeLightClient
+import es.dam.adp03_springmongodb.models.Usuario
+import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosCacheRepository
+import es.dam.adp03_springmongodb.services.sqldelight.SqlDeLightClient
+
 
 val usuariosCacheRepository = UsuariosCacheRepository(SqlDeLightClient)
 val terminal = Terminal()

@@ -20,7 +20,8 @@ data class Maquina(
     @Contextual
     val fechaAdquisicion: LocalDate,
     val numeroSerie: Int,
-    val tipo: TipoMaquina
+    val tipo: TipoMaquina,
+    val descripcion: String
 )
 
 enum class TipoMaquina {
