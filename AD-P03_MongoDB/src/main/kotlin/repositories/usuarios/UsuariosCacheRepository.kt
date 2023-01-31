@@ -13,15 +13,22 @@ import mappers.toModelUsuario
 import models.TipoUsuario
 import models.Usuario
 import mu.KotlinLogging
+import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 import services.ktorfit.KtorFitClient
 import services.sqldelight.SqlDeLightClient
 import utils.cifrarPassword
 import java.util.*
 
-
 private val logger = KotlinLogging.logger {}
 private const val COOLDOWN = 6 * 10000L
-class UsuariosCacheRepository(cliente: SqlDeLightClient) {
+
+@Single
+@Named("UsuariosCacheRepository")
+class UsuariosCacheRepository(
+    @Named("SqlDeLightClient")
+    cliente: SqlDeLightClient
+) {
     private val remote = KtorFitClient.instance
     private val cache = cliente.queries
 

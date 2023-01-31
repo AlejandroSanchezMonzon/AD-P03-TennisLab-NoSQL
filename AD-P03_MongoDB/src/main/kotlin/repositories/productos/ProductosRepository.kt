@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import models.Producto
 import mu.KotlinLogging
+import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 import org.litote.kmongo.deleteOneById
 import org.litote.kmongo.findOneById
 import org.litote.kmongo.getCollection
@@ -13,6 +15,8 @@ import org.litote.kmongo.save
 
 private val logger = KotlinLogging.logger {}
 
+@Single
+@Named("ProductosRepository")
 class ProductosRepository: IProductosRepository {
     override suspend fun findAll(): Flow<Producto> {
         logger.debug { "findAll()" }

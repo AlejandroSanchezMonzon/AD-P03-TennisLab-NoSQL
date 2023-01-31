@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.asFlow
 import models.Maquina
 import models.Usuario
 import mu.KotlinLogging
+import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 import org.litote.kmongo.deleteOneById
 import org.litote.kmongo.findOneById
 import org.litote.kmongo.getCollection
@@ -14,6 +16,8 @@ import org.litote.kmongo.save
 
 private val logger = KotlinLogging.logger {}
 
+@Single
+@Named("MaquinasRepository")
 class MaquinasRepository: IMaquinasRepository {
     override suspend fun findAll(): Flow<Maquina> {
         logger.debug { "findAll()" }

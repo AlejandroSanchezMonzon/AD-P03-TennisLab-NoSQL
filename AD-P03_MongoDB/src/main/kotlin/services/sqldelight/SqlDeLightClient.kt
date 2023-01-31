@@ -4,10 +4,14 @@ import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import database.AppDatabase
 import mu.KotlinLogging
+import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 
 private val logger = KotlinLogging.logger {}
 
-object SqlDeLightClient {
+@Single
+@Named("SqlDeLightClient")
+class SqlDeLightClient {
     private val driver: SqlDriver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
 
     init {
