@@ -9,7 +9,7 @@ import org.bson.types.ObjectId
 interface KtorFitRest {
     // Usuarios
     @GET("/users")
-    suspend fun getAllUsuarios(): GetAllUsuariosDTO
+    suspend fun getAllUsuarios(): List<UsuarioAPIDTO>
 
     @GET("/users/{id}")
     suspend fun getUsuarioById(@Path("id") id: ObjectId): GetUsuarioByIdDTO

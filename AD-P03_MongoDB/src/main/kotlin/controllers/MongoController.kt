@@ -16,8 +16,6 @@ import repositories.turnos.TurnosRepository
 import repositories.usuarios.UsuariosCacheRepository
 import repositories.usuarios.UsuariosRepository
 import repositories.usuarios.UsuariosRestRepository
-import utils.cifrarPassword
-import utils.randomUserType
 
 val logger = KotlinLogging.logger {  }
 
@@ -35,10 +33,8 @@ class MongoController(
 ) {
 
     suspend fun descargarDatos(){
-        usuariosRestRepository.findAll().collect{ usuario ->
-            usuario.rol = randomUserType()
-            usuario.password = cifrarPassword(usuario.nombre)
-            usuariosRepository.save(usuario)
+        usuariosRestRepository.findAll().collect{
+            usuariosRepository.save(it)
         }
         getMaquinasInit().forEach { maquina -> maquinasRepository.save(maquina) }
         getProductosInit().forEach { producto -> productosRepository.save(producto) }

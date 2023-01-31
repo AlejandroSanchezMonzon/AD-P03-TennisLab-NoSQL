@@ -1,11 +1,12 @@
-package mappers
+package es.dam.adp03_springmongodb.mappers
 
-import dto.PedidoDTO
-import models.Pedido
+import es.dam.adp03_springmongodb.dto.PedidoDTO
+import es.dam.adp03_springmongodb.models.Pedido
+
 
 fun Pedido.toPedidoDTO(): PedidoDTO {
     return PedidoDTO(
-        id = id,
+        id = id.toString(),
         uuid = uuid.toString(),
         tareas = tareas?.map { it.uuid }.toString(),
         productos = productos?.map { it.uuid }.toString(),

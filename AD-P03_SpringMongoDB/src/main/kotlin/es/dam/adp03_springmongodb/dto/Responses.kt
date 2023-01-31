@@ -2,11 +2,21 @@ package es.dam.adp03_springmongodb.dto
 import es.dam.adp03_springmongodb.models.Tarea
 import es.dam.adp03_springmongodb.models.Turno
 import es.dam.adp03_springmongodb.models.Usuario
+import es.dam.adp03_springmongodb.models.usuarioAPI.Address
+import es.dam.adp03_springmongodb.models.usuarioAPI.Company
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetAllUsuariosDTO(
-    val data: ArrayList<Usuario>? = null)
+data class UsuarioAPIDTO(
+    val id: Int,
+    val address: Address,
+    val company: Company,
+    val email: String,
+    val name: String,
+    val phone: String,
+    val username: String,
+    val website: String
+)
 
 @Serializable
 data class GetUsuarioByIdDTO(

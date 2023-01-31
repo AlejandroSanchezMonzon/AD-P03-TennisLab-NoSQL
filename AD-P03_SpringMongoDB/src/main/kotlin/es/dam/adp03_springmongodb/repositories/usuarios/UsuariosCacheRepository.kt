@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import mappers.toModel
+import mappers.toModelUsuario
 import mu.KotlinLogging
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Repository
@@ -33,7 +34,8 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
             do {
                 logger.debug { "Refrescando los datos de la cache..." }
                 cache.removeAllUsuarios()
-                remote.getAllUsuarios().data?.forEach { usuario ->
+                remote.getAllUsuarios().forEach { usuarioAPI ->
+                    val usuario = usuarioAPI.toModelUsuario()
                     cache.createUsuario(usuario.id.toString().toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
                 }
                 delay(COOLDOWN)
