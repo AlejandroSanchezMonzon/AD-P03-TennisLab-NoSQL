@@ -44,7 +44,7 @@ class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
         val call = client.getUsuarioById(id)
         try {
             logger.debug { "findById(id=$id) - Realizado correctamente." }
-            return call.data!!
+            return call.toModelUsuario()
         } catch (e: Exception) {
             logger.error { "findById(id=$id) - Error." }
             throw RestException("Error al obtener el usuario con id $id: ${e.message}")
@@ -57,13 +57,13 @@ class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
             val res = client.createUsuario(entity)
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Usuario(
-                id = ObjectId(res.id),
-                uuid = UUID.fromString(res.uuid),
-                nombre = res.nombre,
-                apellido = res.apellido,
+                id = ObjectId(res.id.toString()),
+                uuid = entity.uuid,
+                nombre = res.name,
+                apellido = res.username,
                 email = res.email,
-                password = res.password,
-                rol = TipoUsuario.valueOf(res.rol)
+                password = entity.password,
+                rol = TipoUsuario.valueOf(entity.rol.toString())
             )
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
@@ -77,13 +77,13 @@ class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
             val res = client.updateUsuario(entity.id, entity)
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
             return Usuario(
-                id = ObjectId(res.id),
-                uuid = UUID.fromString(res.uuid),
-                nombre = res.nombre,
-                apellido = res.apellido,
+                id = ObjectId(res.id.toString()),
+                uuid = entity.uuid,
+                nombre = res.name,
+                apellido = res.username,
                 email = res.email,
-                password = res.password,
-                rol = TipoUsuario.valueOf(res.rol)
+                password = entity.password,
+                rol = TipoUsuario.valueOf(entity.rol.toString())
             )
         } catch (e: RestException) {
             logger.error { "update(entity=$entity) - Error." }
