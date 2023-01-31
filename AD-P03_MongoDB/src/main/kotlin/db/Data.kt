@@ -17,6 +17,7 @@ suspend fun getTurnosInit() = listOf(
         comienzo = LocalDateTime.of(2022, 12, 7, 17, 48),
         final = LocalDateTime.of(2022, 12, 7, 18, 30),
         maquina = getMaquinasInit()[0],
+        //TODO: A veces no hay tal número de ecordadores y hay excepción
         encordador = usuariosRepository.findAll().filter {
             it.rol == TipoUsuario.ENCORDADOR
         }.toList()[0]
@@ -29,7 +30,7 @@ suspend fun getTurnosInit() = listOf(
         maquina = getMaquinasInit()[1],
         encordador = usuariosRepository.findAll().filter {
             it.rol == TipoUsuario.ENCORDADOR
-        }.toList()[1]
+        }.toList()[0]
     ),
     Turno(
         id = "2",
@@ -39,7 +40,7 @@ suspend fun getTurnosInit() = listOf(
         maquina = getMaquinasInit()[2],
         encordador = usuariosRepository.findAll().filter {
             it.rol == TipoUsuario.ENCORDADOR
-        }.toList()[2]
+        }.toList()[0]
     )
 )
 
@@ -172,7 +173,7 @@ suspend fun getPedidosInit() = listOf(
         estado = TipoEstado.EN_PROCESO,
         usuario = usuariosRepository.findAll().filter {
             it.rol == TipoUsuario.TENISTA
-        }.toList()[1],
+        }.toList()[0],
         fechaTope = LocalDate.of(2022, 12, 27),
         fechaEntrada = LocalDate.of(2022, 12, 1),
         fechaProgramada = LocalDate.of(2022, 12, 20),
@@ -187,7 +188,7 @@ suspend fun getPedidosInit() = listOf(
         estado = TipoEstado.RECIBIDO,
         usuario = usuariosRepository.findAll().filter {
             it.rol == TipoUsuario.TENISTA
-        }.toList()[2],
+        }.toList()[0],
         fechaTope = LocalDate.of(2023, 1, 5),
         fechaEntrada = LocalDate.of(2022, 12, 7),
         fechaProgramada = LocalDate.of(2023, 1, 4),
@@ -202,7 +203,7 @@ suspend fun getPedidosInit() = listOf(
         estado = TipoEstado.TERMINADO,
         usuario = usuariosRepository.findAll().filter {
             it.rol == TipoUsuario.TENISTA
-        }.toList()[3],
+        }.toList()[0],
         fechaTope = LocalDate.of(2022, 12, 1),
         fechaEntrada = LocalDate.of(2022, 11, 5),
         fechaProgramada = LocalDate.of(2022, 11, 28),
@@ -217,7 +218,7 @@ suspend fun getPedidosInit() = listOf(
         estado = TipoEstado.TERMINADO,
         usuario = usuariosRepository.findAll().filter {
             it.rol == TipoUsuario.TENISTA
-        }.toList()[4],
+        }.toList()[0],
         fechaTope = LocalDate.of(2022, 11, 14),
         fechaEntrada = LocalDate.of(2022, 9, 5),
         fechaProgramada = LocalDate.of(2022, 10, 23),

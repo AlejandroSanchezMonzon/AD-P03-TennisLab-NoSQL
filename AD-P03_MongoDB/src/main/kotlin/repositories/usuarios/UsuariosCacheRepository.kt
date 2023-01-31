@@ -15,6 +15,7 @@ import models.Usuario
 import mu.KotlinLogging
 import services.ktorfit.KtorFitClient
 import services.sqldelight.SqlDeLightClient
+import utils.cifrarPassword
 import java.util.*
 
 
@@ -55,13 +56,13 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
         logger.debug { "Cache -> save($entity)" }
         val dto = remote.createUsuario(entity)
         val usuario = Usuario(
-            id = dto.id,
-            uuid = UUID.fromString(dto.uuid),
-            nombre = dto.nombre,
-            apellido = dto.apellido,
+            id = dto.id.toString(),
+            uuid = entity.uuid,
+            nombre = dto.name,
+            apellido = dto.username,
             email = dto.email,
-            password = dto.password,
-            rol = TipoUsuario.valueOf(dto.rol)
+            password = entity.password,
+            rol = entity.rol
         )
 
         cache.createUsuario(usuario.id.toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
@@ -83,13 +84,13 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
         val dto = remote.updateUsuario(entity.id, entity)
 
         return Usuario(
-            id = dto.id,
-            uuid = UUID.fromString(dto.uuid),
-            nombre = dto.nombre,
-            apellido = dto.apellido,
+            id = dto.id.toString(),
+            uuid = entity.uuid,
+            nombre = dto.name,
+            apellido = dto.username,
             email = dto.email,
-            password = dto.password,
-            rol = TipoUsuario.valueOf(dto.rol)
+            password = entity.password,
+            rol = entity.rol
         )
     }
 
