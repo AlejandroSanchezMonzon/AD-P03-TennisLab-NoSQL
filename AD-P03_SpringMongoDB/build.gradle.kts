@@ -30,6 +30,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+    // KMongo Asíncrono
+    implementation("org.litote.kmongo:kmongo-async:4.7.2")
+
+    // KMongo Síncrono
+    implementation("org.litote.kmongo:kmongo:4.7.2")
+
     // Kotlin Logging
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.3")
 

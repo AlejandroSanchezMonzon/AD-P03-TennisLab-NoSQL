@@ -1,13 +1,10 @@
-package db
+package es.dam.adp03_springmongodb.db
 
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoDatabase
-import mu.KotlinLogging
+import es.dam.adp03_springmongodb.controllers.logger
+import es.dam.adp03_springmongodb.utils.readProperties
 import org.litote.kmongo.KMongo
-import utils.readProperties
-
-
-private val logger = KotlinLogging.logger {}
 
 object MongoDbManager {
     private lateinit var mongoClient: MongoClient
@@ -32,4 +29,3 @@ object MongoDbManager {
         database = mongoClient.getDatabase(MONGOBBDD)
     }
 }
-

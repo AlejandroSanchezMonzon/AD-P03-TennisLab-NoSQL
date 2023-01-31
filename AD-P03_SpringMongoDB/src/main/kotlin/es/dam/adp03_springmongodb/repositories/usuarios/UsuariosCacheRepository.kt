@@ -16,6 +16,7 @@ import mappers.toModel
 import mappers.toModelUsuario
 import mu.KotlinLogging
 import org.bson.types.ObjectId
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -25,7 +26,8 @@ private const val COOLDOWN = 6 * 10000L
 
 
 @Repository
-class UsuariosCacheRepository(cliente: SqlDeLightClient) {
+class UsuariosCacheRepository
+    @Autowired constructor (cliente: SqlDeLightClient) {
     private val remote = KtorFitClient.instance
     private val cache = cliente.queries
 
