@@ -17,7 +17,7 @@ suspend fun logIn(): Usuario {
         val password = terminal.prompt("Por favor, ingrese su contraseña")?.trimIndent().orEmpty()
 
         usuarioEncontrado = usuariosRepository.findAll().filter { usuario ->
-            usuario.email == email && usuario.password == password
+            usuario.email == email && usuario.password == cifrarPassword(password)
         }.firstOrNull()
 
         if (usuarioEncontrado != null) {

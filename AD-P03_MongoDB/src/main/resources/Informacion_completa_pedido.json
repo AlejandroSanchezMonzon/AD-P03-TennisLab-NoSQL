@@ -1,0 +1,15 @@
+[
+    {
+        "id": "1",
+        "uuid": "fde44fde-1e53-4e82-bd54-9c60a837afc8",
+        "tareas": "[c6361668-af08-46f9-84ca-161bfc268279]",
+        "productos": "null",
+        "estado": "EN_PROCESO",
+        "usuario": "8d2c69bb-cb18-4348-ac51-4fc3795afe65",
+        "fechaTope": "2022-12-27",
+        "fechaEntrada": "2022-12-01",
+        "fechaProgramada": "2022-12-20",
+        "fechaEntrega": "2022-12-20",
+        "precio": 70.95
+    }
+]
