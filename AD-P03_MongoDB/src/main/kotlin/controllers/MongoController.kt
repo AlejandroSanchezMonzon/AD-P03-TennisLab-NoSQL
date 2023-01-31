@@ -1,10 +1,7 @@
 package controllers
 
 import db.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.*
 import models.*
 import mu.KotlinLogging
 import repositories.maquinas.MaquinasRepository
@@ -72,6 +69,8 @@ class MongoController(
 
     suspend fun borrarMaquina(maquina: Maquina) {
         if(usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO){
+            require(listarTurnos()?.filter { it.maquina == maquina }?.count() == 0)
+            {"Antes de realizar la operación, elimine o actualice el turno/s asociados a esta máquina. "}
             maquinasRepository.delete(maquina)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -139,6 +138,9 @@ class MongoController(
 
     suspend fun borrarProducto(producto: Producto) {
         if(usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO){
+            require(listarPedidos()?.map { it.productos?.contains(producto) }?.count() == 0)
+            { "Antes de realizar la operación, elimine o actualice el pedido/s asociados a este producto." }
+
             productosRepository.delete(producto)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -194,6 +196,8 @@ class MongoController(
 
     suspend fun borrarTurno(turno: Turno) {
         if(usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO){
+            require(listarTarea()?.filter { it.turno == turno }?.count() == 0)
+            {"Antes de realizar la operación, elimine o actualice la tarea/s asociados a este turno. "}
             turnosRepository.delete(turno)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -292,6 +296,12 @@ class MongoController(
 
     suspend fun borrarUsuario(usuario: Usuario) {
         if(usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO){
+            require(listarPedidos()?.filter { it.usuario == usuario }?.count() == 0)
+            {"Antes de realizar la operación, elimine o actualice el pedido/s asociados a este usuario. "}
+
+            require(listarTurnos()?.filter { it.encordador == usuario }?.count() == 0)
+            {"Antes de realizar la operación, elimine o actualice el turno/s asociados a este usuario. "}
+
             usuariosCacheRepository.delete(usuario)
             usuariosRepository.delete(usuario)
             usuariosRestRepository.delete(usuario)
@@ -360,6 +370,9 @@ class MongoController(
 
     suspend fun borrarTarea(tarea: Tarea) {
         if(usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
+            require(listarPedidos()?.map { it.tareas?.contains(tarea) }?.count() == 0)
+            { "Antes de realizar la operación, elimine o actualice el pedido/s asociados a esta tarea." }
+
             tareasRepository.delete(tarea)
             tareasRestRepository.delete(tarea)
             logger.debug("Operación realizada con éxito")
