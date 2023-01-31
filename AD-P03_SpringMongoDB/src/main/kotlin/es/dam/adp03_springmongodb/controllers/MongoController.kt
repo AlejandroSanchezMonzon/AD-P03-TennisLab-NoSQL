@@ -1,9 +1,6 @@
 package es.dam.adp03_springmongodb.controllers
 
-import es.dam.adp03_springmongodb.db.getMaquinasInit
-import es.dam.adp03_springmongodb.db.getProductosInit
-import es.dam.adp03_springmongodb.db.getTareasInit
-import es.dam.adp03_springmongodb.db.getTurnosInit
+import es.dam.adp03_springmongodb.db.*
 import es.dam.adp03_springmongodb.models.*
 import es.dam.adp03_springmongodb.repositories.maquinas.IMaquinasRepository
 import es.dam.adp03_springmongodb.repositories.pedidos.IPedidosRepository
@@ -14,22 +11,18 @@ import es.dam.adp03_springmongodb.repositories.turnos.ITurnosRepository
 import es.dam.adp03_springmongodb.repositories.usuarios.IUsuariosRepository
 import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosCacheRepository
 import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosRestRepository
-import es.dam.adp03_springmongodb.utils.cifrarPassword
-import es.dam.adp03_springmongodb.utils.randomUserType
-import kotlinx.coroutines.flow.Flow
+import es.dam.adp03_springmongodb.usuarioSesion
+import kotlinx.coroutines.flow.*
 import mu.KotlinLogging
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 
-val logger = KotlinLogging.logger {  }
+val logger = KotlinLogging.logger { }
 
 @Controller
 class MongoController
 @Autowired constructor(
-    @Value("usuarioSesion")
-    private val usuarioSesion: Usuario,
     private val maquinasRepository: IMaquinasRepository,
     private val pedidosRepository: IPedidosRepository,
     private val productosRepository: IProductosRepository,
@@ -41,19 +34,35 @@ class MongoController
     private val usuariosCacheRepository: UsuariosCacheRepository
 ) {
 
-    suspend fun descargarDatos(){
-        usuariosRestRepository.findAll().collect{
+    suspend fun descargarDatos() {
+        usuariosRestRepository.findAll().collect {
+            logger.info("save - $it")
             usuariosRepository.save(it)
         }
-        getMaquinasInit().forEach { maquina -> maquinasRepository.save(maquina) }
-        getProductosInit().forEach { producto -> productosRepository.save(producto) }
-        getTurnosInit(usuariosRepository).forEach { turno -> turnosRepository.save(turno) }
-        getTareasInit(usuariosRepository).forEach { tarea -> tareasRepository.save(tarea) }
-        getProductosInit().forEach { producto -> productosRepository.save(producto)}
+        getMaquinasInit().forEach { maquina ->
+            logger.info("save - $maquina")
+            maquinasRepository.save(maquina)
+        }
+        getProductosInit().forEach { producto ->
+            logger.info("save - $producto")
+            productosRepository.save(producto)
+        }
+        getTurnosInit(usuariosRepository).forEach { turno ->
+            logger.info("save - $turno")
+            turnosRepository.save(turno)
+        }
+        getTareasInit(usuariosRepository).forEach { tarea ->
+            logger.info("save - $tarea")
+            tareasRepository.save(tarea)
+        }
+        getPedidosInit(usuariosRepository).forEach { pedido ->
+            logger.info("save - $pedido")
+            pedidosRepository.save(pedido)
+        }
     }
 
     suspend fun guardarMaquina(maquina: Maquina) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             maquinasRepository.save(maquina)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -62,7 +71,9 @@ class MongoController
     }
 
     suspend fun borrarMaquina(maquina: Maquina) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
+            require(listarTurnos()?.filter { it.maquina == maquina }?.count() == 0)
+            {"Antes de realizar la operación, elimine o actualice el turno/s asociados a esta máquina. "}
             maquinasRepository.delete(maquina)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -71,7 +82,7 @@ class MongoController
     }
 
     suspend fun actualizarMaquina(maquina: Maquina) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             maquinasRepository.save(maquina)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -80,7 +91,7 @@ class MongoController
     }
 
     suspend fun encontrarMaquina(id: String): Maquina? {
-        return if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.debug("Operación realizada con éxito")
             maquinasRepository.findById(ObjectId(id))
         } else {
@@ -90,7 +101,7 @@ class MongoController
     }
 
     suspend fun listarMaquinas(): Flow<Maquina>? {
-        return if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.debug("Operación realizada con éxito")
             maquinasRepository.findAll()
         } else {
@@ -100,7 +111,7 @@ class MongoController
     }
 
     suspend fun encontrarProducto(id: String): Producto? {
-        return if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.debug("Operación realizada con éxito")
             productosRepository.findById(ObjectId(id))
         } else {
@@ -110,7 +121,7 @@ class MongoController
     }
 
     suspend fun listarProductos(): Flow<Producto>? {
-        return if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.debug("Operación realizada con éxito")
             productosRepository.findAll()
         } else {
@@ -120,7 +131,7 @@ class MongoController
     }
 
     suspend fun guardarProducto(producto: Producto) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             productosRepository.save(producto)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -129,7 +140,9 @@ class MongoController
     }
 
     suspend fun borrarProducto(producto: Producto) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
+            require(listarPedidos()?.map { it.productos?.contains(producto) }?.count() == 0)
+            { "Antes de realizar la operación, elimine o actualice el pedido/s asociados a este producto." }
             productosRepository.delete(producto)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -138,7 +151,7 @@ class MongoController
     }
 
     suspend fun actualizarProducto(producto: Producto) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             productosRepository.save(producto)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -147,7 +160,7 @@ class MongoController
     }
 
     suspend fun encontrarTurno(id: String): Turno? {
-        return if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.debug("Operación realizada con éxito")
             turnosRepository.findById(ObjectId(id))
         } else {
@@ -157,7 +170,7 @@ class MongoController
     }
 
     suspend fun listarTurnos(): Flow<Turno>? {
-        return if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.debug("Operación realizada con éxito")
             turnosRepository.findAll()
         } else {
@@ -166,8 +179,17 @@ class MongoController
         }
     }
 
+    suspend fun isTurnoOk(turno: Turno): Boolean {
+        //consultar turnos y comprobar que su encordador solo utiliza esa maquina
+        val turnosConElMismoEncordador = listarTurnos()?.filter { it.encordador == turno.encordador }
+        val maquinaUtilizada = turnosConElMismoEncordador?.firstOrNull()?.maquina
+
+        return turno.maquina == maquinaUtilizada
+    }
+
     suspend fun guardarTurno(turno: Turno) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        require(isTurnoOk(turno)) {"Este turno no ha podido añadirse porque el encordador que quiere asignarle ya esta utilizando otra máquina en ese turno."}
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             turnosRepository.save(turno)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -176,7 +198,9 @@ class MongoController
     }
 
     suspend fun borrarTurno(turno: Turno) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
+            require(listarTarea()?.filter { it.turno == turno }?.count() == 0)
+            {"Antes de realizar la operación, elimine o actualice la tarea/s asociados a este turno. "}
             turnosRepository.delete(turno)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -185,7 +209,8 @@ class MongoController
     }
 
     suspend fun actualizarTurno(turno: Turno) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        require(isTurnoOk(turno)) {"Este turno no ha podido actualizarse porque el encordador que quiere asignarle ya esta utilizando otra máquina en ese turno."}
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             turnosRepository.save(turno)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -194,7 +219,7 @@ class MongoController
     }
 
     suspend fun encontrarPedido(id: String): Pedido? {
-        return if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR){
+        return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
             logger.debug("Operación realizada con éxito")
             pedidosRepository.findById(ObjectId(id))
         } else {
@@ -204,7 +229,7 @@ class MongoController
     }
 
     suspend fun listarPedidos(): Flow<Pedido>? {
-        return if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR){
+        return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
             logger.debug("Operación realizada con éxito")
             pedidosRepository.findAll()
         } else {
@@ -213,8 +238,28 @@ class MongoController
         }
     }
 
+    private suspend fun isPedidoOk(pedido: Pedido): Boolean {
+        //consultar tareas del pedido y consultar de la tarea el turno y del turno el encordador y no puede ser >2
+        var isOverTwo = false
+
+        val encordadoresOcupados : MutableList<Usuario>? = null
+        listarPedidos()?.collect { it ->
+            it.tareas?.forEach { tarea ->
+                encordadoresOcupados?.add(tarea.turno.encordador)
+            }
+        }
+
+        val encordadoresPedidoActual: MutableList<Usuario>? = null
+        pedido.tareas?.forEach { tarea ->
+            encordadoresPedidoActual?.add(tarea.turno.encordador)
+        }
+
+        return isOverTwo
+    }
+
     suspend fun guardarPedido(pedido: Pedido) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO  || usuarioSesion.rol == TipoUsuario.ENCORDADOR){
+        require(isPedidoOk(pedido)) {"Este pedido no ha podido guardarse correctamente ya que su encordador asignado ya tiene dos pedidos asignados."}
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
             pedidosRepository.save(pedido)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -223,7 +268,7 @@ class MongoController
     }
 
     suspend fun borrarPedido(pedido: Pedido) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
             pedidosRepository.delete(pedido)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -232,7 +277,8 @@ class MongoController
     }
 
     suspend fun actualizarPedido(pedido: Pedido) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR){
+        require(isPedidoOk(pedido)) {"Este pedido no ha podido actualizarse correctamente ya que el encordador asignado ya tiene dos pedidos asignados."}
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
             pedidosRepository.save(pedido)
             logger.debug("Operación realizada con éxito")
         } else {
@@ -241,7 +287,7 @@ class MongoController
     }
 
     suspend fun guardarUsuario(usuario: Usuario) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             usuariosRepository.save(usuario)
             usuariosCacheRepository.save(usuario)
             usuariosRestRepository.save(usuario)
@@ -252,7 +298,13 @@ class MongoController
     }
 
     suspend fun borrarUsuario(usuario: Usuario) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
+            require(listarPedidos()?.filter { it.usuario == usuario }?.count() == 0)
+            {"Antes de realizar la operación, elimine o actualice el pedido/s asociados a este usuario. "}
+
+            require(listarTurnos()?.filter { it.encordador == usuario }?.count() == 0)
+            {"Antes de realizar la operación, elimine o actualice el turno/s asociados a este usuario. "}
+
             usuariosCacheRepository.delete(usuario)
             usuariosRepository.delete(usuario)
             usuariosRestRepository.delete(usuario)
@@ -263,7 +315,7 @@ class MongoController
     }
 
     suspend fun actualizarUsuario(usuario: Usuario) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             usuariosCacheRepository.update(usuario)
             usuariosRepository.save(usuario)
             usuariosRestRepository.update(usuario)
@@ -275,21 +327,21 @@ class MongoController
 
     //TODO la cache no devuelve nulo nunca
     suspend fun encontrarUsuario(id: String): Usuario? {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
-            if(usuariosCacheRepository.findById(id.toLong()) == null){
-                if(usuariosRepository.findById(ObjectId(id)) == null){
-                    if(usuariosRestRepository.findById(ObjectId(id)) == null){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
+            if (usuariosCacheRepository.findById(id.toLong()) == null) {
+                if (usuariosRepository.findById(ObjectId(id)) == null) {
+                    if (usuariosRestRepository.findById(ObjectId(id)) == null) {
                         logger.error("No se ha encontrado el usuario.")
                         return null
-                    }else{
+                    } else {
                         logger.debug("Operación realizada con éxito")
                         return usuariosRestRepository.findById(ObjectId(id))
                     }
-                } else{
+                } else {
                     logger.debug("Operación realizada con éxito")
                     return usuariosRepository.findById(ObjectId(id))
                 }
-            }else{
+            } else {
                 logger.debug("Operación realizada con éxito")
                 return usuariosCacheRepository.findById(id.toLong())
             }
@@ -299,18 +351,18 @@ class MongoController
         }
     }
 
-     fun listarUsuarios(): Flow<List<Usuario>>? {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+    fun listarUsuarios(): Flow<List<Usuario>>? {
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.debug("Operación realizada con éxito")
             return usuariosCacheRepository.findAll()
-        }else{
+        } else {
             logger.error("No está autorizado a realizar esta operación.")
             return null
         }
     }
 
     suspend fun guardarTarea(tarea: Tarea) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             tareasRepository.save(tarea)
             tareasRestRepository.save(tarea)
             logger.debug("Operación realizada con éxito")
@@ -320,7 +372,10 @@ class MongoController
     }
 
     suspend fun borrarTarea(tarea: Tarea) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
+            require(listarPedidos()?.map { it.tareas?.contains(tarea) }?.count() == 0)
+            { "Antes de realizar la operación, elimine o actualice el pedido/s asociados a esta tarea." }
+
             tareasRepository.delete(tarea)
             tareasRestRepository.delete(tarea)
             logger.debug("Operación realizada con éxito")
@@ -330,7 +385,7 @@ class MongoController
     }
 
     suspend fun actualizarTarea(tarea: Tarea) {
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             tareasRepository.save(tarea)
             tareasRestRepository.update(tarea)
             logger.debug("Operación realizada con éxito")
@@ -340,7 +395,7 @@ class MongoController
     }
 
     suspend fun listarTarea(): Flow<Tarea>? {
-        return if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
+        return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.debug("Operación realizada con éxito")
             tareasRepository.findAll()
         } else {
@@ -352,9 +407,9 @@ class MongoController
     //TODO la cache no devuelve nulo nunca
     suspend fun encontrarTarea(id: String): Tarea? {
         var tareaEncontrada: Tarea? = null
-        if(usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO){
-            if(tareasRepository.findById(ObjectId(id)) == null) {
-                if(tareasRestRepository.findById(ObjectId(id))== null) {
+        if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
+            if (tareasRepository.findById(ObjectId(id)) == null) {
+                if (tareasRestRepository.findById(ObjectId(id)) == null) {
                     logger.error("No se ha encontrado el usuario.")
                     return null
                 } else {
@@ -363,7 +418,8 @@ class MongoController
                 }
             } else {
                 logger.debug("Operación realizada con éxito")
-                return tareasRepository.findById(ObjectId(id)) }
+                return tareasRepository.findById(ObjectId(id))
+            }
         } else {
             logger.error("No está autorizado a realizar esta operación.")
             return null
