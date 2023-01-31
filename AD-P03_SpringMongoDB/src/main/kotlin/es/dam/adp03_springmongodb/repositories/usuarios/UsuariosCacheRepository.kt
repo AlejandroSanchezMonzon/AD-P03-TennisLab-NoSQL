@@ -60,13 +60,13 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
         logger.debug { "Cache -> save($entity)" }
         val dto = remote.createUsuario(entity)
         val usuario = Usuario(
-            id = ObjectId(dto.id),
-            uuid = UUID.fromString(dto.uuid),
-            nombre = dto.nombre,
-            apellido = dto.apellido,
+            id = ObjectId(dto.id.toString()),
+            uuid = entity.uuid,
+            nombre = dto.name,
+            apellido = dto.username,
             email = dto.email,
-            password = dto.password,
-            rol = TipoUsuario.valueOf(dto.rol)
+            password = entity.password,
+            rol = TipoUsuario.valueOf(entity.rol.toString())
         )
 
         cache.createUsuario(usuario.id.toString().toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
@@ -88,13 +88,13 @@ class UsuariosCacheRepository(cliente: SqlDeLightClient) {
         val dto = remote.updateUsuario(entity.id, entity)
 
         return Usuario(
-            id = ObjectId(dto.id),
-            uuid = UUID.fromString(dto.uuid),
-            nombre = dto.nombre,
-            apellido = dto.apellido,
+            id = ObjectId(dto.id.toString()),
+            uuid = entity.uuid,
+            nombre = dto.name,
+            apellido = dto.username,
             email = dto.email,
-            password = dto.password,
-            rol = TipoUsuario.valueOf(dto.rol)
+            password = entity.password,
+            rol = TipoUsuario.valueOf(entity.rol.toString())
         )
     }
 

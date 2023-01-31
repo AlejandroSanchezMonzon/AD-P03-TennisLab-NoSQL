@@ -1,22 +1,21 @@
 package es.dam.adp03_springmongodb.db
 
 import es.dam.adp03_springmongodb.models.*
-import es.dam.adp03_springmongodb.repositories.usuarios.IUsuariosRepository
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.toList
+import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosCacheRepository
+import kotlinx.coroutines.flow.first
 import org.bson.types.ObjectId
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
-suspend fun getTurnosInit(usuariosRepository: IUsuariosRepository) = listOf(
+suspend fun getTurnosInit(usuariosRepository: UsuariosCacheRepository) = listOf(
     Turno(
         id = ObjectId("0"),
         uuid = UUID.randomUUID(),
         comienzo = LocalDateTime.of(2022, 12, 7, 17, 48),
         final = LocalDateTime.of(2022, 12, 7, 18, 30),
         maquina = getMaquinasInit()[0],
-        encordador = usuariosRepository.findAll().filter {
+        encordador = usuariosRepository.findAll().first().filter {
             it.rol == TipoUsuario.ENCORDADOR
         }.toList()[0]
     ),
@@ -26,7 +25,7 @@ suspend fun getTurnosInit(usuariosRepository: IUsuariosRepository) = listOf(
         comienzo = LocalDateTime.of(2022, 12, 5, 16, 5),
         final = LocalDateTime.of(2022, 12, 6, 9, 0),
         maquina = getMaquinasInit()[1],
-        encordador = usuariosRepository.findAll().filter {
+        encordador = usuariosRepository.findAll().first().filter {
             it.rol == TipoUsuario.ENCORDADOR
         }.toList()[1]
     ),
@@ -36,7 +35,7 @@ suspend fun getTurnosInit(usuariosRepository: IUsuariosRepository) = listOf(
         comienzo = LocalDateTime.of(2022, 12, 1, 9, 0),
         final = LocalDateTime.of(2022, 12, 2, 20, 0),
         maquina = getMaquinasInit()[2],
-        encordador = usuariosRepository.findAll().filter {
+        encordador = usuariosRepository.findAll().first().filter {
             it.rol == TipoUsuario.ENCORDADOR
         }.toList()[2]
     )
@@ -147,14 +146,14 @@ fun getProductosInit() = listOf(
  * @return La lista de Pedidos.
  */
 
-suspend fun getPedidosInit(usuariosRepository: IUsuariosRepository) = listOf(
+suspend fun getPedidosInit(usuariosRepository: UsuariosCacheRepository) = listOf(
     Pedido(
         id = ObjectId("0"),
         uuid = UUID.randomUUID(),
         tareas = null,
         productos = listOf(getProductosInit()[2]),
         estado = TipoEstado.EN_PROCESO,
-        usuario = usuariosRepository.findAll().filter {
+        usuario = usuariosRepository.findAll().first().filter {
             it.rol == TipoUsuario.TENISTA
         }.toList()[0],
         fechaTope = LocalDate.of(2022, 12, 15),
@@ -169,7 +168,7 @@ suspend fun getPedidosInit(usuariosRepository: IUsuariosRepository) = listOf(
         tareas = listOf(getTareasInit(usuariosRepository)[0]),
         productos = null,
         estado = TipoEstado.EN_PROCESO,
-        usuario = usuariosRepository.findAll().filter {
+        usuario = usuariosRepository.findAll().first().filter {
             it.rol == TipoUsuario.TENISTA
         }.toList()[1],
         fechaTope = LocalDate.of(2022, 12, 27),
@@ -184,7 +183,7 @@ suspend fun getPedidosInit(usuariosRepository: IUsuariosRepository) = listOf(
         tareas = null,
         productos = listOf(getProductosInit()[0]),
         estado = TipoEstado.RECIBIDO,
-        usuario = usuariosRepository.findAll().filter {
+        usuario = usuariosRepository.findAll().first().filter {
             it.rol == TipoUsuario.TENISTA
         }.toList()[2],
         fechaTope = LocalDate.of(2023, 1, 5),
@@ -199,7 +198,7 @@ suspend fun getPedidosInit(usuariosRepository: IUsuariosRepository) = listOf(
         tareas = listOf(getTareasInit(usuariosRepository)[1], getTareasInit(usuariosRepository)[3]),
         productos = listOf(getProductosInit()[1]),
         estado = TipoEstado.TERMINADO,
-        usuario = usuariosRepository.findAll().filter {
+        usuario = usuariosRepository.findAll().first().filter {
             it.rol == TipoUsuario.TENISTA
         }.toList()[3],
         fechaTope = LocalDate.of(2022, 12, 1),
@@ -214,7 +213,7 @@ suspend fun getPedidosInit(usuariosRepository: IUsuariosRepository) = listOf(
         tareas = listOf(getTareasInit(usuariosRepository)[2]),
         productos = null,
         estado = TipoEstado.TERMINADO,
-        usuario = usuariosRepository.findAll().filter {
+        usuario = usuariosRepository.findAll().first().filter {
             it.rol == TipoUsuario.TENISTA
         }.toList()[4],
         fechaTope = LocalDate.of(2022, 11, 14),
@@ -230,7 +229,7 @@ suspend fun getPedidosInit(usuariosRepository: IUsuariosRepository) = listOf(
  *
  * @return La lista de Tareas.
  */
-suspend fun getTareasInit(usuariosRepository: IUsuariosRepository) = listOf(
+suspend fun getTareasInit(usuariosRepository: UsuariosCacheRepository) = listOf(
     Tarea(
         id = ObjectId("0"),
         uuid = UUID.randomUUID(),

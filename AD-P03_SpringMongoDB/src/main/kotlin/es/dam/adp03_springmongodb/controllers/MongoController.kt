@@ -47,15 +47,15 @@ class MongoController
             logger.info("save - $producto")
             productosRepository.save(producto)
         }
-        getTurnosInit(usuariosRepository).forEach { turno ->
+        getTurnosInit(usuariosCacheRepository).forEach { turno ->
             logger.info("save - $turno")
             turnosRepository.save(turno)
         }
-        getTareasInit(usuariosRepository).forEach { tarea ->
+        getTareasInit(usuariosCacheRepository).forEach { tarea ->
             logger.info("save - $tarea")
             tareasRepository.save(tarea)
         }
-        getPedidosInit(usuariosRepository).forEach { pedido ->
+        getPedidosInit(usuariosCacheRepository).forEach { pedido ->
             logger.info("save - $pedido")
             pedidosRepository.save(pedido)
         }
