@@ -1,14 +1,33 @@
-import kotlinx.coroutines.flow.collect
+import controllers.MongoController
 import kotlinx.coroutines.runBlocking
+import models.Usuario
+import repositories.maquinas.MaquinasRepository
+import repositories.pedidos.PedidosRepository
+import repositories.productos.ProductosRepository
+import repositories.tareas.TareasRepository
+import repositories.tareas.TareasRestRepository
+import repositories.turnos.TurnosRepository
+import repositories.usuarios.UsuariosCacheRepository
+import repositories.usuarios.UsuariosRepository
 import repositories.usuarios.UsuariosRestRepository
+import services.sqldelight.SqlDeLightClient
+import utils.logIn
 
+var usuarioSesion: Usuario? = null
 fun main() = runBlocking {
-    val repository = UsuariosRestRepository()
+    val controller = MongoController(
+        MaquinasRepository(),
+        PedidosRepository(),
+        ProductosRepository(),
+        TareasRepository(),
+        TareasRestRepository(),
+        TurnosRepository(),
+        UsuariosRepository(),
+        UsuariosRestRepository(),
+        UsuariosCacheRepository(SqlDeLightClient)
+    )
 
-    val usuarios = repository.findAll()
-
-    usuarios.collect {
-        println(it)
-    }
+    controller.descargarDatos()
+    usuarioSesion = logIn()
 
 }

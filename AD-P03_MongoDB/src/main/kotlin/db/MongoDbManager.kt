@@ -15,7 +15,7 @@ object MongoDbManager {
     init {
         logger.debug("Inicializando conexión a la base de datos")
         mongoClient = KMongo.createClient("mongodb://mongoadmin:mongopass@localhost/tenistas?authSource=admin")
-        database = mongoClient.getDatabase("examen")
+        database = mongoClient.getDatabase("tenistas")
     }
 }
 

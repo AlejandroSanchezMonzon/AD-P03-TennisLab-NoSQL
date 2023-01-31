@@ -1,25 +1,34 @@
 package utils
 
 import com.github.ajalt.mordant.terminal.Terminal
-import controllers.MongoController
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.firstOrNull
 import models.Usuario
-import repositories.usuarios.UsuariosCacheRepository
-import services.sqldelight.SqlDeLightClient
+import repositories.usuarios.UsuariosRepository
 
-val usuariosCacheRepository = UsuariosCacheRepository(SqlDeLightClient)
+val usuariosRepository = UsuariosRepository()
 val terminal = Terminal()
 
-suspend fun logIn(): Usuario? {
+suspend fun logIn(): Usuario {
     println("¡Bienvenid@ a la gestión de TennisLab!")
-    val email = terminal.prompt("Por favor, ingrese su correo.")?.trimIndent().orEmpty()
-    val password = terminal.prompt("Por favor, ingrese su contraseña.")?.trimIndent().orEmpty()
+    var usuarioEncontrado: Usuario?
+    do {
+        val email = terminal.prompt("Por favor, ingrese su correo")?.trimIndent().orEmpty()
+        val password = terminal.prompt("Por favor, ingrese su contraseña")?.trimIndent().orEmpty()
 
-    var usuarioEncontrado : Usuario? = null
-    usuariosCacheRepository.findAll().collect { usuarios ->
-        usuarioEncontrado = usuarios.filter { usuario ->
+        usuarioEncontrado = usuariosRepository.findAll().filter { usuario ->
             usuario.email == email && usuario.password == password
-        }[0]
-    }
+        }.firstOrNull()
+
+        if (usuarioEncontrado != null) {
+            println("¡Bienvenido ${usuarioEncontrado.nombre}!")
+
+        } else {
+            println("Email o contraseña incorrectos.")
+
+        }
+    }while(usuarioEncontrado==null)
     return usuarioEncontrado
+
 
 }
