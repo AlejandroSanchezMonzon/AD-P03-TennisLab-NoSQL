@@ -11,13 +11,13 @@ interface KtorFitRest {
     suspend fun getAllUsuarios(): List<UsuarioAPIDTO>
 
     @GET("users/{id}")
-    suspend fun getUsuarioById(@Path("id") id: String): GetUsuarioByIdDTO
+    suspend fun getUsuarioById(@Path("id") id: String): UsuarioAPIDTO
 
     @POST("users")
-    suspend fun createUsuario(@Body usuario: Usuario): CreateUsuarioDTO
+    suspend fun createUsuario(@Body usuario: Usuario): UsuarioAPIDTO
 
     @PUT("users/{id}")
-    suspend fun updateUsuario(@Path("id") id: String, @Body usuario: Usuario): UpdateUsuarioDTO
+    suspend fun updateUsuario(@Path("id") id: String, @Body usuario: Usuario): UsuarioAPIDTO
 
     @DELETE("users/{id}")
     suspend fun deleteUsuario(@Path("id") id: String): Unit
