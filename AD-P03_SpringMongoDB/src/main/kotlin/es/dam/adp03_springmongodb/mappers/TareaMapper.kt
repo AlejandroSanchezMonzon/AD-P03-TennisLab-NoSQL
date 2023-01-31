@@ -19,7 +19,7 @@ suspend fun TareaAPIDTO.toModelTarea(): Tarea {
         precio = (1..100).random().toFloat(),
         descripcion = title,
         tipo = randomTareaType(),
-        turno = getTurnosInit( usuariosCacheRepository).random()
+        turno = getTurnosInit(usuariosCacheRepository).random()
     )
 }
 

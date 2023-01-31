@@ -17,9 +17,10 @@ import org.springframework.boot.runApplication
 
 var usuarioSesion: Usuario? = null
 @SpringBootApplication
-class AdP03SpringMongoDbApplication: CommandLineRunner {
+class AdP03SpringMongoDbApplication(
     @Autowired
-    lateinit var controller : MongoController
+    private val controller : MongoController
+): CommandLineRunner {
     override fun run(vararg args: String?) = runBlocking {
         val serviceJSON = StorageJSON()
 
