@@ -12,29 +12,29 @@ interface KtorFitRest {
     suspend fun getAllUsuarios(): List<UsuarioAPIDTO>
 
     @GET("/users/{id}")
-    suspend fun getUsuarioById(@Path("id") id: ObjectId): GetUsuarioByIdDTO
+    suspend fun getUsuarioById(@Path("id") id: ObjectId): UsuarioAPIDTO
 
     @POST("/users")
-    suspend fun createUsuario(@Body usuario: Usuario): CreateUsuarioDTO
+    suspend fun createUsuario(@Body usuario: Usuario): UsuarioAPIDTO
 
     @PUT("/users/{id}")
-    suspend fun updateUsuario(@Path("id") id: ObjectId, @Body usuario: Usuario): UpdateUsuarioDTO
+    suspend fun updateUsuario(@Path("id") id: ObjectId, @Body usuario: Usuario): UsuarioAPIDTO
 
     @DELETE("/users/{id}")
     suspend fun deleteUsuario(@Path("id") id: ObjectId): Unit
 
     // Tareas
     @GET("/todos")
-    suspend fun getAllTareas(): GetAllTareasDTO
+    suspend fun getAllTareas(): List<TareaAPIDTO>
 
     @GET("/todos/{id}")
-    suspend fun getTareaById(@Path("id") id: ObjectId): GetTareaByIdDTO
+    suspend fun getTareaById(@Path("id") id: ObjectId): TareaAPIDTO
 
     @POST("/todos")
-    suspend fun createTarea(@Body tarea: Tarea): CreateTareaDTO
+    suspend fun createTarea(@Body tarea: Tarea): TareaAPIDTO
 
     @PUT("/todos/{id}")
-    suspend fun updateTarea(@Path("id") id: ObjectId, @Body tarea: Tarea): UpdateTareaDTO
+    suspend fun updateTarea(@Path("id") id: ObjectId, @Body tarea: Tarea): TareaAPIDTO
 
     @DELETE("/todos/{id}")
     suspend fun deleteTarea(@Path("id") id: ObjectId): Unit

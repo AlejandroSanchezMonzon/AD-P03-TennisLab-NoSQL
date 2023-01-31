@@ -24,16 +24,16 @@ interface KtorFitRest {
 
     // Tareas
     @GET("todos")
-    suspend fun getAllTareas(): GetAllTareasDTO
+    suspend fun getAllTareas(): List<TareaAPIDTO>
 
     @GET("todos/{id}")
-    suspend fun getTareaById(@Path("id") id: String): GetTareaByIdDTO
+    suspend fun getTareaById(@Path("id") id: String): TareaAPIDTO
 
     @POST("todos")
-    suspend fun createTarea(@Body tarea: Tarea): CreateTareaDTO
+    suspend fun createTarea(@Body tarea: Tarea): TareaAPIDTO
 
     @PUT("todos/{id}")
-    suspend fun updateTarea(@Path("id") id: String, @Body tarea: Tarea): UpdateTareaDTO
+    suspend fun updateTarea(@Path("id") id: String, @Body tarea: Tarea): TareaAPIDTO
 
     @DELETE("todos/{id}")
     suspend fun deleteTarea(@Path("id") id: String): Unit

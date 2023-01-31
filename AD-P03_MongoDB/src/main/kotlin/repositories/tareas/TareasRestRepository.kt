@@ -1,14 +1,19 @@
 package repositories.tareas
 
+import db.getTurnosInit
 import exceptions.RestException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
+import mappers.toModelTarea
+import mappers.toModelUsuario
 import models.Tarea
 import models.TipoTarea
+import models.Usuario
 import mu.KotlinLogging
 import services.ktorfit.KtorFitClient
+import utils.randomTareaType
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
@@ -21,9 +26,15 @@ class TareasRestRepository: ITareasRepository {
     override suspend fun findAll(): Flow<Tarea> = withContext(Dispatchers.IO) {
         logger.debug { "findAll()" }
         val call = client.getAllTareas()
+        val tareas = mutableListOf<Tarea>()
+
+        call.forEach {
+            tareas.add(it.toModelTarea())
+        }
+
         try {
             logger.debug { "findAll() - Realizado correctamente." }
-            return@withContext call.data!!.asFlow()
+            return@withContext tareas.asFlow()
         } catch (e: Exception) {
             logger.error { "findAll() - Error." }
             throw RestException("Error al obtener todas las tareas: ${e.message}")
@@ -35,7 +46,7 @@ class TareasRestRepository: ITareasRepository {
         val call = client.getTareaById(id)
         try {
             logger.debug { "findById(id=$id) - Realizado correctamente." }
-            return call.data!!
+            return call.toModelTarea()
         } catch (e: Exception) {
             logger.error { "findById(id=$id) - Error." }
             throw RestException("Error al obtener la tarea con id $id: ${e.message}")
@@ -48,12 +59,12 @@ class TareasRestRepository: ITareasRepository {
             val res = client.createTarea(entity)
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Tarea(
-                id = res.id,
-                uuid = UUID.fromString(res.uuid),
-                precio = res.precio,
-                descripcion = res.descripcion,
-                tipo = TipoTarea.valueOf(res.tipo),
-                turno = res.turno
+                id = res.id.toString(),
+                uuid = UUID.randomUUID(),
+                precio = (1..100).random().toFloat(),
+                descripcion = res.title,
+                tipo = randomTareaType(),
+                turno = getTurnosInit().random()
             )
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
@@ -66,12 +77,12 @@ class TareasRestRepository: ITareasRepository {
             val res = client.updateTarea(entity.id, entity)
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
             return Tarea(
-                id = res.id,
-                uuid = UUID.fromString(res.uuid),
-                precio = res.precio,
-                descripcion = res.descripcion,
-                tipo = TipoTarea.valueOf(res.tipo),
-                turno = res.turno
+                id = entity.id,
+                uuid = entity.uuid,
+                precio = entity.precio,
+                descripcion = entity.descripcion,
+                tipo = entity.tipo,
+                turno = entity.turno
             )
         } catch (e: RestException) {
             logger.error { "update(entity=$entity) - Error." }
