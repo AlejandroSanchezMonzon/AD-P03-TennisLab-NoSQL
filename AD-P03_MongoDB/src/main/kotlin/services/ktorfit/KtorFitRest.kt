@@ -7,34 +7,34 @@ import models.Usuario
 
 interface KtorFitRest {
     // Usuarios
-    @GET("/users")
-    suspend fun getAllUsuarios(): GetAllUsuariosDTO
+    @GET("users")
+    suspend fun getAllUsuarios(): List<UsuarioAPIDTO>
 
-    @GET("/users/{id}")
+    @GET("users/{id}")
     suspend fun getUsuarioById(@Path("id") id: String): GetUsuarioByIdDTO
 
-    @POST("/users")
+    @POST("users")
     suspend fun createUsuario(@Body usuario: Usuario): CreateUsuarioDTO
 
-    @PUT("/users/{id}")
+    @PUT("users/{id}")
     suspend fun updateUsuario(@Path("id") id: String, @Body usuario: Usuario): UpdateUsuarioDTO
 
-    @DELETE("/users/{id}")
+    @DELETE("users/{id}")
     suspend fun deleteUsuario(@Path("id") id: String): Unit
 
     // Tareas
-    @GET("/todos")
+    @GET("todos")
     suspend fun getAllTareas(): GetAllTareasDTO
 
-    @GET("/todos/{id}")
+    @GET("todos/{id}")
     suspend fun getTareaById(@Path("id") id: String): GetTareaByIdDTO
 
-    @POST("/todos")
+    @POST("todos")
     suspend fun createTarea(@Body tarea: Tarea): CreateTareaDTO
 
-    @PUT("/todos/{id}")
+    @PUT("todos/{id}")
     suspend fun updateTarea(@Path("id") id: String, @Body tarea: Tarea): UpdateTareaDTO
 
-    @DELETE("/todos/{id}")
+    @DELETE("todos/{id}")
     suspend fun deleteTarea(@Path("id") id: String): Unit
 }

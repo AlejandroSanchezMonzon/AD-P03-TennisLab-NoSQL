@@ -1,11 +1,11 @@
-package mappers
+package es.dam.adp03_springmongodb.mappers
 
-import dto.TurnoDTO
-import models.Turno
+import es.dam.adp03_springmongodb.dto.TurnoDTO
+import es.dam.adp03_springmongodb.models.Turno
 
 fun Turno.toTurnoDTO(): TurnoDTO {
     return TurnoDTO(
-        id = id,
+        id = id.toString(),
         uuid = uuid.toString(),
         comienzo = comienzo.toString(),
         final = final.toString(),

@@ -1,11 +1,12 @@
-package mappers
+package es.dam.adp03_springmongodb.mappers
 
-import dto.ProductoDTO
-import models.Producto
+import es.dam.adp03_springmongodb.dto.ProductoDTO
+import es.dam.adp03_springmongodb.models.Producto
+
 
 fun Producto.toProductoDTO(): ProductoDTO {
     return ProductoDTO(
-        id = id,
+        id = id.toString(),
         uuid = uuid.toString(),
         tipo = tipo.toString(),
         marca = marca,

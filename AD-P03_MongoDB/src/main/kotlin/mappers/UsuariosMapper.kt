@@ -1,6 +1,10 @@
 package mappers
 
+import dto.UsuarioAPIDTO
 import models.TipoUsuario
+import models.Usuario
+import utils.cifrarPassword
+import utils.randomUserType
 import java.util.*
 import database.Usuario as UsuarioSQL
 import models.Usuario as UsuarioModelo
@@ -26,5 +30,17 @@ fun UsuarioModelo.toUsuarioSQL(): UsuarioSQL {
         email = email,
         password = password,
         rol = rol.toString()
+    )
+}
+
+fun UsuarioAPIDTO.toModelUsuario(): Usuario {
+    return Usuario(
+        id = id.toString(),
+        uuid = UUID.randomUUID(),
+        nombre = name,
+        apellido = username,
+        email = email,
+        password = cifrarPassword(username),
+        rol = randomUserType()
     )
 }

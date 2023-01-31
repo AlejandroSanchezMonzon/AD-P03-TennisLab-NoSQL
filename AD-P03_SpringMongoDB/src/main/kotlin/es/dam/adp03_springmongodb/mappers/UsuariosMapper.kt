@@ -1,6 +1,9 @@
 package mappers
 
+import es.dam.adp03_springmongodb.dto.UsuarioAPIDTO
 import es.dam.adp03_springmongodb.models.TipoUsuario
+import es.dam.adp03_springmongodb.utils.cifrarPassword
+import es.dam.adp03_springmongodb.utils.randomUserType
 import org.bson.types.ObjectId
 import java.util.*
 import database.Usuario as UsuarioSQL
@@ -27,5 +30,17 @@ fun UsuarioModelo.toUsuarioSQL(): UsuarioSQL {
         email = email,
         password = password,
         rol = rol.toString()
+    )
+}
+
+fun UsuarioAPIDTO.toModelUsuario(): UsuarioModelo {
+    return UsuarioModelo(
+        id = ObjectId(id.toString()),
+        uuid = UUID.randomUUID(),
+        nombre = name,
+        apellido = username,
+        email = email,
+        password = cifrarPassword(username),
+        rol = randomUserType()
     )
 }

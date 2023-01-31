@@ -3,16 +3,26 @@ import kotlinx.serialization.Serializable
 import models.Tarea
 import models.Turno
 import models.Usuario
+import models.usuarioAPI.Address
+import models.usuarioAPI.Company
+import models.usuarioAPI.UsuarioAPI
 import kotlin.collections.ArrayList
 
-
 @Serializable
-data class GetAllUsuariosDTO(
-    val data: ArrayList<Usuario>? = null)
+data class UsuarioAPIDTO(
+    val id: Int,
+    val address: Address,
+    val company: Company,
+    val email: String,
+    val name: String,
+    val phone: String,
+    val username: String,
+    val website: String
+)
 
 @Serializable
 data class GetUsuarioByIdDTO(
-    val data: Usuario? = null)
+    val data: Usuario?)
 
 @Serializable
 data class CreateUsuarioDTO(

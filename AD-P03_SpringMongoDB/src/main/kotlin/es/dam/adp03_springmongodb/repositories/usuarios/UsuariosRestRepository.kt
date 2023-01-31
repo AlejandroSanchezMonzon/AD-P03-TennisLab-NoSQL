@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
+import mappers.toModelUsuario
 import mu.KotlinLogging
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Repository
@@ -23,9 +24,15 @@ class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
     override suspend fun findAll(): Flow<Usuario> = withContext(Dispatchers.IO) {
         logger.debug { "findAll()" }
         val call = client.getAllUsuarios()
+        val usuarios = mutableListOf<Usuario>()
+
+        call.forEach {
+            usuarios.add(it.toModelUsuario())
+        }
+
         try {
             logger.debug { "findAll() - Realizado correctamente." }
-            return@withContext call.data!!.asFlow()
+            return@withContext usuarios.asFlow()
         } catch (e: Exception) {
             logger.error { "findAll() - Error." }
             throw RestException("Error al obtener todos los usuarios: ${e.message}")
