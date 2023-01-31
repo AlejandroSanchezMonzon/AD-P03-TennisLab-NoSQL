@@ -61,6 +61,24 @@ dependencies {
 
     //Codificación contraseñas
     implementation("com.google.guava:guava:31.1-jre")
+
+    // Koin - Core (con esto ya va Koin en modo normal!!
+    implementation("io.insert-koin:koin-core:3.2.2")
+
+    // Si queremos usar Koin en modo Annotations
+    implementation("io.insert-koin:koin-annotations:1.0.3")
+    ksp("io.insert-koin:koin-ksp-compiler:1.0.3")
+
+    // Si queremos usar Mokk para test, es mokito para Kotlin
+    implementation("io.mockk:mockk:1.13.2")
+
+    // Si queremos usar Koin en test, no es necesario , porque podemos usar el KoinComponent
+    testImplementation("io.insert-koin:koin-test:3.2.2")
+    testImplementation("io.insert-koin:koin-test-junit5:3.2.2")
+
+    // Debemos añadir el JUnit 5 y no usar el Junit 5 que ya trae Kotlin, si wuremos Koin Test
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks.test {
@@ -86,4 +104,8 @@ sqldelight {
     database("AppDatabase") {
         packageName = "database"
     }
+}
+
+sourceSets.main {
+    java.srcDirs("build/generated/ksp/main/kotlin")
 }
