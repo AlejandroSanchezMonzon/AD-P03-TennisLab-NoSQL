@@ -4,6 +4,8 @@ import db.*
 import kotlinx.coroutines.flow.*
 import models.*
 import mu.KotlinLogging
+import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 import repositories.maquinas.MaquinasRepository
 import repositories.pedidos.PedidosRepository
 import repositories.productos.ProductosRepository
@@ -17,16 +19,25 @@ import usuarioSesion
 
 val logger = KotlinLogging.logger {  }
 
+@Single
 class MongoController(
-
+    @Named("MaquinasRepository")
     private val maquinasRepository: MaquinasRepository,
+    @Named("PedidosRepository")
     private val pedidosRepository: PedidosRepository,
+    @Named("ProductosRepository")
     private val productosRepository: ProductosRepository,
+    @Named("TareasRepository")
     private val tareasRepository: TareasRepository,
+    @Named("TareasRestRepository")
     private val tareasRestRepository: TareasRestRepository,
+    @Named("TurnosRepository")
     private val turnosRepository: TurnosRepository,
+    @Named("UsuariosRepository")
     private val usuariosRepository: UsuariosRepository,
+    @Named("UsuariosRestRepository")
     private val usuariosRestRepository: UsuariosRestRepository,
+    @Named("UsuariosCacheRepository")
     private val usuariosCacheRepository: UsuariosCacheRepository
 ) {
 

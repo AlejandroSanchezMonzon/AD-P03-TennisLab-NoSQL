@@ -12,13 +12,16 @@ import models.Tarea
 import models.TipoTarea
 import models.Usuario
 import mu.KotlinLogging
+import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 import services.ktorfit.KtorFitClient
 import utils.randomTareaType
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
-
+@Single
+@Named("TareasRestRepository")
 class TareasRestRepository: ITareasRepository {
 
     private val client by lazy { KtorFitClient.instance }

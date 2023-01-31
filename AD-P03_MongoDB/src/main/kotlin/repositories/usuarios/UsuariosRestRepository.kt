@@ -8,12 +8,16 @@ import kotlinx.coroutines.withContext
 import mappers.toModelUsuario
 import models.Usuario
 import mu.KotlinLogging
+import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 import services.ktorfit.KtorFitClient
 import utils.cifrarPassword
 import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
+@Single
+@Named("UsuariosRestRepository")
 class UsuariosRestRepository: IUsuariosRepository {
 
     private val client by lazy { KtorFitClient.instance }
