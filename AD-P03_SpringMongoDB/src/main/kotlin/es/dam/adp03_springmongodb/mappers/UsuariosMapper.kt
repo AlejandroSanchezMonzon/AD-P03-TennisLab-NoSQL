@@ -1,4 +1,4 @@
-package mappers
+package es.dam.adp03_springmongodb.mappers
 
 import es.dam.adp03_springmongodb.dto.UsuarioAPIDTO
 import es.dam.adp03_springmongodb.models.TipoUsuario
@@ -11,8 +11,8 @@ import es.dam.adp03_springmongodb.models.Usuario as UsuarioModelo
 
 fun UsuarioSQL.toModel(): UsuarioModelo {
     return UsuarioModelo(
-        id = id.toInt(),
-        uuid = UUID.fromString(uuid),
+        id = ObjectId(id.toString().padStart(24, '0')),
+        uuid = uuid,
         nombre = nombre,
         apellido = apellido,
         email = email,
@@ -24,7 +24,7 @@ fun UsuarioSQL.toModel(): UsuarioModelo {
 fun UsuarioModelo.toUsuarioSQL(): UsuarioSQL {
     return UsuarioSQL(
         id = id.toString().toLong(),
-        uuid = uuid.toString(),
+        uuid = uuid,
         nombre = nombre,
         apellido = apellido,
         email = email,
@@ -35,12 +35,25 @@ fun UsuarioModelo.toUsuarioSQL(): UsuarioSQL {
 
 fun UsuarioAPIDTO.toModelUsuario(): UsuarioModelo {
     return UsuarioModelo(
-        id = id,
-        uuid = UUID.randomUUID(),
+        id = ObjectId(id.toString().padStart(24, '0')),
+        uuid = UUID.randomUUID().toString(),
         nombre = name,
         apellido = username,
         email = email,
         password = cifrarPassword(username),
         rol = randomUserType()
+    )
+}
+
+fun UsuarioModelo.toUsuarioAPIDTO(): UsuarioAPIDTO {
+    return UsuarioAPIDTO(
+        id = id.toString().toInt(),
+        address = null,
+        company = null,
+        name = nombre,
+        username = apellido,
+        email = email,
+        phone = null,
+        website = null
     )
 }

@@ -4,23 +4,78 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.toList
 import models.*
 import repositories.usuarios.UsuariosRepository
+import utils.cifrarPassword
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
-val usuariosRepository = UsuariosRepository()
+fun getUsuariosInit() = listOf(
+    Usuario(
+        id = "50",
+        nombre = "Jude",
+        apellido = "James",
+        email = "jude@james.com",
+        password = cifrarPassword("James"),
+        rol = TipoUsuario.TENISTA
+    ),
+    Usuario(
+        id = "51",
+        nombre = "Gracy",
+        apellido = "Jonhs",
+        email = "gracy@jonhs.com",
+        password = cifrarPassword("Johns"),
+        rol = TipoUsuario.TENISTA
+    ),
+    Usuario(
+        id = "52",
+        nombre = "Bleck",
+        apellido = "Mon",
+        email = "bleck@mon.com",
+        password = cifrarPassword("Men"),
+        rol = TipoUsuario.ENCORDADOR
+    ),
+    Usuario(
+        id = "53",
+        nombre = "Udel",
+        apellido = "Geg",
+        email = "udel@geg.com",
+        password = cifrarPassword("Geg"),
+        rol = TipoUsuario.ENCORDADOR
+    ),
+    Usuario(
+        id = "54",
+        nombre = "Bred",
+        apellido = "Widow",
+        email = "bred@widow.com",
+        password = cifrarPassword("Widow"),
+        rol = TipoUsuario.ENCORDADOR
+    ),
+    Usuario(
+        id = "55",
+        nombre = "Peter",
+        apellido = "Beet",
+        email = "peter@beet.com",
+        password = cifrarPassword("Beet"),
+        rol = TipoUsuario.ADMIN_ENCARGADO
+    ),
+    Usuario(
+        id = "56",
+        nombre = "Lord",
+        apellido = "Sir",
+        email = "lord@sir.com",
+        password = cifrarPassword("Sir"),
+        rol = TipoUsuario.ADMIN_ENCARGADO
+    )
+)
 
 suspend fun getTurnosInit() = listOf(
     Turno(
-        id = "0",
+        id = "5",
         uuid = UUID.randomUUID(),
         comienzo = LocalDateTime.of(2022, 12, 7, 17, 48),
         final = LocalDateTime.of(2022, 12, 7, 18, 30),
         maquina = getMaquinasInit()[0],
-        //TODO: A veces no hay tal número de ecordadores y hay excepción
-        encordador = usuariosRepository.findAll().filter {
-            it.rol == TipoUsuario.ENCORDADOR
-        }.toList()[0]
+        encordador = getUsuariosInit()[2]
     ),
     Turno(
         id = "1",
@@ -28,9 +83,7 @@ suspend fun getTurnosInit() = listOf(
         comienzo = LocalDateTime.of(2022, 12, 5, 16, 5),
         final = LocalDateTime.of(2022, 12, 6, 9, 0),
         maquina = getMaquinasInit()[1],
-        encordador = usuariosRepository.findAll().filter {
-            it.rol == TipoUsuario.ENCORDADOR
-        }.toList()[0]
+        encordador = getUsuariosInit()[3]
     ),
     Turno(
         id = "2",
@@ -38,9 +91,15 @@ suspend fun getTurnosInit() = listOf(
         comienzo = LocalDateTime.of(2022, 12, 1, 9, 0),
         final = LocalDateTime.of(2022, 12, 2, 20, 0),
         maquina = getMaquinasInit()[2],
-        encordador = usuariosRepository.findAll().filter {
-            it.rol == TipoUsuario.ENCORDADOR
-        }.toList()[0]
+        encordador = getUsuariosInit()[4]
+    ),
+    Turno(
+        id = "3",
+        uuid = UUID.randomUUID(),
+        comienzo = LocalDateTime.of(2022, 8, 5, 7, 0),
+        final = LocalDateTime.of(2022, 12, 4, 20, 0),
+        maquina = getMaquinasInit()[3],
+        encordador = getUsuariosInit()[4]
     )
 )
 
@@ -52,7 +111,7 @@ suspend fun getTurnosInit() = listOf(
 
 fun getProductosInit() = listOf(
     Producto(
-        id = "0",
+        id = "51",
         uuid = UUID.randomUUID(),
         tipo = TipoProducto.COMPLEMENTO,
         marca = "ADIDAS",
@@ -151,14 +210,12 @@ fun getProductosInit() = listOf(
 
 suspend fun getPedidosInit() = listOf(
     Pedido(
-        id = "0",
+        id = "51",
         uuid = UUID.randomUUID(),
         tareas = null,
         productos = listOf(getProductosInit()[2]),
         estado = TipoEstado.EN_PROCESO,
-        usuario = usuariosRepository.findAll().filter {
-            it.rol == TipoUsuario.TENISTA
-        }.toList()[0],
+        usuario = getUsuariosInit()[0],
         fechaTope = LocalDate.of(2022, 12, 15),
         fechaEntrada = LocalDate.of(2022, 11, 10),
         fechaProgramada = LocalDate.of(2022, 12, 10),
@@ -171,9 +228,7 @@ suspend fun getPedidosInit() = listOf(
         tareas = listOf(getTareasInit()[0]),
         productos = null,
         estado = TipoEstado.EN_PROCESO,
-        usuario = usuariosRepository.findAll().filter {
-            it.rol == TipoUsuario.TENISTA
-        }.toList()[0],
+        usuario = getUsuariosInit()[1],
         fechaTope = LocalDate.of(2022, 12, 27),
         fechaEntrada = LocalDate.of(2022, 12, 1),
         fechaProgramada = LocalDate.of(2022, 12, 20),
@@ -186,9 +241,7 @@ suspend fun getPedidosInit() = listOf(
         tareas = null,
         productos = listOf(getProductosInit()[0]),
         estado = TipoEstado.RECIBIDO,
-        usuario = usuariosRepository.findAll().filter {
-            it.rol == TipoUsuario.TENISTA
-        }.toList()[0],
+        usuario = getUsuariosInit()[0],
         fechaTope = LocalDate.of(2023, 1, 5),
         fechaEntrada = LocalDate.of(2022, 12, 7),
         fechaProgramada = LocalDate.of(2023, 1, 4),
@@ -201,9 +254,7 @@ suspend fun getPedidosInit() = listOf(
         tareas = listOf(getTareasInit()[1], getTareasInit()[3]),
         productos = listOf(getProductosInit()[1]),
         estado = TipoEstado.TERMINADO,
-        usuario = usuariosRepository.findAll().filter {
-            it.rol == TipoUsuario.TENISTA
-        }.toList()[0],
+        usuario = getUsuariosInit()[1],
         fechaTope = LocalDate.of(2022, 12, 1),
         fechaEntrada = LocalDate.of(2022, 11, 5),
         fechaProgramada = LocalDate.of(2022, 11, 28),
@@ -216,9 +267,7 @@ suspend fun getPedidosInit() = listOf(
         tareas = listOf(getTareasInit()[2]),
         productos = null,
         estado = TipoEstado.TERMINADO,
-        usuario = usuariosRepository.findAll().filter {
-            it.rol == TipoUsuario.TENISTA
-        }.toList()[0],
+        usuario = getUsuariosInit()[0],
         fechaTope = LocalDate.of(2022, 11, 14),
         fechaEntrada = LocalDate.of(2022, 9, 5),
         fechaProgramada = LocalDate.of(2022, 10, 23),
@@ -234,7 +283,7 @@ suspend fun getPedidosInit() = listOf(
  */
 suspend fun getTareasInit() = listOf(
     Tarea(
-        id = "0",
+        id = "4",
         uuid = UUID.randomUUID(),
         precio = 100.0f,
         tipo = TipoTarea.ENCORDADO,
@@ -276,7 +325,7 @@ suspend fun getTareasInit() = listOf(
         descripcion = "peso = 0.24, " +
                 "balance = 330.0, " +
                 "rigidez = 72.0",
-        turno = getTurnosInit()[0]
+        turno = getTurnosInit()[3]
     )
 )
 
@@ -288,7 +337,7 @@ suspend fun getTareasInit() = listOf(
 
 fun getMaquinasInit() = listOf(
     Maquina(
-        id = "0",
+        id = "50",
         uuid = UUID.randomUUID(),
         marca = "Vevor",
         modelo = "2021",

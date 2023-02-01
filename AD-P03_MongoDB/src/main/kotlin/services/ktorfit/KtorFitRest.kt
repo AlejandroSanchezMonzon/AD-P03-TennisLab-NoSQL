@@ -14,10 +14,10 @@ interface KtorFitRest {
     suspend fun getUsuarioById(@Path("id") id: String): UsuarioAPIDTO
 
     @POST("users")
-    suspend fun createUsuario(@Body usuario: Usuario): UsuarioAPIDTO
+    suspend fun createUsuario(@Body usuario: UsuarioAPIDTO): UsuarioAPIDTO
 
     @PUT("users/{id}")
-    suspend fun updateUsuario(@Path("id") id: String, @Body usuario: Usuario): UsuarioAPIDTO
+    suspend fun updateUsuario(@Path("id") id: String, @Body usuario: UsuarioAPIDTO): UsuarioAPIDTO
 
     @DELETE("users/{id}")
     suspend fun deleteUsuario(@Path("id") id: String): Unit
@@ -30,10 +30,10 @@ interface KtorFitRest {
     suspend fun getTareaById(@Path("id") id: String): TareaAPIDTO
 
     @POST("todos")
-    suspend fun createTarea(@Body tarea: Tarea): TareaAPIDTO
+    suspend fun createTarea(@Body tarea: TareaAPIDTO): TareaAPIDTO
 
     @PUT("todos/{id}")
-    suspend fun updateTarea(@Path("id") id: String, @Body tarea: Tarea): TareaAPIDTO
+    suspend fun updateTarea(@Path("id") id: String, @Body tarea: TareaAPIDTO): TareaAPIDTO
 
     @DELETE("todos/{id}")
     suspend fun deleteTarea(@Path("id") id: String): Unit

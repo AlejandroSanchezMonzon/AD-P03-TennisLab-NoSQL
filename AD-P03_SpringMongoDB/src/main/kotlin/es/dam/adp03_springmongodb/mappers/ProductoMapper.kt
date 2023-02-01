@@ -7,7 +7,7 @@ import es.dam.adp03_springmongodb.models.Producto
 fun Producto.toProductoDTO(): ProductoDTO {
     return ProductoDTO(
         id = id.toString(),
-        uuid = uuid.toString(),
+        uuid = uuid,
         tipo = tipo.toString(),
         marca = marca,
         modelo = modelo,

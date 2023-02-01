@@ -7,21 +7,14 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UsuarioAPIDTO(
     val id: Int,
-    val address: Address,
-    val company: Company,
+    val address: Address?,
+    val company: Company?,
     val email: String,
     val name: String,
-    val phone: String,
+    val phone: String?,
     val username: String,
-    val website: String
+    val website: String?
 )
-/*
-@Serializable
-data class GetAllUsuariosDTO(
-    val data: ArrayList<UsuarioAPIDTO>
-)
-
- */
 
 @Serializable
 data class TareaAPIDTO(
@@ -30,10 +23,3 @@ data class TareaAPIDTO(
     val title: String,
     val userId: Int
 )
-/*
-@Serializable
-data class GetAllTareasDTO(
-    val data: ArrayList<TareaAPIDTO>
-)
-
- */

@@ -13,14 +13,15 @@ data class Producto(
     @Id @Contextual
     val id: ObjectId = ObjectId.get(),
     @Contextual
-    val uuid: UUID = UUID.randomUUID(),
+    val uuid: String = UUID.randomUUID().toString(),
     val tipo: TipoProducto,
     val marca: String,
     val modelo: String,
     val precio: Float,
-    val stock: Int)
+    val stock: Int
+)
 
-enum class TipoProducto(){
+enum class TipoProducto() {
     RAQUETA,
     CORDAJE,
     COMPLEMENTO

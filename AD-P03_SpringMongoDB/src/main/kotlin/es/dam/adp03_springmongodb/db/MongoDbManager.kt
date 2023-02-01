@@ -2,9 +2,11 @@ package es.dam.adp03_springmongodb.db
 
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoDatabase
-import es.dam.adp03_springmongodb.controllers.logger
 import es.dam.adp03_springmongodb.utils.readProperties
+import mu.KotlinLogging
 import org.litote.kmongo.KMongo
+
+private val logger = KotlinLogging.logger {  }
 
 object MongoDbManager {
     private lateinit var mongoClient: MongoClient

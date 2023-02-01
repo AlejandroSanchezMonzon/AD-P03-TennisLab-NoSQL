@@ -16,13 +16,15 @@ data class Turno(
     @Id @Contextual
     val id: ObjectId = ObjectId.get(),
     @Contextual
-    val uuid: UUID = UUID.randomUUID(),
+    val uuid: String = UUID.randomUUID().toString(),
     @Contextual
     val comienzo: LocalDateTime,
     @Contextual
     val final: LocalDateTime,
+    @ReadOnlyProperty
     @DocumentReference()
     val maquina: Maquina,
+    @ReadOnlyProperty
     @DocumentReference()
     val encordador: Usuario
 )

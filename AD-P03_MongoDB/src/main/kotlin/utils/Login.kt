@@ -27,8 +27,7 @@ suspend fun logIn(): Usuario {
             println("Email o contraseña incorrectos.")
 
         }
-    }while(usuarioEncontrado==null)
+    } while(usuarioEncontrado == null)
+
     return usuarioEncontrado
-
-
 }

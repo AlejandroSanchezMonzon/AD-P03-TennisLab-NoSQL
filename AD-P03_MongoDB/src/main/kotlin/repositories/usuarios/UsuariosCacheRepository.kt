@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import mappers.toModel
 import mappers.toModelUsuario
+import mappers.toUsuarioAPIDTO
 import models.TipoUsuario
 import models.Usuario
 import mu.KotlinLogging
@@ -61,16 +62,8 @@ class UsuariosCacheRepository(
 
     suspend fun save(entity: Usuario): Usuario {
         logger.debug { "Cache -> save($entity)" }
-        val dto = remote.createUsuario(entity)
-        val usuario = Usuario(
-            id = dto.id.toString(),
-            uuid = entity.uuid,
-            nombre = dto.name,
-            apellido = dto.username,
-            email = dto.email,
-            password = entity.password,
-            rol = entity.rol
-        )
+        val dto = remote.createUsuario(entity.toUsuarioAPIDTO())
+        val usuario = dto.toModelUsuario()
 
         cache.createUsuario(usuario.id.toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
         return usuario
@@ -88,17 +81,9 @@ class UsuariosCacheRepository(
             rol = entity.rol.toString()
         )
 
-        val dto = remote.updateUsuario(entity.id, entity)
+        val dto = remote.updateUsuario(entity.id, entity.toUsuarioAPIDTO())
 
-        return Usuario(
-            id = dto.id.toString(),
-            uuid = entity.uuid,
-            nombre = dto.name,
-            apellido = dto.username,
-            email = dto.email,
-            password = entity.password,
-            rol = entity.rol
-        )
+        return dto.toModelUsuario()
     }
 
     suspend fun delete(entity: Usuario): Usuario {

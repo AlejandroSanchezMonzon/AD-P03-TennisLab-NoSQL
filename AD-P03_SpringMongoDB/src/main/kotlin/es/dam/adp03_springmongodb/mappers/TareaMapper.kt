@@ -14,12 +14,12 @@ val usuariosCacheRepository = UsuariosCacheRepository(SqlDeLightClient)
 
 suspend fun TareaAPIDTO.toModelTarea(): Tarea {
     return Tarea(
-        id = id,
-        uuid = UUID.randomUUID(),
+        id = ObjectId(id.toString().padStart(24, '0')),
+        uuid = UUID.randomUUID().toString(),
         precio = (1..100).random().toFloat(),
         descripcion = title,
         tipo = randomTareaType(),
-        turno = getTurnosInit(usuariosCacheRepository).random()
+        turno = getTurnosInit().random()
     )
 }
 

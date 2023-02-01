@@ -3,6 +3,7 @@ package es.dam.adp03_springmongodb.services.sqldelight
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import database.AppDatabase
+import kotlinx.serialization.Serializable
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 

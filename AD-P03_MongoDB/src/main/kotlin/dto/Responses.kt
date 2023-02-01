@@ -11,13 +11,13 @@ import kotlin.collections.ArrayList
 @Serializable
 data class UsuarioAPIDTO(
     val id: Int,
-    val address: Address,
-    val company: Company,
+    val address: Address?,
+    val company: Company?,
     val email: String,
     val name: String,
-    val phone: String,
+    val phone: String?,
     val username: String,
-    val website: String
+    val website: String?
 )
 
 
