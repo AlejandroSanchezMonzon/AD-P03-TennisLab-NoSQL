@@ -5,6 +5,7 @@ import es.dam.adp03_springmongodb.models.TipoUsuario
 import es.dam.adp03_springmongodb.models.Usuario
 import es.dam.adp03_springmongodb.repositories.CRUDRepository
 import es.dam.adp03_springmongodb.services.ktorfit.KtorFitClient
+import es.dam.adp03_springmongodb.utils.cifrarPassword
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -17,7 +18,7 @@ import java.util.*
 
 private val logger = KotlinLogging.logger {}
 @Repository
-class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
+class UsuariosRestRepository: CRUDRepository<Usuario, Int> {
 
     private val client by lazy { KtorFitClient.instance }
 
@@ -25,13 +26,13 @@ class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
         logger.debug { "findAll()" }
         val call = client.getAllUsuarios()
         val usuarios = mutableListOf<Usuario>()
-
         call.forEach {
             usuarios.add(it.toModelUsuario())
         }
 
         try {
             logger.debug { "findAll() - Realizado correctamente." }
+
             return@withContext usuarios.asFlow()
         } catch (e: Exception) {
             logger.error { "findAll() - Error." }
@@ -39,7 +40,7 @@ class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
         }
     }
 
-    override suspend fun findById(id: ObjectId): Usuario {
+    override suspend fun findById(id: Int): Usuario {
         logger.debug { "finById(id=$id)" }
         val call = client.getUsuarioById(id)
         try {
@@ -57,13 +58,13 @@ class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
             val res = client.createUsuario(entity)
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Usuario(
-                id = ObjectId(res.id.toString()),
+                id = res.id,
                 uuid = entity.uuid,
                 nombre = res.name,
                 apellido = res.username,
                 email = res.email,
-                password = entity.password,
-                rol = TipoUsuario.valueOf(entity.rol.toString())
+                password = cifrarPassword(entity.password),
+                rol = entity.rol
             )
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
@@ -77,13 +78,13 @@ class UsuariosRestRepository: CRUDRepository<Usuario, ObjectId> {
             val res = client.updateUsuario(entity.id, entity)
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
             return Usuario(
-                id = ObjectId(res.id.toString()),
+                id = res.id,
                 uuid = entity.uuid,
                 nombre = res.name,
                 apellido = res.username,
                 email = res.email,
-                password = entity.password,
-                rol = TipoUsuario.valueOf(entity.rol.toString())
+                password = cifrarPassword(entity.password),
+                rol = entity.rol
             )
         } catch (e: RestException) {
             logger.error { "update(entity=$entity) - Error." }

@@ -330,12 +330,12 @@ class MongoController
         if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             if (usuariosCacheRepository.findById(id.toLong()) == null) {
                 if (usuariosRepository.findById(ObjectId(id)) == null) {
-                    if (usuariosRestRepository.findById(ObjectId(id)) == null) {
+                    if (usuariosRestRepository.findById(id.toInt()) == null) {
                         logger.error("No se ha encontrado el usuario.")
                         return null
                     } else {
                         logger.debug("Operación realizada con éxito")
-                        return usuariosRestRepository.findById(ObjectId(id))
+                        return usuariosRestRepository.findById(id.toInt())
                     }
                 } else {
                     logger.debug("Operación realizada con éxito")
@@ -409,12 +409,12 @@ class MongoController
         var tareaEncontrada: Tarea? = null
         if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             if (tareasRepository.findById(ObjectId(id)) == null) {
-                if (tareasRestRepository.findById(ObjectId(id)) == null) {
+                if (tareasRestRepository.findById(id.toInt()) == null) {
                     logger.error("No se ha encontrado el usuario.")
                     return null
                 } else {
                     logger.debug("Operación realizada con éxito")
-                    return tareasRestRepository.findById(ObjectId(id))
+                    return tareasRestRepository.findById(id.toInt())
                 }
             } else {
                 logger.debug("Operación realizada con éxito")

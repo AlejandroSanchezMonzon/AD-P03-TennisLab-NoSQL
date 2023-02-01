@@ -12,7 +12,8 @@ import java.util.UUID
 @Serializable
 data class Tarea(
     @Id @Contextual
-    val id: ObjectId = ObjectId.get(),
+    //val id: ObjectId = ObjectId.get(),
+    val id: Int,
     @Contextual
     val uuid: UUID = UUID.randomUUID(),
     val precio: Float,

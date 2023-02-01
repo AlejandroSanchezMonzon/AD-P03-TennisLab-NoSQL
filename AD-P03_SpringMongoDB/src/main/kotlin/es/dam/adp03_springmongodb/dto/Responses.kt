@@ -1,4 +1,5 @@
 package es.dam.adp03_springmongodb.dto
+import es.dam.adp03_springmongodb.models.Usuario
 import es.dam.adp03_springmongodb.models.usuarioAPI.Address
 import es.dam.adp03_springmongodb.models.usuarioAPI.Company
 import kotlinx.serialization.Serializable
@@ -14,6 +15,13 @@ data class UsuarioAPIDTO(
     val username: String,
     val website: String
 )
+/*
+@Serializable
+data class GetAllUsuariosDTO(
+    val data: ArrayList<UsuarioAPIDTO>
+)
+
+ */
 
 @Serializable
 data class TareaAPIDTO(
@@ -22,3 +30,10 @@ data class TareaAPIDTO(
     val title: String,
     val userId: Int
 )
+/*
+@Serializable
+data class GetAllTareasDTO(
+    val data: ArrayList<TareaAPIDTO>
+)
+
+ */

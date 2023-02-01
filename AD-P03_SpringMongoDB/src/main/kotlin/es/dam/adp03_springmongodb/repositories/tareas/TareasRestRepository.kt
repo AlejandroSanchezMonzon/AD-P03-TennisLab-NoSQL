@@ -1,5 +1,6 @@
 package es.dam.adp03_springmongodb.repositories.tareas
 
+import es.dam.adp03_springmongodb.dto.TareaAPIDTO
 import es.dam.adp03_springmongodb.exceptions.RestException
 import es.dam.adp03_springmongodb.mappers.toModelTarea
 import es.dam.adp03_springmongodb.models.Tarea
@@ -12,24 +13,24 @@ import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Repository
+import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
 @Repository
-class TareasRestRepository: CRUDRepository<Tarea, ObjectId> {
+class TareasRestRepository: CRUDRepository<Tarea, Int> {
     private val client by lazy { KtorFitClient.instance }
 
     override suspend fun findAll(): Flow<Tarea> = withContext(Dispatchers.IO) {
         logger.debug { "findAll()" }
         val call = client.getAllTareas()
-        val tareas = mutableListOf<Tarea>()
-
-        call.forEach {
-            tareas.add(it.toModelTarea())
-        }
+        val tareas : MutableList<Tarea> = mutableListOf<Tarea>()
 
         try {
             logger.debug { "findAll() - Realizado correctamente." }
+            call.forEach {
+                tareas.add(it.toModelTarea())
+            }
             return@withContext tareas.asFlow()
         } catch (e: Exception) {
             logger.error { "findAll() - Error." }
@@ -37,7 +38,7 @@ class TareasRestRepository: CRUDRepository<Tarea, ObjectId> {
         }
     }
 
-    override suspend fun findById(id: ObjectId): Tarea {
+    override suspend fun findById(id: Int): Tarea {
         logger.debug { "finById(id=$id)" }
         val call = client.getTareaById(id)
         try {
@@ -54,7 +55,14 @@ class TareasRestRepository: CRUDRepository<Tarea, ObjectId> {
         try {
             val res = client.createTarea(entity)
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
-            return res.toModelTarea()
+            return Tarea(
+                id = res.id,
+                uuid = entity.uuid,
+                precio = entity.precio,
+                descripcion = res.title,
+                tipo = entity.tipo,
+                turno = entity.turno
+            )
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
             throw RestException("Error al crear la tarea ${entity.id}: ${e.message}")
@@ -66,10 +74,10 @@ class TareasRestRepository: CRUDRepository<Tarea, ObjectId> {
             val res = client.updateTarea(entity.id, entity)
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
             return Tarea(
-                id = entity.id,
+                id = res.id,
                 uuid = entity.uuid,
                 precio = entity.precio,
-                descripcion = entity.descripcion,
+                descripcion = res.title,
                 tipo = entity.tipo,
                 turno = entity.turno
             )

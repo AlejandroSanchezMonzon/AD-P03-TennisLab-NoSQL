@@ -14,7 +14,7 @@ val usuariosCacheRepository = UsuariosCacheRepository(SqlDeLightClient)
 
 suspend fun TareaAPIDTO.toModelTarea(): Tarea {
     return Tarea(
-        id = ObjectId(id.toString()),
+        id = id,
         uuid = UUID.randomUUID(),
         precio = (1..100).random().toFloat(),
         descripcion = title,

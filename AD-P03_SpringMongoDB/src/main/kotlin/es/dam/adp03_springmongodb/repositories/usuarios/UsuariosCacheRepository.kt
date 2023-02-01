@@ -62,7 +62,7 @@ class UsuariosCacheRepository
         logger.debug { "Cache -> save($entity)" }
         val dto = remote.createUsuario(entity)
         val usuario = Usuario(
-            id = ObjectId(dto.id.toString()),
+            id = entity.id,
             uuid = entity.uuid,
             nombre = dto.name,
             apellido = dto.username,
@@ -90,7 +90,7 @@ class UsuariosCacheRepository
         val dto = remote.updateUsuario(entity.id, entity)
 
         return Usuario(
-            id = ObjectId(dto.id.toString()),
+            id = dto.id,
             uuid = entity.uuid,
             nombre = dto.name,
             apellido = dto.username,

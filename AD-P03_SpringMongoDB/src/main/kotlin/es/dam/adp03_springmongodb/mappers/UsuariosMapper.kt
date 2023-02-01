@@ -11,7 +11,7 @@ import es.dam.adp03_springmongodb.models.Usuario as UsuarioModelo
 
 fun UsuarioSQL.toModel(): UsuarioModelo {
     return UsuarioModelo(
-        id = ObjectId(id.toString()),
+        id = id.toInt(),
         uuid = UUID.fromString(uuid),
         nombre = nombre,
         apellido = apellido,
@@ -35,7 +35,7 @@ fun UsuarioModelo.toUsuarioSQL(): UsuarioSQL {
 
 fun UsuarioAPIDTO.toModelUsuario(): UsuarioModelo {
     return UsuarioModelo(
-        id = ObjectId(id.toString()),
+        id = id,
         uuid = UUID.randomUUID(),
         nombre = name,
         apellido = username,
