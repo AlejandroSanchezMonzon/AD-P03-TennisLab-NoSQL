@@ -26,9 +26,14 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    testImplementation("io.projectreactor:reactor-test")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
 
     // KMongo Asíncrono
     implementation("org.litote.kmongo:kmongo-async:4.7.2")
@@ -66,6 +71,13 @@ dependencies {
 
     // Terminal
     implementation("com.github.ajalt.mordant:mordant:2.0.0-beta8")
+
+
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+
+
+
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
 }
 
 tasks.withType<KotlinCompile> {

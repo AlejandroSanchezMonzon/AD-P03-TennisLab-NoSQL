@@ -63,11 +63,11 @@ class TareasRestRepository: ITareasRepository {
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Tarea(
                 id = res.id.toString(),
-                uuid = UUID.randomUUID(),
+                uuid = entity.uuid,
                 precio = (1..100).random().toFloat(),
                 descripcion = res.title,
-                tipo = randomTareaType(),
-                turno = getTurnosInit().random()
+                tipo = entity.tipo,
+                turno = entity.turno
             )
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
@@ -83,7 +83,7 @@ class TareasRestRepository: ITareasRepository {
                 id = entity.id,
                 uuid = entity.uuid,
                 precio = entity.precio,
-                descripcion = entity.descripcion,
+                descripcion = res.title,
                 tipo = entity.tipo,
                 turno = entity.turno
             )

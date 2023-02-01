@@ -231,7 +231,7 @@ suspend fun getPedidosInit(usuariosRepository: UsuariosCacheRepository) = listOf
  */
 suspend fun getTareasInit(usuariosRepository: UsuariosCacheRepository) = listOf(
     Tarea(
-        id = ObjectId("0"),
+        id = 0,
         uuid = UUID.randomUUID(),
         precio = 100.0f,
         tipo = TipoTarea.ENCORDADO,
@@ -243,7 +243,7 @@ suspend fun getTareasInit(usuariosRepository: UsuariosCacheRepository) = listOf(
         turno = getTurnosInit(usuariosRepository)[0]
     ),
     Tarea(
-        id = ObjectId("1"),
+        id = 1,
         uuid = UUID.randomUUID(),
         precio = 150.0f,
         tipo = TipoTarea.ENCORDADO,
@@ -255,7 +255,7 @@ suspend fun getTareasInit(usuariosRepository: UsuariosCacheRepository) = listOf(
         turno = getTurnosInit(usuariosRepository)[1]
     ),
     Tarea(
-        id = ObjectId("2"),
+        id = 2,
         uuid = UUID.randomUUID(),
         precio = 70.0f,
         tipo = TipoTarea.PERSONALIZACION,
@@ -266,7 +266,7 @@ suspend fun getTareasInit(usuariosRepository: UsuariosCacheRepository) = listOf(
 
     ),
     Tarea(
-        id = ObjectId("3"),
+        id = 3,
         uuid = UUID.randomUUID(),
         precio = 49.99f,
         tipo = TipoTarea.PERSONALIZACION,

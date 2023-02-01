@@ -11,7 +11,8 @@ import java.util.*
 @Serializable
 data class Usuario(
     @Id @Contextual
-    val id: ObjectId = ObjectId.get(),
+    //val id: ObjectId = ObjectId.get(),
+    val id: Int,
     @Contextual
     val uuid: UUID = UUID.randomUUID(),
     val nombre: String,

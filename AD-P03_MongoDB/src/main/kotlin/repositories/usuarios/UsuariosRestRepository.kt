@@ -59,7 +59,8 @@ class UsuariosRestRepository: IUsuariosRepository {
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Usuario(
                 id = res.id.toString(),
-                uuid = UUID.randomUUID(),
+                //TODO si no funciona esto estaba uuid.random()
+                uuid = entity.uuid,
                 nombre = res.name,
                 apellido = res.username,
                 email = res.email,
