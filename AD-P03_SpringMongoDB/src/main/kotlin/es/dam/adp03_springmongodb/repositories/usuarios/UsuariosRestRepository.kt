@@ -23,7 +23,7 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
     private val client by lazy { KtorFitClient.instance }
 
     override suspend fun findAll(): Flow<Usuario> = withContext(Dispatchers.IO) {
-        logger.debug { "findAll()" }
+        logger.info { "findAll()" }
         val call = client.getAllUsuarios()
         val usuarios = mutableListOf<Usuario>()
         call.forEach {
@@ -31,7 +31,7 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
         }
 
         try {
-            logger.debug { "findAll() - Realizado correctamente." }
+            logger.info { "findAll() - Realizado correctamente." }
 
             return@withContext usuarios.asFlow()
         } catch (e: Exception) {
@@ -41,10 +41,10 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
     }
 
     override suspend fun findById(id: ObjectId): Usuario {
-        logger.debug { "finById(id=$id)" }
+        logger.info { "finById(id=$id)" }
         val call = client.getUsuarioById(id)
         try {
-            logger.debug { "findById(id=$id) - Realizado correctamente." }
+            logger.info { "findById(id=$id) - Realizado correctamente." }
             return call.toModelUsuario()
         } catch (e: Exception) {
             logger.error { "findById(id=$id) - Error." }
@@ -53,10 +53,10 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
     }
 
     override suspend fun save(entity: Usuario): Usuario {
-        logger.debug { "save(entity=$entity)" }
+        logger.info { "save(entity=$entity)" }
         try {
             val res = client.createUsuario(entity.toUsuarioAPIDTO())
-            logger.debug { "save(entity=$entity) - Realizado correctamente." }
+            logger.info { "save(entity=$entity) - Realizado correctamente." }
             return res.toModelUsuario()
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
@@ -65,10 +65,10 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
     }
 
     override suspend fun update(entity: Usuario): Usuario {
-        logger.debug { "update(entity=$entity)" }
+        logger.info { "update(entity=$entity)" }
         try {
             val res = client.updateUsuario(entity.id, entity.toUsuarioAPIDTO())
-            logger.debug { "update(entity=$entity) - Realizado correctamente." }
+            logger.info { "update(entity=$entity) - Realizado correctamente." }
             return Usuario(
                 id = ObjectId(res.id.toString().padStart(24, '0')),
                 uuid = entity.uuid,
@@ -85,10 +85,10 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
     }
 
     override suspend fun delete(entity: Usuario): Usuario {
-        logger.debug { "delete(entity=$entity)" }
+        logger.info { "delete(entity=$entity)" }
         try {
             client.deleteUsuario(entity.id)
-            logger.debug { "delete(entity=$entity) - Realizado correctamente." }
+            logger.info { "delete(entity=$entity) - Realizado correctamente." }
             return entity
         } catch (e: Exception) {
             logger.error { "delete(entity=$entity) - Error." }

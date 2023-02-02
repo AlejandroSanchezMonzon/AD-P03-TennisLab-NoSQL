@@ -6,7 +6,7 @@ import es.dam.adp03_springmongodb.utils.readProperties
 import mu.KotlinLogging
 import org.litote.kmongo.KMongo
 
-private val logger = KotlinLogging.logger {  }
+private val logger = KotlinLogging.logger { }
 
 object MongoDbManager {
     private lateinit var mongoClient: MongoClient
@@ -22,7 +22,7 @@ object MongoDbManager {
     private val MONGO_OPTIONS_WINDOWS = properties.getProperty("MONGO_OPTIONS_WINDOWS")
 
     init {
-        logger.debug("Inicializando conexión a la base de datos")
+        logger.info { "Inicializando conexión a la base de datos" }
 
         // Cadena de conexión en LOCAL para MAC: "mongodb://$MONGOUSER:$MONGOPASS@$MONGOHOST/$MONGOBBDD?$MONGO_OPTIONS"
         // Cadena de conexión en LOCAL para Windows: "mongodb://$MONGOHOST/$MONGOBBDD?$MONGO_OPTIONS_WINDOWS"
