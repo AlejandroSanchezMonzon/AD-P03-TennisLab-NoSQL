@@ -33,8 +33,10 @@ class MongoController
     private val usuariosCacheRepository: UsuariosCacheRepository
 ) {
     private lateinit var usuarioSesion: Usuario
+
     fun setUsuarioSesion(usuario: Usuario) {
         usuarioSesion = usuario
+        logger.info { usuarioSesion }
     }
 
     suspend fun descargarDatos() {
@@ -45,7 +47,7 @@ class MongoController
         getUsuariosInit().forEach { usuario ->
             logger.info("save - $usuario")
             usuariosRepository.save(usuario)
-            usuariosCacheRepository.save(usuario)
+//            usuariosCacheRepository.save(usuario)
         }
         getMaquinasInit().forEach { maquina ->
             logger.info("save - $maquina")
@@ -337,33 +339,18 @@ class MongoController
     //TODO la cache no devuelve nulo nunca
     suspend fun encontrarUsuario(id: ObjectId): Usuario? {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
-            if (usuariosCacheRepository.findById(id.toString()) == null) {
-                if (usuariosRepository.findById(id) == null) {
-                    if (usuariosRestRepository.findById(id) == null) {
-                        logger.error("No se ha encontrado el usuario.")
-                        return null
-                    } else {
-                        logger.info("Operación realizada con éxito")
-                        return usuariosRestRepository.findById(id)
-                    }
-                } else {
-                    logger.info("Operación realizada con éxito")
-                    return usuariosRepository.findById(id)
-                }
-            } else {
-                logger.info("Operación realizada con éxito")
-                return usuariosCacheRepository.findById(id.toString())
-            }
+            logger.info("Operación realizada con éxito")
+            return usuariosCacheRepository.findById(id.toString())
         } else {
             logger.error("No está autorizado a realizar esta operación.")
             return null
         }
     }
 
-    fun listarUsuarios(): Flow<List<Usuario>>? {
+    fun listarUsuarios(): Flow<Usuario>? {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
-            return usuariosCacheRepository.findAll()
+            return usuariosRepository.findAll()
         } else {
             logger.error("No está autorizado a realizar esta operación.")
             return null
@@ -418,13 +405,8 @@ class MongoController
         var tareaEncontrada: Tarea? = null
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             if (tareasRepository.findById(id) == null) {
-                if (tareasRestRepository.findById(id) == null) {
-                    logger.error("No se ha encontrado el usuario.")
-                    return null
-                } else {
-                    logger.info("Operación realizada con éxito")
-                    return tareasRestRepository.findById(id)
-                }
+                logger.info("Operación realizada con éxito")
+                return tareasRestRepository.findById(id)
             } else {
                 logger.info("Operación realizada con éxito")
                 return tareasRepository.findById(id)

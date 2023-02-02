@@ -1,0 +1,54 @@
+[
+    {
+        "id": "000000000000000000000003",
+        "uuid": "9e9ab4fb-1d97-46b4-bb53-10596230b0a5",
+        "tareas": "[e55a6f16-ee66-484f-b0c9-d473a166cb0a, bca06b82-ede9-47e1-82dc-ce71fc89b30b]",
+        "productos": "[7fa6ff32-638d-48c7-9e30-395e2c2df959]",
+        "estado": "TERMINADO",
+        "usuario": "fac82837-c871-484f-a06c-71dc1ff66a55",
+        "fechaTope": "2022-12-01",
+        "fechaEntrada": "2022-11-05",
+        "fechaProgramada": "2022-11-28",
+        "fechaEntrega": "2022-11-25",
+        "precio": 50.15
+    },
+    {
+        "id": "000000000000000000000004",
+        "uuid": "e210671d-9bdc-44b0-a862-aa48fad59b6d",
+        "tareas": "[953b8893-509b-4e64-aa40-988228c8c2cb]",
+        "productos": "[]",
+        "estado": "TERMINADO",
+        "usuario": "94da9938-7915-4cde-9f95-0a1e7dc8c379",
+        "fechaTope": "2022-11-14",
+        "fechaEntrada": "2022-09-05",
+        "fechaProgramada": "2022-10-23",
+        "fechaEntrega": "2022-10-23",
+        "precio": 3590.72
+    },
+    {
+        "id": "000000000000000000000003",
+        "uuid": "1480c356-7be2-48ca-8cb1-a86f35d6ec17",
+        "tareas": "[]",
+        "productos": "[]",
+        "estado": "TERMINADO",
+        "usuario": "4ef16176-9323-4299-9ac4-619e2bca79b3",
+        "fechaTope": "2022-12-01",
+        "fechaEntrada": "2022-11-05",
+        "fechaProgramada": "2022-11-28",
+        "fechaEntrega": "2022-11-25",
+        "precio": 50.15
+    },
+    {
+        "id": "000000000000000000000004",
+        "uuid": "1cab297f-6b85-44db-a8a5-db7056750f9a",
+        "tareas": "[]",
+        "productos": "[]",
+        "estado": "TERMINADO",
+        "usuario": "09018853-cf38-493a-b936-79509da56bc5",
+        "fechaTope": "2022-11-14",
+        "fechaEntrada": "2022-09-05",
+        "fechaProgramada": "2022-10-23",
+        "fechaEntrega": "2022-10-23",
+        "precio": 3590.72
+    }
+]

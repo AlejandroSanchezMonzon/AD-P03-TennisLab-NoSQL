@@ -18,10 +18,10 @@ data class Pedido(
     @Contextual
     val uuid: String = UUID.randomUUID().toString(),
     @Field("tareas")
-    @DocumentReference()
+    @DocumentReference
     val tareas: List<Tarea>?,
     @Field("productos")
-    @DocumentReference()
+    @DocumentReference
     val productos: List<Producto>?,
     val estado: TipoEstado,
     val usuario: Usuario,
@@ -36,7 +36,7 @@ data class Pedido(
     val precio: Float
 )
 
-enum class TipoEstado() {
+enum class TipoEstado {
     RECIBIDO,
     EN_PROCESO,
     TERMINADO
