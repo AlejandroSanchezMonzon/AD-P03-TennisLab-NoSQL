@@ -36,38 +36,48 @@ class MongoController
 
     fun setUsuarioSesion(usuario: Usuario) {
         usuarioSesion = usuario
-        logger.info { usuarioSesion }
+    }
+
+    suspend fun deleteAll() {
+        usuariosRepository.deleteAll()
+        pedidosRepository.deleteAll()
+        maquinasRepository.deleteAll()
+        productosRepository.deleteAll()
+        tareasRepository.deleteAll()
+        turnosRepository.deleteAll()
     }
 
     suspend fun descargarDatos() {
+        deleteAll()
+
         usuariosRestRepository.findAll().collect {
-            logger.info("save - $it")
             usuariosRepository.save(it)
+            logger.info("save - $it")
         }
         getUsuariosInit().forEach { usuario ->
-            logger.info("save - $usuario")
             usuariosRepository.save(usuario)
 //            usuariosCacheRepository.save(usuario)
+            logger.info("save - $usuario")
         }
         getMaquinasInit().forEach { maquina ->
-            logger.info("save - $maquina")
             maquinasRepository.save(maquina)
+            logger.info("save - $maquina")
         }
         getProductosInit().forEach { producto ->
-            logger.info("save - $producto")
             productosRepository.save(producto)
+            logger.info("save - $producto")
         }
         getTurnosInit().forEach { turno ->
-            logger.info("save - $turno")
             turnosRepository.save(turno)
+            logger.info("save - $turno")
         }
         getTareasInit().forEach { tarea ->
-            logger.info("save - $tarea")
             tareasRepository.save(tarea)
+            logger.info("save - $tarea")
         }
         getPedidosInit().forEach { pedido ->
-            logger.info("save - $pedido")
             pedidosRepository.save(pedido)
+            logger.info("save - $pedido")
         }
     }
 
@@ -256,13 +266,13 @@ class MongoController
         val encordadoresOcupados: MutableList<Usuario>? = null
         listarPedidos()?.collect { it ->
             it.tareas?.forEach { tarea ->
-                encordadoresOcupados?.add(tarea.turno.encordador)
+                tarea.turno.encordador?.let { it1 -> encordadoresOcupados?.add(it1) }
             }
         }
 
         val encordadoresPedidoActual: MutableList<Usuario>? = null
         pedido.tareas?.forEach { tarea ->
-            encordadoresPedidoActual?.add(tarea.turno.encordador)
+            tarea.turno.encordador?.let { encordadoresPedidoActual?.add(it) }
         }
 
         return isOverTwo

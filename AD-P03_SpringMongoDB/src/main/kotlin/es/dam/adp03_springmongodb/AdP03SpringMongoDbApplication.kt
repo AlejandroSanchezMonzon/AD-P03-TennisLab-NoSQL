@@ -78,18 +78,6 @@ class AdP03SpringMongoDbApplication(
             logger.error { "Imposible sacar el informe." }
         }
 
-        controller.listarUsuarios()?.collect {
-            println(it)
-        }
-
-        controller.listarMaquinas()?.collect {
-            println(it)
-        }
-
-        controller.listarTurnos()?.collect {
-            println(it)
-        }
-
         //Listado de asignaciones para los encordadores por fecha en JSON.
         try {
             val asignaciones = controller.listarTurnos()?.toList()

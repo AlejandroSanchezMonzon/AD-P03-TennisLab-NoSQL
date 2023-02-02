@@ -342,7 +342,7 @@ suspend fun getTareasInit() = listOf(
 
 fun getMaquinasInit() = listOf(
     Maquina(
-        id = ObjectId(50.toString().padStart(24, '0')),
+        id = ObjectId(0.toString().padStart(24, '0')),
         uuid = UUID.randomUUID().toString(),
         marca = "Vevor",
         modelo = "2021",
