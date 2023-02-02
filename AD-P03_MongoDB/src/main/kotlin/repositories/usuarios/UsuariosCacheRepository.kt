@@ -6,7 +6,6 @@ package repositories.usuarios
 
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
-import exceptions.RestException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import mappers.toModel
 import mappers.toModelUsuario
+import mappers.toUsuarioAPIDTO
 import models.Usuario
 import mu.KotlinLogging
 import org.koin.core.annotation.Named

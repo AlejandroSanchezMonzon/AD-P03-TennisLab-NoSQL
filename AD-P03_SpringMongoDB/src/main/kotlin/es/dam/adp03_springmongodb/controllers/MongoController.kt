@@ -238,14 +238,6 @@ class MongoController
     }
 
     suspend fun listarPedidos(): Flow<Pedido>? {
-        try {
-            pedidosRepository.findAll().collect {
-                println(it)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR) {
             logger.info("Operación realizada con éxito")
             pedidosRepository.findAll()

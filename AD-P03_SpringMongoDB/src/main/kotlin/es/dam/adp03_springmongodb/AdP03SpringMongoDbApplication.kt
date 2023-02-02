@@ -33,36 +33,61 @@ class AdP03SpringMongoDbApplication(
         controller.setUsuarioSesion(usuarioSesion)
 
         //Información completa en JSON de un pedido.
-        val pedido = controller.encontrarPedido(ObjectId("1".padStart(24, '0')))!!.toPedidoDTO()
-        serviceJSON.writePedido("Informacion_completa_pedido", listOf(pedido))
-        logger.info { "Informe de pedido único realizado." }
+        try {
+            val pedido = controller.encontrarPedido(ObjectId("1".padStart(24, '0')))!!.toPedidoDTO()
+
+            serviceJSON.writePedido("Informacion_completa_pedido", listOf(pedido))
+            logger.info { "Informe de pedido único realizado." }
+        } catch (e: NullPointerException) {
+            logger.error { "Imposible sacar el informe." }
+        }
 
         //Listado de pedidos pendientes en JSON.
-        val pedidosPendientes = controller.listarPedidos()?.toList()
-            ?.filter { it.estado == TipoEstado.EN_PROCESO }
-            ?.map { it.toPedidoDTO() }
-        serviceJSON.writePedido("listado_pedidos_pendientes", pedidosPendientes!!)
-        logger.info { "Informe de pedidos pendientes realizado." }
+        try {
+            val pedidosPendientes = controller.listarPedidos()?.toList()
+                ?.filter { it.estado == TipoEstado.EN_PROCESO }
+                ?.map { it.toPedidoDTO() }
+
+            serviceJSON.writePedido("listado_pedidos_pendientes", pedidosPendientes!!)
+            logger.info { "Informe de pedidos pendientes realizado." }
+        } catch (e: NullPointerException) {
+            logger.error { "Imposible sacar el informe." }
+        }
 
         //Listado de pedidos completados en JSON.
-        val pedidosCompletados = controller.listarPedidos()?.toList()
-            ?.filter { it.estado == TipoEstado.TERMINADO }
-            ?.map { it.toPedidoDTO() }
-        serviceJSON.writePedido("listado_pedidos_completados", pedidosCompletados!!)
-        logger.info { "Informe de pedidos completados realizado." }
+        try {
+            val pedidosCompletados = controller.listarPedidos()?.toList()
+                ?.filter { it.estado == TipoEstado.TERMINADO }
+                ?.map { it.toPedidoDTO() }
+
+            serviceJSON.writePedido("listado_pedidos_completados", pedidosCompletados!!)
+            logger.info { "Informe de pedidos completados realizado." }
+        } catch (e: NullPointerException) {
+            logger.error { "Imposible sacar el informe." }
+        }
 
         //Listado de productos y servicios que ofrecemos en JSON.
-        val productos = controller.listarProductos()?.toList()
-            ?.map { it.toProductoDTO() }
-        serviceJSON.writeProducto("productos_ofrecidos", productos!!)
-        logger.info { "Informe de productos y servicios realizado." }
+        try {
+            val productos = controller.listarProductos()?.toList()
+                ?.map { it.toProductoDTO() }
+
+            serviceJSON.writeProducto("productos_ofrecidos", productos!!)
+            logger.info { "Informe de productos y servicios realizado." }
+        } catch (e: NullPointerException) {
+            logger.error { "Imposible sacar el informe." }
+        }
 
         //Listado de asignaciones para los encordadores por fecha en JSON.
-        val asignaciones = controller.listarTurnos()?.toList()
-            ?.sortedBy { it.comienzo }
-            ?.map { it.toTurnoDTO() }
-        serviceJSON.writeTurno("listado_asignaciones_encordadores_por_fecha", asignaciones!!)
-        logger.info { "Informe de asignaciones realizado." }
+        try {
+            val asignaciones = controller.listarTurnos()?.toList()
+                ?.sortedBy { it.comienzo }
+                ?.map { it.toTurnoDTO() }
+
+            serviceJSON.writeTurno("listado_asignaciones_encordadores_por_fecha", asignaciones!!)
+            logger.info { "Informe de asignaciones realizado." }
+        } catch (e: NullPointerException) {
+            logger.error { "Imposible sacar el informe." }
+        }
     }
 }
 
