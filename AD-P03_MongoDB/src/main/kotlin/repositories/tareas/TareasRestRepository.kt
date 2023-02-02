@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
 import mappers.toModelTarea
-import mappers.toModelUsuario
 import mappers.toTareaAPIDTO
 import models.Tarea
 import mu.KotlinLogging
@@ -23,7 +22,7 @@ private val logger = KotlinLogging.logger {}
 
 @Single
 @Named("TareasRestRepository")
-class TareasRestRepository: ITareasRepository {
+class TareasRestRepository : ITareasRepository {
 
     private val client by lazy { KtorFitClient.instance }
 
@@ -102,7 +101,8 @@ class TareasRestRepository: ITareasRepository {
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
             throw RestException("Error al crear la tarea ${entity.id}: ${e.message}")
-        }    }
+        }
+    }
 
     /**
      * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
@@ -120,7 +120,14 @@ class TareasRestRepository: ITareasRepository {
         try {
             val res = client.updateTarea(entity.id, entity.toTareaAPIDTO())
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
-            return res.toModelTarea()
+            return Tarea(
+                id = res.id.toString(),
+                uuid = entity.uuid,
+                precio = entity.precio,
+                descripcion = res.title,
+                tipo = entity.tipo,
+                turno = entity.turno
+            )
         } catch (e: RestException) {
             logger.error { "update(entity=$entity) - Error." }
             throw RestException("Error al actualizar la tarea con id ${entity.id}: ${e.message}")
