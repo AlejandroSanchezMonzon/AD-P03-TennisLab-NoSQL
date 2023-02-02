@@ -79,6 +79,11 @@ dependencies {
     // Debemos añadir el JUnit 5 y no usar el Junit 5 que ya trae Kotlin, si wuremos Koin Test
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
+    // JUnit y Mockito
+    testImplementation("io.mockk:mockk:1.13.2")
+
+
 }
 
 tasks.test {

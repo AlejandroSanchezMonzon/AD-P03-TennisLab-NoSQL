@@ -1,7 +1,7 @@
 [
     {
         "id": "0",
-        "uuid": "efc0f3aa-828c-4003-bb54-875772b32214",
+        "uuid": "9a3a3056-0962-486e-a438-79e914a6baf6",
         "tipo": "COMPLEMENTO",
         "marca": "ADIDAS",
         "modelo": "33-A",
@@ -10,7 +10,7 @@
     },
     {
         "id": "1",
-        "uuid": "ce23c2b4-0ca8-476a-a7a7-fd6130e871a7",
+        "uuid": "e3cd1e03-d22d-45f5-98ab-07780dfe79ff",
         "tipo": "RAQUETA",
         "marca": "DUNLOP",
         "modelo": "XXL",
@@ -19,7 +19,7 @@
     },
     {
         "id": "2",
-        "uuid": "948082f9-ab25-40b3-a783-1bf0267a9248",
+        "uuid": "193a4fda-9430-49ac-8943-1243a9c048e6",
         "tipo": "COMPLEMENTO",
         "marca": "J'HAYBER",
         "modelo": "Ultimate",
@@ -28,7 +28,7 @@
     },
     {
         "id": "3",
-        "uuid": "58ed3f24-16d2-4546-82f4-d74603208104",
+        "uuid": "a754b282-2cb2-44dd-8d51-49e5c558cc1f",
         "tipo": "CORDAJE",
         "marca": "JOMA",
         "modelo": "5-7B",
@@ -37,7 +37,7 @@
     },
     {
         "id": "4",
-        "uuid": "e33cd8b4-0f64-451e-9ee7-f0c3cfff101e",
+        "uuid": "e8691f34-9c30-48ba-a6ae-8d0797f68d32",
         "tipo": "CORDAJE",
         "marca": "ADIDAS",
         "modelo": "Sport",
@@ -46,7 +46,7 @@
     },
     {
         "id": "5",
-        "uuid": "0d0d39ff-5c2d-4534-ac04-24ea904c1e6e",
+        "uuid": "64cdb0e0-643f-425a-ac91-408118d4e937",
         "tipo": "RAQUETA",
         "marca": "BULLPADEL",
         "modelo": "2023",
@@ -55,7 +55,7 @@
     },
     {
         "id": "6",
-        "uuid": "583caa82-3d12-40dd-8a6c-9171d1ff40f6",
+        "uuid": "0627f95b-01a1-42bc-ad0f-ad512ec79974",
         "tipo": "RAQUETA",
         "marca": "DUNLOP",
         "modelo": "Origin",
@@ -64,7 +64,7 @@
     },
     {
         "id": "7",
-        "uuid": "f8b90e91-df98-4550-94a2-8d4bd23e4d1e",
+        "uuid": "0312145a-0c45-47d4-ab53-da35fb28b1f1",
         "tipo": "COMPLEMENTO",
         "marca": "ASICS",
         "modelo": "Retro",
@@ -73,7 +73,7 @@
     },
     {
         "id": "8",
-        "uuid": "c36fbcd1-6667-421e-87a9-c4c296a6ed62",
+        "uuid": "16537a53-d9d4-4d24-baae-ada0aed8ac92",
         "tipo": "CORDAJE",
         "marca": "ASICS",
         "modelo": "Seller",
@@ -82,7 +82,7 @@
     },
     {
         "id": "9",
-        "uuid": "3687f670-f586-463a-96a3-263521a5cd83",
+        "uuid": "9c12fea6-6420-4b97-be57-d900c1d3d2cd",
         "tipo": "CORDAJE",
         "marca": "BABOLAT",
         "modelo": "2002",

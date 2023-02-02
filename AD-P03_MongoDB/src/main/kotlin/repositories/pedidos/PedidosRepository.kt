@@ -1,7 +1,10 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
 package repositories.pedidos
 
 import db.MongoDbManager
-import exceptions.DataBaseException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import models.Pedido
@@ -18,30 +21,79 @@ private val logger = KotlinLogging.logger {}
 @Single
 @Named("PedidosRepository")
 class PedidosRepository: IPedidosRepository {
+
+    /**
+     * Método encargado de utilizar el objeto MongoDbManager para acceder a la base de datos de Mongo y a través
+     * de la búsqueda de la coleccion Pedido, ejecutar un método que devuelve un iterable de todos los objetos que hay en esa colección.
+     *
+     * @return Flow<Pedido>, el flujo de objetos encontrados en la colección.
+     */
     override suspend fun findAll(): Flow<Pedido> {
         logger.debug { "findAll()" }
         return MongoDbManager.database.getCollection<Pedido>().find().asFlow()
     }
 
-    override suspend fun findById(id: String): Pedido {
+    /**
+     * Método encargado de utilizar el objeto MongoDbManager para acceder a la base de datos de Mongo y a través
+     * de la búsqueda de la coleccion Pedido, ejecutar un método que devuelve el primer objeto con un identificador dado.
+     *
+     * @param id identificador de tipo String del objeto a consultar.
+     *
+     * @return Pedido?, el objeto que tiene el identificador introducido por parámetros, si no se encuentra, devolverá nulo.
+     */
+    override suspend fun findById(id: String): Pedido? {
         logger.debug { "findById($id)" }
-        return (MongoDbManager.database.getCollection<Pedido>()
-            .findOneById(id) ?: throw DataBaseException("No existe el pedido con id $id"))
+        return MongoDbManager.database.getCollection<Pedido>()
+            .findOneById(id)
     }
 
+    /**
+     * Método encargado de utilizar el objeto MongoDbManager para acceder a la base de datos de Mongo y a través
+     * de la búsqueda de la coleccion Pedido, ejecutar un método que no devuelve ni lanza ninguna excepción si
+     * la operación ha sido exitosa.
+     *
+     * @param entity Objeto a insetar en la base de datos.
+     *
+     * @return Pedido, el objeto que ha sido insertado.
+     */
     override suspend fun save(entity: Pedido): Pedido {
         logger.debug { "save($entity) - guardando" }
         return MongoDbManager.database.getCollection<Pedido>()
             .save(entity).let { entity }    }
 
+    /**
+     * Método encargado de utilizar el objeto MongoDbManager para acceder a la base de datos de Mongo y a través
+     * de la búsqueda de la coleccion Pedido, ejecutar un método que no devuelve ni lanza ninguna excepción si
+     * la operación ha sido exitosa. La operación realizará una actualización del objeto cuyo identificador sea
+     * el mismo que el del objeto introducido por parámetros y en caso de que no lo encuentré añadirá un nuevo objeto
+     * con sus valores.
+     *
+     * @param entity Objeto a actualizar en la base de datos.
+     *
+     * @return Pedido, el objeto que ha sido actualizado o insertado.
+     */
     override suspend fun update(entity: Pedido): Pedido {
         logger.debug { "save($entity) - actualizando" }
         return MongoDbManager.database.getCollection<Pedido>()
             .save(entity).let { entity }    }
 
-    override suspend fun delete(entity: Pedido): Pedido {
+    /**
+     * Método encargado de utilizar el objeto MongoDbManager para acceder a la base de datos de Mongo y a través
+     * de la búsqueda de la coleccion Pedido, ejecutar un método que devuelve un DeleteResult el cual va a devolver
+     * True si el cambio es conocido. Lanza una excepción en caso contrario.
+     *
+     * @param entity Objeto a borrar en la base de datos.
+     *
+     * @return Pedido?, el objeto introducido por parámetros, si no se encuentra, devolverá nulo.
+     */
+    override suspend fun delete(entity: Pedido): Pedido? {
         logger.debug { "delete($entity) - borrando" }
-        return MongoDbManager.database.getCollection<Pedido>()
-            .deleteOneById(entity.id).let { entity }
+        val result = MongoDbManager.database.getCollection<Pedido>()
+            .deleteOneById(entity.id)
+        return if(!result.wasAcknowledged()){
+            entity
+        }else{
+            null
+        }
     }
 }
