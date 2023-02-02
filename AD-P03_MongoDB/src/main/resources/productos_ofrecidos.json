@@ -1,0 +1,92 @@
+[
+    {
+        "id": "0",
+        "uuid": "9a3a3056-0962-486e-a438-79e914a6baf6",
+        "tipo": "COMPLEMENTO",
+        "marca": "ADIDAS",
+        "modelo": "33-A",
+        "precio": 15.5,
+        "stock": 35
+    },
+    {
+        "id": "1",
+        "uuid": "e3cd1e03-d22d-45f5-98ab-07780dfe79ff",
+        "tipo": "RAQUETA",
+        "marca": "DUNLOP",
+        "modelo": "XXL",
+        "precio": 20.0,
+        "stock": 10
+    },
+    {
+        "id": "2",
+        "uuid": "193a4fda-9430-49ac-8943-1243a9c048e6",
+        "tipo": "COMPLEMENTO",
+        "marca": "J'HAYBER",
+        "modelo": "Ultimate",
+        "precio": 9.99,
+        "stock": 20
+    },
+    {
+        "id": "3",
+        "uuid": "a754b282-2cb2-44dd-8d51-49e5c558cc1f",
+        "tipo": "CORDAJE",
+        "marca": "JOMA",
+        "modelo": "5-7B",
+        "precio": 4.99,
+        "stock": 100
+    },
+    {
+        "id": "4",
+        "uuid": "e8691f34-9c30-48ba-a6ae-8d0797f68d32",
+        "tipo": "CORDAJE",
+        "marca": "ADIDAS",
+        "modelo": "Sport",
+        "precio": 79.95,
+        "stock": 18
+    },
+    {
+        "id": "5",
+        "uuid": "64cdb0e0-643f-425a-ac91-408118d4e937",
+        "tipo": "RAQUETA",
+        "marca": "BULLPADEL",
+        "modelo": "2023",
+        "precio": 1200.0,
+        "stock": 1
+    },
+    {
+        "id": "6",
+        "uuid": "0627f95b-01a1-42bc-ad0f-ad512ec79974",
+        "tipo": "RAQUETA",
+        "marca": "DUNLOP",
+        "modelo": "Origin",
+        "precio": 12.0,
+        "stock": 11
+    },
+    {
+        "id": "7",
+        "uuid": "0312145a-0c45-47d4-ab53-da35fb28b1f1",
+        "tipo": "COMPLEMENTO",
+        "marca": "ASICS",
+        "modelo": "Retro",
+        "precio": 12.15,
+        "stock": 89
+    },
+    {
+        "id": "8",
+        "uuid": "16537a53-d9d4-4d24-baae-ada0aed8ac92",
+        "tipo": "CORDAJE",
+        "marca": "ASICS",
+        "modelo": "Seller",
+        "precio": 3.99,
+        "stock": 96
+    },
+    {
+        "id": "9",
+        "uuid": "9c12fea6-6420-4b97-be57-d900c1d3d2cd",
+        "tipo": "CORDAJE",
+        "marca": "BABOLAT",
+        "modelo": "2002",
+        "precio": 8.75,
+        "stock": 90
+    }
+]

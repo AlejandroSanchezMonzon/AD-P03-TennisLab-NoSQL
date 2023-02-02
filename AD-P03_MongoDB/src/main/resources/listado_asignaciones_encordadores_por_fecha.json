@@ -1,0 +1,26 @@
+[
+    {
+        "id": "2",
+        "uuid": "a30ff3b9-07c8-4de5-985a-03c2934c6c1e",
+        "comienzo": "2022-12-01T09:00",
+        "final": "2022-12-02T20:00",
+        "maquina": "cfb67f0f-e8ce-4bf1-ba62-49a2d7448389",
+        "encordador": "6f6d31b8-2017-4ced-9e9f-bbdbd7b498e7"
+    },
+    {
+        "id": "1",
+        "uuid": "6e16ff16-124d-41a9-a02f-36dab84391da",
+        "comienzo": "2022-12-05T16:05",
+        "final": "2022-12-06T09:00",
+        "maquina": "caff79e0-432d-4e9f-bdcd-f06e256a3dd7",
+        "encordador": "6f6d31b8-2017-4ced-9e9f-bbdbd7b498e7"
+    },
+    {
+        "id": "0",
+        "uuid": "07067756-1b79-462a-8ca9-34e89ede1b63",
+        "comienzo": "2022-12-07T17:48",
+        "final": "2022-12-07T18:30",
+        "maquina": "5745ea83-2604-4668-862f-6bf482c8f13f",
+        "encordador": "6f6d31b8-2017-4ced-9e9f-bbdbd7b498e7"
+    }
+]

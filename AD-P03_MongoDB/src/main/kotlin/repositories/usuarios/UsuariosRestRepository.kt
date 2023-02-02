@@ -1,3 +1,7 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
 package repositories.usuarios
 
 import exceptions.RestException
@@ -23,6 +27,15 @@ class UsuariosRestRepository: IUsuariosRepository {
 
     private val client by lazy { KtorFitClient.instance }
 
+    /**
+     * Método encargado de utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve una lista de todos los objetos que hay
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @throws RestException, cuando no ha sido posible devolver los objetos encontradas como un flujo.
+     *
+     * @return Flow<Usuario>, el flujo de objetos encontrados transfromados a modelo.
+     */
     override suspend fun findAll(): Flow<Usuario> = withContext(Dispatchers.IO) {
         logger.debug { "findAll()" }
         val call = client.getAllUsuarios()
@@ -41,6 +54,15 @@ class UsuariosRestRepository: IUsuariosRepository {
         }
     }
 
+    /**
+     * Método encargado de utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto con el identificador dado que hay
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @param id identificador de tipo String del objeto a consultar.
+     *
+     * @return Usuario?, el objeto que tiene el identificador introducido por parámetros, si no se encuentra, devolverá nulo.
+     */
     override suspend fun findById(id: String): Usuario {
         logger.debug { "finById(id=$id)" }
         val call = client.getUsuarioById(id)
@@ -53,18 +75,48 @@ class UsuariosRestRepository: IUsuariosRepository {
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto a insertar
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @param entity Objeto a insetar en la base de datos.
+     *
+     * @throws RestException, cuando no ha sido posible insertar el objeto.
+     *
+     * @return Usuario, el objeto que ha sido insertado.
+     */
     override suspend fun save(entity: Usuario): Usuario {
         logger.debug { "save(entity=$entity)" }
         try {
             val res = client.createUsuario(entity.toUsuarioAPIDTO())
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
-            return res.toModelUsuario()
+            return Usuario(
+                id = res.id.toString(),
+                uuid = entity.uuid,
+                nombre = res.name,
+                apellido = res.username,
+                email = res.email,
+                password = cifrarPassword(entity.password),
+                rol = entity.rol
+            )
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
             throw RestException("Error al crear el usuario ${entity.id}: ${e.message}")
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto a actualizar
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @param entity Objeto a actualizar en la base de datos.
+     *
+     * @throws RestException, cuando no ha sido posible actualizar el objeto.
+     *
+     * @return Usuario, el objeto que ha sido actualizado o insertado.
+     */
     override suspend fun update(entity: Usuario): Usuario {
         logger.debug { "update(entity=$entity)" }
         try {
@@ -85,6 +137,17 @@ class UsuariosRestRepository: IUsuariosRepository {
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto a eliminar
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @param entity Objeto a borrar en la base de datos.
+     *
+     * @throws RestException, cuando no ha sido posible borrar el objeto.
+     *
+     * @return Usuario, el objeto introducido por parámetros.
+     */
     override suspend fun delete(entity: Usuario): Usuario {
         logger.debug { "delete(entity=$entity)" }
         try {
