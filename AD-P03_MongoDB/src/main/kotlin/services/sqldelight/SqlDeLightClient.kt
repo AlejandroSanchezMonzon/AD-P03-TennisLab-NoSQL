@@ -1,3 +1,7 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
 package services.sqldelight
 
 import com.squareup.sqldelight.db.SqlDriver

@@ -57,7 +57,7 @@
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <output-test url="file://$MODULE_DIR$/../../build/classes/java/test" />
+    <output-test url="file://$MODULE_DIR$/../../build/classes/kotlin/test" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../src/test">
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/kotlin" isTestSource="true" />

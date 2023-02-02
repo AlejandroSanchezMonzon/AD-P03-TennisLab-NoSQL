@@ -1,3 +1,7 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
 package db
 
 import com.mongodb.client.MongoClient
@@ -10,10 +14,10 @@ import utils.readProperties
 private val logger = KotlinLogging.logger {}
 
 object MongoDbManager {
-    private lateinit var mongoClient: MongoClient
-    lateinit var database: MongoDatabase
+    private  var mongoClient: MongoClient
+    var database: MongoDatabase
 
-    val properties = readProperties()
+    private val properties = readProperties()
 
     private val MONGOHOST = properties.getProperty("MONGO_HOST")
     private val MONGOPASS = properties.getProperty("MONGO_INITDB_ROOT_PASSWORD")

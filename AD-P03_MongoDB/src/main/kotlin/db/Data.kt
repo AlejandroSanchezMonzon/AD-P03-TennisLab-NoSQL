@@ -1,3 +1,7 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
 package db
 
 import kotlinx.coroutines.flow.filter
@@ -10,6 +14,11 @@ import java.util.*
 
 val usuariosRepository = UsuariosRepository()
 
+/**
+ * Función que contiene una lista de Turnos con datos ficticios de prueba.
+ *
+ * @return La lista de Turnos.
+ */
 suspend fun getTurnosInit() = listOf(
     Turno(
         id = "0",
@@ -49,7 +58,6 @@ suspend fun getTurnosInit() = listOf(
  *
  * @return La lista de Productos.
  */
-
 fun getProductosInit() = listOf(
     Producto(
         id = "0",
@@ -148,7 +156,6 @@ fun getProductosInit() = listOf(
  *
  * @return La lista de Pedidos.
  */
-
 suspend fun getPedidosInit() = listOf(
     Pedido(
         id = "0",
@@ -285,7 +292,6 @@ suspend fun getTareasInit() = listOf(
  *
  * @return La lista de Máquinas.
  */
-
 fun getMaquinasInit() = listOf(
     Maquina(
         id = "0",
