@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
 import mappers.toModelTarea
+import mappers.toModelUsuario
+import mappers.toTareaAPIDTO
 import models.Tarea
 import mu.KotlinLogging
 import org.koin.core.annotation.Named
@@ -87,7 +89,7 @@ class TareasRestRepository: ITareasRepository {
     override suspend fun save(entity: Tarea): Tarea {
         logger.debug { "save(entity=$entity)" }
         try {
-            val res = client.createTarea(entity)
+            val res = client.createTarea(entity.toTareaAPIDTO())
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Tarea(
                 id = res.id.toString(),
@@ -116,16 +118,9 @@ class TareasRestRepository: ITareasRepository {
     override suspend fun update(entity: Tarea): Tarea {
         logger.debug { "update(entity=$entity)" }
         try {
-            val res = client.updateTarea(entity.id, entity)
+            val res = client.updateTarea(entity.id, entity.toTareaAPIDTO())
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
-            return Tarea(
-                id = entity.id,
-                uuid = entity.uuid,
-                precio = entity.precio,
-                descripcion = res.title,
-                tipo = entity.tipo,
-                turno = entity.turno
-            )
+            return res.toModelTarea()
         } catch (e: RestException) {
             logger.error { "update(entity=$entity) - Error." }
             throw RestException("Error al actualizar la tarea con id ${entity.id}: ${e.message}")

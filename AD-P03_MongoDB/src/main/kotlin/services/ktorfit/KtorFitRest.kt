@@ -40,7 +40,7 @@ interface KtorFitRest {
      * @return UsuarioAPIDTO, el usuario insertado con los atributos que tiene en la API REST.
      */
     @POST("users")
-    suspend fun createUsuario(@Body usuario: Usuario): UsuarioAPIDTO
+    suspend fun createUsuario(@Body usuario: UsuarioAPIDTO): UsuarioAPIDTO
 
     /**
      * Método encargado de acceder a la API REST para actualizar un usuario cuyo id y demás atributos
@@ -52,7 +52,7 @@ interface KtorFitRest {
      * @return UsuarioAPIDTO, el usuario insertado con los atributos que tiene en la API REST.
      */
     @PUT("users/{id}")
-    suspend fun updateUsuario(@Path("id") id: String, @Body usuario: Usuario): UsuarioAPIDTO
+    suspend fun updateUsuario(@Path("id") id: String, @Body usuario: UsuarioAPIDTO): UsuarioAPIDTO
 
     /**
      * Método encargado de acceder a la API REST para borrar el usuario cuyo id es dado por parámetros.
@@ -93,7 +93,7 @@ interface KtorFitRest {
      * @return TareaAPIDTO, la tarea insertada con los atributos que tiene en la API REST.
      */
     @POST("todos")
-    suspend fun createTarea(@Body tarea: Tarea): TareaAPIDTO
+    suspend fun createTarea(@Body tarea: TareaAPIDTO): TareaAPIDTO
 
     /**
      * Método encargado de acceder a la API REST para actualizar una tarea cuyo id y demás
@@ -105,7 +105,7 @@ interface KtorFitRest {
      * @return UsuarioAPIDTO, el usuario insertado con los atributos que tiene en la API REST.
      */
     @PUT("todos/{id}")
-    suspend fun updateTarea(@Path("id") id: String, @Body tarea: Tarea): TareaAPIDTO
+    suspend fun updateTarea(@Path("id") id: String, @Body tarea: TareaAPIDTO): TareaAPIDTO
 
     /**
      * Método encargado de acceder a la API REST para borrar la tarea cuyo id es dado por parámetros.

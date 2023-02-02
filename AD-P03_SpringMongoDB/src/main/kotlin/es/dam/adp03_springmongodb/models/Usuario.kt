@@ -11,10 +11,9 @@ import java.util.*
 @Serializable
 data class Usuario(
     @Id @Contextual
-    //val id: ObjectId = ObjectId.get(),
-    val id: Int,
+    val id: ObjectId = ObjectId.get(),
     @Contextual
-    val uuid: UUID = UUID.randomUUID(),
+    val uuid: String = UUID.randomUUID().toString(),
     val nombre: String,
     val apellido: String,
     val email: String,
@@ -22,7 +21,7 @@ data class Usuario(
     var rol: TipoUsuario
 )
 
-enum class TipoUsuario(){
+enum class TipoUsuario() {
     ADMIN_ENCARGADO,
     ADMIN_JEFE,
     ENCORDADOR,

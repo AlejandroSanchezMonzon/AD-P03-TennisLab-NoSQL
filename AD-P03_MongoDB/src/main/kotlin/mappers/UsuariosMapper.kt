@@ -48,3 +48,16 @@ fun UsuarioAPIDTO.toModelUsuario(): Usuario {
         rol = randomUserType()
     )
 }
+
+fun UsuarioModelo.toUsuarioAPIDTO(): UsuarioAPIDTO {
+    return UsuarioAPIDTO(
+        id = id.toInt(),
+        address = null,
+        company = null,
+        name = nombre,
+        username = apellido,
+        email = email,
+        phone = null,
+        website = null
+    )
+}

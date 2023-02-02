@@ -2,24 +2,34 @@ package es.dam.adp03_springmongodb.utils
 
 import com.github.ajalt.mordant.terminal.Terminal
 import es.dam.adp03_springmongodb.models.Usuario
-import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosCacheRepository
-import es.dam.adp03_springmongodb.services.sqldelight.SqlDeLightClient
+import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosRestRepository
+import kotlinx.coroutines.flow.toList
 
+private val terminal = Terminal()
+private val usuariosRestRepository = UsuariosRestRepository()
 
-val usuariosCacheRepository = UsuariosCacheRepository(SqlDeLightClient)
-val terminal = Terminal()
+suspend fun logIn(): Usuario {
+    var usuarioEncontrado: Usuario?
 
-suspend fun logIn(): Usuario? {
     println("¡Bienvenid@ a la gestión de TennisLab!")
-    val email = terminal.prompt("Por favor, ingrese su correo.")?.trimIndent().orEmpty()
-    val password = terminal.prompt("Por favor, ingrese su contraseña.")?.trimIndent().orEmpty()
 
-    var usuarioEncontrado : Usuario? = null
-    usuariosCacheRepository.findAll().collect { usuarios ->
-        usuarioEncontrado = usuarios.filter { usuario ->
-            usuario.email == email && usuario.password == password
-        }[0]
-    }
+    do {
+        val email = terminal.prompt("Por favor, ingrese su correo.")?.trimIndent().orEmpty()
+        val password = terminal.prompt("Por favor, ingrese su contraseña.")?.trimIndent().orEmpty()
+
+        val usuariosAPI = usuariosRestRepository.findAll().toList()
+
+        usuarioEncontrado = usuariosAPI.firstOrNull {
+            it.email == email && it.password == cifrarPassword(password)
+        }
+
+        if (usuarioEncontrado != null) {
+            println("¡Bienvenido ${usuarioEncontrado.nombre}!")
+        } else {
+            println("Email o contraseña incorrectos.")
+        }
+
+    } while (usuarioEncontrado == null)
+
     return usuarioEncontrado
-
 }

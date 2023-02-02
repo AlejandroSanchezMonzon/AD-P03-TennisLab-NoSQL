@@ -10,5 +10,5 @@ data class ProductoDTO(
     val marca: String,
     val modelo: String,
     val precio: Float,
-    val stock: Int
+    val stock: Long
 )

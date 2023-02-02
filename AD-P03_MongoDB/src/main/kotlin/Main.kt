@@ -25,7 +25,6 @@ fun main() = runBlocking {
         printLogger()
         modules(
             // Cambiar módulo por defecto con DiAnnotationModule.module()
-
             defaultModule
         )
     }

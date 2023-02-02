@@ -14,12 +14,12 @@ data class Maquina(
     @Id @Contextual
     val id: ObjectId = ObjectId.get(),
     @Contextual
-    val uuid: UUID = UUID.randomUUID(),
+    val uuid: String = UUID.randomUUID().toString(),
     val marca: String,
     val modelo: String,
     @Contextual
     val fechaAdquisicion: LocalDate,
-    val numeroSerie: Int,
+    val numeroSerie: Long,
     val tipo: TipoMaquina,
     val descripcion: String
 )

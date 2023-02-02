@@ -1,7 +1,8 @@
 package es.dam.adp03_springmongodb.repositories.usuarios
 
 import es.dam.adp03_springmongodb.exceptions.RestException
-import es.dam.adp03_springmongodb.models.TipoUsuario
+import es.dam.adp03_springmongodb.mappers.toModelUsuario
+import es.dam.adp03_springmongodb.mappers.toUsuarioAPIDTO
 import es.dam.adp03_springmongodb.models.Usuario
 import es.dam.adp03_springmongodb.repositories.CRUDRepository
 import es.dam.adp03_springmongodb.services.ktorfit.KtorFitClient
@@ -10,15 +11,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
-import mappers.toModelUsuario
 import mu.KotlinLogging
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Repository
-import java.util.*
 
 private val logger = KotlinLogging.logger {}
+
 @Repository
-class UsuariosRestRepository: CRUDRepository<Usuario, Int> {
+class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
 
     private val client by lazy { KtorFitClient.instance }
 
@@ -40,7 +40,7 @@ class UsuariosRestRepository: CRUDRepository<Usuario, Int> {
         }
     }
 
-    override suspend fun findById(id: Int): Usuario {
+    override suspend fun findById(id: ObjectId): Usuario {
         logger.debug { "finById(id=$id)" }
         val call = client.getUsuarioById(id)
         try {
@@ -55,17 +55,9 @@ class UsuariosRestRepository: CRUDRepository<Usuario, Int> {
     override suspend fun save(entity: Usuario): Usuario {
         logger.debug { "save(entity=$entity)" }
         try {
-            val res = client.createUsuario(entity)
+            val res = client.createUsuario(entity.toUsuarioAPIDTO())
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
-            return Usuario(
-                id = res.id,
-                uuid = entity.uuid,
-                nombre = res.name,
-                apellido = res.username,
-                email = res.email,
-                password = cifrarPassword(entity.password),
-                rol = entity.rol
-            )
+            return res.toModelUsuario()
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
             throw RestException("Error al crear el usuario ${entity.id}: ${e.message}")
@@ -75,10 +67,10 @@ class UsuariosRestRepository: CRUDRepository<Usuario, Int> {
     override suspend fun update(entity: Usuario): Usuario {
         logger.debug { "update(entity=$entity)" }
         try {
-            val res = client.updateUsuario(entity.id, entity)
+            val res = client.updateUsuario(entity.id, entity.toUsuarioAPIDTO())
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
             return Usuario(
-                id = res.id,
+                id = ObjectId(res.id.toString().padStart(24, '0')),
                 uuid = entity.uuid,
                 nombre = res.name,
                 apellido = res.username,

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
 import mappers.toModelUsuario
+import mappers.toUsuarioAPIDTO
 import models.Usuario
 import mu.KotlinLogging
 import org.koin.core.annotation.Named
@@ -88,7 +89,7 @@ class UsuariosRestRepository: IUsuariosRepository {
     override suspend fun save(entity: Usuario): Usuario {
         logger.debug { "save(entity=$entity)" }
         try {
-            val res = client.createUsuario(entity)
+            val res = client.createUsuario(entity.toUsuarioAPIDTO())
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Usuario(
                 id = res.id.toString(),
@@ -119,7 +120,7 @@ class UsuariosRestRepository: IUsuariosRepository {
     override suspend fun update(entity: Usuario): Usuario {
         logger.debug { "update(entity=$entity)" }
         try {
-            val res = client.updateUsuario(entity.id, entity)
+            val res = client.updateUsuario(entity.id, entity.toUsuarioAPIDTO())
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
             return Usuario(
                 id = res.id.toString(),

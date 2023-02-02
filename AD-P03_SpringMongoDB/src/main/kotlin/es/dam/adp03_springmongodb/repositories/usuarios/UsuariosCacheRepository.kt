@@ -2,7 +2,9 @@ package es.dam.adp03_springmongodb.repositories.usuarios
 
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
-import es.dam.adp03_springmongodb.models.TipoUsuario
+import es.dam.adp03_springmongodb.mappers.toModel
+import es.dam.adp03_springmongodb.mappers.toModelUsuario
+import es.dam.adp03_springmongodb.mappers.toUsuarioAPIDTO
 import es.dam.adp03_springmongodb.models.Usuario
 import es.dam.adp03_springmongodb.services.ktorfit.KtorFitClient
 import es.dam.adp03_springmongodb.services.sqldelight.SqlDeLightClient
@@ -12,13 +14,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import mappers.toModel
-import mappers.toModelUsuario
 import mu.KotlinLogging
-import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
-import java.util.*
 
 
 private val logger = KotlinLogging.logger {}
@@ -27,7 +25,7 @@ private const val COOLDOWN = 6 * 10000L
 
 @Repository
 class UsuariosCacheRepository
-    @Autowired constructor (cliente: SqlDeLightClient) {
+@Autowired constructor(cliente: SqlDeLightClient) {
     private val remote = KtorFitClient.instance
     private val cache = cliente.queries
 
@@ -38,7 +36,15 @@ class UsuariosCacheRepository
                 cache.removeAllUsuarios()
                 remote.getAllUsuarios().forEach { usuarioAPI ->
                     val usuario = usuarioAPI.toModelUsuario()
-                    cache.createUsuario(usuario.id.toString().toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
+                    cache.createUsuario(
+                        usuario.id.toString(),
+                        usuario.uuid.toString(),
+                        usuario.nombre,
+                        usuario.apellido,
+                        usuario.email,
+                        usuario.password,
+                        usuario.rol.toString()
+                    )
                 }
                 delay(COOLDOWN)
             } while (true)
@@ -52,7 +58,7 @@ class UsuariosCacheRepository
             .map { it.map { usuario -> usuario.toModel() } }
     }
 
-    fun findById(id: Long): Usuario {
+    fun findById(id: String): Usuario {
         logger.debug { "Cache -> findById($id)" }
 
         return cache.selectUsuarioById(id).executeAsOne().toModel()
@@ -60,26 +66,26 @@ class UsuariosCacheRepository
 
     suspend fun save(entity: Usuario): Usuario {
         logger.debug { "Cache -> save($entity)" }
-        val dto = remote.createUsuario(entity)
-        val usuario = Usuario(
-            id = entity.id,
-            uuid = entity.uuid,
-            nombre = dto.name,
-            apellido = dto.username,
-            email = dto.email,
-            password = entity.password,
-            rol = TipoUsuario.valueOf(entity.rol.toString())
-        )
+        val dto = remote.createUsuario(entity.toUsuarioAPIDTO())
+        val usuario = dto.toModelUsuario()
 
-        cache.createUsuario(usuario.id.toString().toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
+        cache.createUsuario(
+            entity.id.toString(),
+            usuario.uuid,
+            usuario.nombre,
+            usuario.apellido,
+            usuario.email,
+            usuario.password,
+            usuario.rol.toString()
+        )
         return usuario
     }
 
     suspend fun update(entity: Usuario): Usuario {
         logger.debug { "Cache -> update($entity)" }
         cache.updateUsuario(
-            id = entity.id.toString().toLong(),
-            uuid = entity.uuid.toString(),
+            id = entity.id.toString(),
+            uuid = entity.uuid,
             nombre = entity.nombre,
             apellido = entity.apellido,
             email = entity.email,
@@ -87,23 +93,15 @@ class UsuariosCacheRepository
             rol = entity.rol.toString()
         )
 
-        val dto = remote.updateUsuario(entity.id, entity)
+        val dto = remote.updateUsuario(entity.id, entity.toUsuarioAPIDTO())
 
-        return Usuario(
-            id = dto.id,
-            uuid = entity.uuid,
-            nombre = dto.name,
-            apellido = dto.username,
-            email = dto.email,
-            password = entity.password,
-            rol = TipoUsuario.valueOf(entity.rol.toString())
-        )
+        return dto.toModelUsuario()
     }
 
     suspend fun delete(entity: Usuario): Usuario {
         logger.debug { "Cache -> delete($entity)" }
 
-        cache.deleteUsuario(entity.id.toString().toLong())
+        cache.deleteUsuario(entity.id.toString())
         remote.deleteUsuario(entity.id)
 
         return entity

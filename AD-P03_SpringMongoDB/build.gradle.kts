@@ -54,6 +54,9 @@ dependencies {
     // Corrutinas
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
+    //Serializar ID KMongo
+    implementation("org.litote.kmongo:kmongo-id-serialization:4.1.3")
+
     // Kotlin Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
