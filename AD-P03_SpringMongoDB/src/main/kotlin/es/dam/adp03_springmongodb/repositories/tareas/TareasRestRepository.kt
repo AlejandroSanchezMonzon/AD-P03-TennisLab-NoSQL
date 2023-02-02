@@ -21,12 +21,12 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
     private val client by lazy { KtorFitClient.instance }
 
     override suspend fun findAll(): Flow<Tarea> = withContext(Dispatchers.IO) {
-        logger.debug { "findAll()" }
+        logger.info { "findAll()" }
         val call = client.getAllTareas()
         val tareas: MutableList<Tarea> = mutableListOf<Tarea>()
 
         try {
-            logger.debug { "findAll() - Realizado correctamente." }
+            logger.info { "findAll() - Realizado correctamente." }
             call.forEach {
                 tareas.add(it.toModelTarea())
             }
@@ -38,10 +38,10 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
     }
 
     override suspend fun findById(id: ObjectId): Tarea {
-        logger.debug { "finById(id=$id)" }
+        logger.info { "finById(id=$id)" }
         val call = client.getTareaById(id)
         try {
-            logger.debug { "findById(id=$id) - Realizado correctamente." }
+            logger.info { "findById(id=$id) - Realizado correctamente." }
             return call.toModelTarea()
         } catch (e: Exception) {
             logger.error { "findById(id=$id) - Error." }
@@ -50,10 +50,10 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
     }
 
     override suspend fun save(entity: Tarea): Tarea {
-        logger.debug { "save(entity=$entity)" }
+        logger.info { "save(entity=$entity)" }
         try {
             val res = client.createTarea(entity.toTareaAPIDTO())
-            logger.debug { "save(entity=$entity) - Realizado correctamente." }
+            logger.info { "save(entity=$entity) - Realizado correctamente." }
             return Tarea(
                 id = ObjectId(res.id.toString().padStart(24, '0')),
                 uuid = entity.uuid,
@@ -69,10 +69,10 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
     }
 
     override suspend fun update(entity: Tarea): Tarea {
-        logger.debug { "update(entity=$entity)" }
+        logger.info { "update(entity=$entity)" }
         try {
             val res = client.updateTarea(entity.id, entity.toTareaAPIDTO())
-            logger.debug { "update(entity=$entity) - Realizado correctamente." }
+            logger.info { "update(entity=$entity) - Realizado correctamente." }
             return Tarea(
                 id = ObjectId(res.id.toString().padStart(24, '0')),
                 uuid = entity.uuid,
@@ -88,10 +88,10 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
     }
 
     override suspend fun delete(entity: Tarea): Tarea {
-        logger.debug { "delete(entity=$entity)" }
+        logger.info { "delete(entity=$entity)" }
         try {
             client.deleteTarea(entity.id)
-            logger.debug { "delete(entity=$entity) - Realizado correctamente." }
+            logger.info { "delete(entity=$entity) - Realizado correctamente." }
             return entity
         } catch (e: Exception) {
             logger.error { "delete(entity=$entity) - Error." }

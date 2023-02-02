@@ -6,9 +6,11 @@ import es.dam.adp03_springmongodb.mappers.toProductoDTO
 import es.dam.adp03_springmongodb.mappers.toTurnoDTO
 import es.dam.adp03_springmongodb.models.TipoEstado
 import es.dam.adp03_springmongodb.models.Usuario
+import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosCacheRepository
 import es.dam.adp03_springmongodb.services.json.StorageJSON
 import es.dam.adp03_springmongodb.utils.Login
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import org.bson.types.ObjectId
@@ -23,12 +25,17 @@ private val logger = KotlinLogging.logger { }
 class AdP03SpringMongoDbApplication(
     @Autowired
     private val controller: MongoController,
-    private val loging: Login
+    private val loging: Login,
+    private val cache: UsuariosCacheRepository
 ) : CommandLineRunner {
     override fun run(vararg args: String?) = runBlocking {
         val serviceJSON = StorageJSON()
 
         controller.descargarDatos()
+
+        launch {
+            cache.refresh()
+        }
 
         val usuarioSesion: Usuario = loging.logIn()
         controller.setUsuarioSesion(usuarioSesion)

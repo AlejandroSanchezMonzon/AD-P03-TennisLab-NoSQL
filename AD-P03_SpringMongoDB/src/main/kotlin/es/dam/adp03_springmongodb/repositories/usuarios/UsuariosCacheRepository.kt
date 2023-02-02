@@ -32,13 +32,13 @@ class UsuariosCacheRepository
     suspend fun refresh() = withContext(Dispatchers.IO) {
         launch {
             do {
-                logger.debug { "Refrescando los datos de la cache..." }
+                logger.info { "Refrescando los datos de la cache..." }
                 cache.removeAllUsuarios()
                 remote.getAllUsuarios().forEach { usuarioAPI ->
                     val usuario = usuarioAPI.toModelUsuario()
                     cache.createUsuario(
                         usuario.id.toString(),
-                        usuario.uuid.toString(),
+                        usuario.uuid,
                         usuario.nombre,
                         usuario.apellido,
                         usuario.email,
@@ -52,20 +52,20 @@ class UsuariosCacheRepository
     }
 
     fun findAll(): Flow<List<Usuario>> {
-        logger.debug { "Cache -> findAll() " }
+        logger.info { "Cache -> findAll() " }
 
         return cache.selectUsuarios().asFlow().mapToList()
             .map { it.map { usuario -> usuario.toModel() } }
     }
 
     fun findById(id: String): Usuario {
-        logger.debug { "Cache -> findById($id)" }
+        logger.info { "Cache -> findById($id)" }
 
         return cache.selectUsuarioById(id).executeAsOne().toModel()
     }
 
     suspend fun save(entity: Usuario): Usuario {
-        logger.debug { "Cache -> save($entity)" }
+        logger.info { "Cache -> save($entity)" }
         val dto = remote.createUsuario(entity.toUsuarioAPIDTO())
         val usuario = dto.toModelUsuario()
 
@@ -82,7 +82,7 @@ class UsuariosCacheRepository
     }
 
     suspend fun update(entity: Usuario): Usuario {
-        logger.debug { "Cache -> update($entity)" }
+        logger.info { "Cache -> update($entity)" }
         cache.updateUsuario(
             id = entity.id.toString(),
             uuid = entity.uuid,
@@ -99,7 +99,7 @@ class UsuariosCacheRepository
     }
 
     suspend fun delete(entity: Usuario): Usuario {
-        logger.debug { "Cache -> delete($entity)" }
+        logger.info { "Cache -> delete($entity)" }
 
         cache.deleteUsuario(entity.id.toString())
         remote.deleteUsuario(entity.id)
