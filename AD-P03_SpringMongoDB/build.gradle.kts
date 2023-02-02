@@ -7,7 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.7.22"
 
     // JSON Serialization
-    kotlin("plugin.serialization") version "1.7.21"
+    kotlin("plugin.serialization") version "1.7.22"
 
     // KtorFit
     id("com.google.devtools.ksp") version "1.7.21-1.0.8"

@@ -2,34 +2,41 @@ package es.dam.adp03_springmongodb.utils
 
 import com.github.ajalt.mordant.terminal.Terminal
 import es.dam.adp03_springmongodb.models.Usuario
-import es.dam.adp03_springmongodb.repositories.usuarios.UsuariosRestRepository
+import es.dam.adp03_springmongodb.repositories.usuarios.IUsuariosRepository
 import kotlinx.coroutines.flow.toList
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
 private val terminal = Terminal()
-private val usuariosRestRepository = UsuariosRestRepository()
 
-suspend fun logIn(): Usuario {
-    var usuarioEncontrado: Usuario?
+@Component
+class Login {
+    @Autowired
+    private lateinit var usuariosRepository: IUsuariosRepository
 
-    println("¡Bienvenid@ a la gestión de TennisLab!")
+    suspend fun logIn(): Usuario {
+        var usuarioEncontrado: Usuario?
 
-    do {
-        val email = terminal.prompt("Por favor, ingrese su correo.")?.trimIndent().orEmpty()
-        val password = terminal.prompt("Por favor, ingrese su contraseña.")?.trimIndent().orEmpty()
+        println("¡Bienvenid@ a la gestión de TennisLab!")
 
-        val usuariosAPI = usuariosRestRepository.findAll().toList()
+        do {
+            val email = terminal.prompt("Por favor, ingrese su correo.")?.trimIndent().orEmpty()
+            val password = terminal.prompt("Por favor, ingrese su contraseña.")?.trimIndent().orEmpty()
 
-        usuarioEncontrado = usuariosAPI.firstOrNull {
-            it.email == email && it.password == cifrarPassword(password)
-        }
+            val usuariosAPI = usuariosRepository.findAll().toList()
 
-        if (usuarioEncontrado != null) {
-            println("¡Bienvenido ${usuarioEncontrado.nombre}!")
-        } else {
-            println("Email o contraseña incorrectos.")
-        }
+            usuarioEncontrado = usuariosAPI.firstOrNull {
+                it.email == email && it.password == cifrarPassword(password)
+            }
 
-    } while (usuarioEncontrado == null)
+            if (usuarioEncontrado != null) {
+                println("¡Bienvenido ${usuarioEncontrado.nombre}!")
+            } else {
+                println("Email o contraseña incorrectos.")
+            }
 
-    return usuarioEncontrado
+        } while (usuarioEncontrado == null)
+
+        return usuarioEncontrado
+    }
 }

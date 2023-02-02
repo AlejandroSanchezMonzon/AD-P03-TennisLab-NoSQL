@@ -21,10 +21,10 @@ data class Turno(
     val comienzo: LocalDateTime,
     @Contextual
     val final: LocalDateTime,
-    @DocumentReference()
+    @DocumentReference
     @Field("maquina")
     val maquina: Maquina,
-    @DocumentReference()
+    @DocumentReference
     @Field("usuario")
     val encordador: Usuario
 )

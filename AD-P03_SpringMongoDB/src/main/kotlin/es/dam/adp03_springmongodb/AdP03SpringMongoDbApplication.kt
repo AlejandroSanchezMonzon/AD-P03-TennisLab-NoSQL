@@ -7,7 +7,7 @@ import es.dam.adp03_springmongodb.mappers.toTurnoDTO
 import es.dam.adp03_springmongodb.models.TipoEstado
 import es.dam.adp03_springmongodb.models.Usuario
 import es.dam.adp03_springmongodb.services.json.StorageJSON
-import es.dam.adp03_springmongodb.utils.logIn
+import es.dam.adp03_springmongodb.utils.Login
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
@@ -22,14 +22,15 @@ private val logger = KotlinLogging.logger { }
 @SpringBootApplication
 class AdP03SpringMongoDbApplication(
     @Autowired
-    private val controller: MongoController
+    private val controller: MongoController,
+    private val loging: Login
 ) : CommandLineRunner {
     override fun run(vararg args: String?) = runBlocking {
         val serviceJSON = StorageJSON()
 
         controller.descargarDatos()
 
-        val usuarioSesion: Usuario = logIn()
+        val usuarioSesion: Usuario = loging.logIn()
         controller.setUsuarioSesion(usuarioSesion)
 
         //Información completa en JSON de un pedido.
