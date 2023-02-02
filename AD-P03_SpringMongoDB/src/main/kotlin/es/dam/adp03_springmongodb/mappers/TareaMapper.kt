@@ -25,7 +25,7 @@ suspend fun TareaAPIDTO.toModelTarea(): Tarea {
 
 fun Tarea.toTareaAPIDTO(): TareaAPIDTO {
     return TareaAPIDTO(
-        id = id.toString().toInt(),
+        id = id.toString(),
         completed = setCompleted(turno.final),
         title = tipo.toString(),
         userId = turno.encordador.id.toString().toInt()

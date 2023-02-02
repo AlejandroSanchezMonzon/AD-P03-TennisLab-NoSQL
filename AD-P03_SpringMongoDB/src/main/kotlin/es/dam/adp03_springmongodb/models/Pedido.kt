@@ -4,9 +4,9 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.ReadOnlyProperty
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.DocumentReference
+import org.springframework.data.mongodb.core.mapping.Field
 import java.time.LocalDate
 import java.util.*
 
@@ -17,10 +17,10 @@ data class Pedido(
     val id: ObjectId = ObjectId.get(),
     @Contextual
     val uuid: String = UUID.randomUUID().toString(),
-    @ReadOnlyProperty
+    @Field("tareas")
     @DocumentReference()
     val tareas: List<Tarea>?,
-    @ReadOnlyProperty
+    @Field("productos")
     @DocumentReference()
     val productos: List<Producto>?,
     val estado: TipoEstado,

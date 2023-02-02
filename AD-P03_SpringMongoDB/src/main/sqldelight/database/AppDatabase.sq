@@ -1,5 +1,5 @@
 CREATE TABLE Usuario (
-    id INTEGER PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     uuid TEXT UNIQUE NOT NULL,
     nombre TEXT NOT NULL,
     apellido TEXT NOT NULL,

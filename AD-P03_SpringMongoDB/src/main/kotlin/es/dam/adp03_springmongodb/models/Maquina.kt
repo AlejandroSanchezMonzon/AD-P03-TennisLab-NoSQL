@@ -19,7 +19,7 @@ data class Maquina(
     val modelo: String,
     @Contextual
     val fechaAdquisicion: LocalDate,
-    val numeroSerie: Int,
+    val numeroSerie: Long,
     val tipo: TipoMaquina,
     val descripcion: String
 )

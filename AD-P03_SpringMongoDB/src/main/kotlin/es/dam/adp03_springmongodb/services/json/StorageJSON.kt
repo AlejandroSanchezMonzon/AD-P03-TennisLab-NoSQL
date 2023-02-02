@@ -6,6 +6,7 @@ import es.dam.adp03_springmongodb.dto.TurnoDTO
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import mu.KotlinLogging
+import org.litote.kmongo.id.serialization.IdKotlinXSerializationModule
 import java.io.File
 
 private val logger = KotlinLogging.logger {}
@@ -26,7 +27,7 @@ class StorageJSON {
                 File.separator + "main" +
                 File.separator + "resources"
         val fichero = File(directorio + File.separator + "$nombreArchivo.json")
-        val json = Json { prettyPrint = true }
+        val json = Json { prettyPrint = true; serializersModule = IdKotlinXSerializationModule }
         fichero.writeText(json.encodeToString(entityDTO))
     }
 
@@ -45,7 +46,7 @@ class StorageJSON {
                 File.separator + "main" +
                 File.separator + "resources"
         val fichero = File(directorio + File.separator + "$nombreArchivo.json")
-        val json = Json { prettyPrint = true }
+        val json = Json { prettyPrint = true; serializersModule = IdKotlinXSerializationModule }
         fichero.writeText(json.encodeToString(entityDTO))
     }
 
@@ -64,7 +65,7 @@ class StorageJSON {
                 File.separator + "main" +
                 File.separator + "resources"
         val fichero = File(directorio + File.separator + "$nombreArchivo.json")
-        val json = Json { prettyPrint = true }
+        val json = Json { prettyPrint = true; serializersModule = IdKotlinXSerializationModule }
         fichero.writeText(json.encodeToString(entityDTO))
     }
 }

@@ -23,7 +23,7 @@ fun UsuarioSQL.toModel(): UsuarioModelo {
 
 fun UsuarioModelo.toUsuarioSQL(): UsuarioSQL {
     return UsuarioSQL(
-        id = id.toString().toLong(),
+        id = id.toString(),
         uuid = uuid,
         nombre = nombre,
         apellido = apellido,
@@ -47,7 +47,7 @@ fun UsuarioAPIDTO.toModelUsuario(): UsuarioModelo {
 
 fun UsuarioModelo.toUsuarioAPIDTO(): UsuarioAPIDTO {
     return UsuarioAPIDTO(
-        id = id.toString().toInt(),
+        id = id.toString(),
         address = null,
         company = null,
         name = nombre,

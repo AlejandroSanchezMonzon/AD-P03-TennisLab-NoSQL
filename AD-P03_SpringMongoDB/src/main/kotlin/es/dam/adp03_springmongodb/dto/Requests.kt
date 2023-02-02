@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginDTO(
-    val id: Int,
+    val id: String,
     val uuid: String,
     val precio: Float,
     val descripcion: String,

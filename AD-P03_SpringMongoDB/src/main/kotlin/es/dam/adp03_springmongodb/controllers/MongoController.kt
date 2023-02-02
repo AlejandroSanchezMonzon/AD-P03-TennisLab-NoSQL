@@ -227,10 +227,10 @@ class MongoController
     }
 
     suspend fun encontrarPedido(id: ObjectId): Pedido? {
-
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR) {
             logger.info("Operación realizada con éxito")
             pedidosRepository.findById(id)
+
         } else {
             logger.error("No está autorizado a realizar esta operación.")
             return null
@@ -238,6 +238,14 @@ class MongoController
     }
 
     suspend fun listarPedidos(): Flow<Pedido>? {
+        try {
+            pedidosRepository.findAll().collect {
+                println(it)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR) {
             logger.info("Operación realizada con éxito")
             pedidosRepository.findAll()
@@ -337,7 +345,7 @@ class MongoController
     //TODO la cache no devuelve nulo nunca
     suspend fun encontrarUsuario(id: ObjectId): Usuario? {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
-            if (usuariosCacheRepository.findById(id.toString().toLong()) == null) {
+            if (usuariosCacheRepository.findById(id.toString()) == null) {
                 if (usuariosRepository.findById(id) == null) {
                     if (usuariosRestRepository.findById(id) == null) {
                         logger.error("No se ha encontrado el usuario.")
@@ -352,7 +360,7 @@ class MongoController
                 }
             } else {
                 logger.info("Operación realizada con éxito")
-                return usuariosCacheRepository.findById(id.toString().toLong())
+                return usuariosCacheRepository.findById(id.toString())
             }
         } else {
             logger.error("No está autorizado a realizar esta operación.")

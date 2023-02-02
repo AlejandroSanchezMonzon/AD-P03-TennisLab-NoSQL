@@ -37,7 +37,7 @@ class UsuariosCacheRepository
                 remote.getAllUsuarios().forEach { usuarioAPI ->
                     val usuario = usuarioAPI.toModelUsuario()
                     cache.createUsuario(
-                        usuario.id.toString().toLong(),
+                        usuario.id.toString(),
                         usuario.uuid.toString(),
                         usuario.nombre,
                         usuario.apellido,
@@ -58,7 +58,7 @@ class UsuariosCacheRepository
             .map { it.map { usuario -> usuario.toModel() } }
     }
 
-    fun findById(id: Long): Usuario {
+    fun findById(id: String): Usuario {
         logger.debug { "Cache -> findById($id)" }
 
         return cache.selectUsuarioById(id).executeAsOne().toModel()
@@ -70,7 +70,7 @@ class UsuariosCacheRepository
         val usuario = dto.toModelUsuario()
 
         cache.createUsuario(
-            entity.id.toString().toLong(),
+            entity.id.toString(),
             usuario.uuid,
             usuario.nombre,
             usuario.apellido,
@@ -84,7 +84,7 @@ class UsuariosCacheRepository
     suspend fun update(entity: Usuario): Usuario {
         logger.debug { "Cache -> update($entity)" }
         cache.updateUsuario(
-            id = entity.id.toString().toLong(),
+            id = entity.id.toString(),
             uuid = entity.uuid,
             nombre = entity.nombre,
             apellido = entity.apellido,
@@ -101,7 +101,7 @@ class UsuariosCacheRepository
     suspend fun delete(entity: Usuario): Usuario {
         logger.debug { "Cache -> delete($entity)" }
 
-        cache.deleteUsuario(entity.id.toString().toLong())
+        cache.deleteUsuario(entity.id.toString())
         remote.deleteUsuario(entity.id)
 
         return entity
