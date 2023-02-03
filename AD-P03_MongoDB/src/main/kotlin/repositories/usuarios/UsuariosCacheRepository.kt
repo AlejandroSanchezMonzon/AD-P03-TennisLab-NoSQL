@@ -42,7 +42,15 @@ class UsuariosCacheRepository(
                 cache.removeAllUsuarios()
                 remote.getAllUsuarios().forEach { usuarioAPI ->
                     val usuario = usuarioAPI.toModelUsuario()
-                    cache.createUsuario(usuario.id.toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
+                    cache.createUsuario(
+                        usuario.id.toLong(),
+                        usuario.uuid.toString(),
+                        usuario.nombre,
+                        usuario.apellido,
+                        usuario.email,
+                        usuario.password,
+                        usuario.rol.toString()
+                    )
                 }
                 delay(COOLDOWN)
             } while (true)
@@ -72,10 +80,14 @@ class UsuariosCacheRepository(
      *
      * @return Usuario, el objeto que tiene el identificador introducido por parámetros transfromado a modelo.
      */
-    fun findById(id: Long): Usuario {
+    fun findById(id: Long): Usuario? {
         logger.debug { "Cache -> findById($id)" }
-        //TODO: si no existe peta
-        return cache.selectUsuarioById(id).executeAsOne().toModel()
+        return try {
+            cache.selectUsuarioById(id).executeAsOne().toModel()
+        } catch (e: Exception) {
+            logger.error { "Usuario no encontrado." }
+            null
+        }
     }
 
     /**
@@ -95,7 +107,15 @@ class UsuariosCacheRepository(
         val dto = remote.createUsuario(entity.toUsuarioAPIDTO())
         val usuario = dto.toModelUsuario()
 
-        cache.createUsuario(usuario.id.toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
+        cache.createUsuario(
+            usuario.id.toLong(),
+            usuario.uuid.toString(),
+            usuario.nombre,
+            usuario.apellido,
+            usuario.email,
+            usuario.password,
+            usuario.rol.toString()
+        )
         return usuario
     }
 

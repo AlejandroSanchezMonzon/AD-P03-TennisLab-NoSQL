@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.models
 
 import kotlinx.serialization.Contextual

@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.serializers
 
 import kotlinx.serialization.KSerializer

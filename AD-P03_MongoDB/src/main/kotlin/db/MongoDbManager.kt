@@ -14,7 +14,7 @@ import utils.readProperties
 private val logger = KotlinLogging.logger {}
 
 object MongoDbManager {
-    private  var mongoClient: MongoClient
+    private var mongoClient: MongoClient
     var database: MongoDatabase
 
     private val properties = readProperties()
@@ -31,7 +31,8 @@ object MongoDbManager {
 
         // Cadena de conexión en LOCAL para MAC: "mongodb://$MONGOUSER:$MONGOPASS@$MONGOHOST/$MONGOBBDD?$MONGO_OPTIONS"
         // Cadena de conexión en LOCAL para Windows: "mongodb://$MONGOHOST/$MONGOBBDD?$MONGO_OPTIONS_WINDOWS"
-        mongoClient = KMongo.createClient("mongodb://$MONGOUSER:$MONGOPASS@$MONGOHOST/$MONGOBBDD?$MONGO_OPTIONS")
+        mongoClient =
+            KMongo.createClient("mongodb://$MONGOHOST/$MONGOBBDD?$MONGO_OPTIONS_WINDOWS")
 
         database = mongoClient.getDatabase(MONGOBBDD)
     }

@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.controllers
 
 import es.dam.adp03_springmongodb.db.*
@@ -34,10 +39,18 @@ class MongoController
 ) {
     private lateinit var usuarioSesion: Usuario
 
+    /**
+     * Esta función se ocupa de determinar como usuario de la sesión el usuario que ha hecho log in en el sistema.
+     *
+     * @param usuario Usuario que hace log in.
+     */
     fun setUsuarioSesion(usuario: Usuario) {
         usuarioSesion = usuario
     }
 
+    /**
+     * Esta función llama a los métodos deleteAll() de todos los repositorios para vaciar los mismos y no dejar restos que perjudiquen el funcionamiento del programa.
+     */
     suspend fun deleteAll() {
         usuariosRepository.deleteAll()
         pedidosRepository.deleteAll()
@@ -47,6 +60,12 @@ class MongoController
         turnosRepository.deleteAll()
     }
 
+    /**
+     * Método encargado de recoger los datos de las funciones con datos de prueba, o en el caso de usuarios, de la API, y
+     * almacenarlos en la base de datos de mongo.
+     *
+     * @return Unit
+     */
     suspend fun descargarDatos() {
         deleteAll()
 
@@ -80,6 +99,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de insertar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param maquina, El objeto, de tipo Maquina, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun guardarMaquina(maquina: Maquina) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             maquinasRepository.save(maquina)
@@ -89,6 +116,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de borrar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param maquina, El objeto, de tipo Maquina, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun borrarMaquina(maquina: Maquina) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             require(listarTurnos()?.filter { it.maquina == maquina }?.count() == 0)
@@ -100,6 +135,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de actualizar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param maquina, El objeto, de tipo Maquina, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun actualizarMaquina(maquina: Maquina) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             maquinasRepository.save(maquina)
@@ -109,6 +152,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de buscar el objeto, cuyo identificador es el dado por parámetros, en la base
+     * de datos de Mongo,si el usario tiene los permisos adecuados..
+     *
+     * @param id, El identificador, de tipo String, del objeto a encontar.
+     *
+     * @return Maquina?, El objeto que se ha encontrado de tipo Maquina. Si no se encuentra devolverá null.
+     */
     suspend fun encontrarMaquina(id: ObjectId): Maquina? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
@@ -119,6 +170,12 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de listar los objetos, de un tipo específico, de la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @return Flow<Maquina>?, El flujo de objetos encontrados. Si no se encuentra devolverá null.
+     */
     suspend fun listarMaquinas(): Flow<Maquina>? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
@@ -129,6 +186,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de buscar el objeto, cuyo identificador es el dado por parámetros, en la base
+     * de datos de Mongo,si el usario tiene los permisos adecuados..
+     *
+     * @param id, El identificador, de tipo String, del objeto a encontar.
+     *
+     * @return Producto?, El objeto que se ha encontrado de tipo Producto. Si no se encuentra devolverá null.
+     */
     suspend fun encontrarProducto(id: ObjectId): Producto? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
@@ -139,6 +204,12 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de listar los objetos, de un tipo específico, de la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @return Flow<Producto>?, El flujo de objetos encontrados. Si no se encuentra devolverá null.
+     */
     suspend fun listarProductos(): Flow<Producto>? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
@@ -149,6 +220,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de insertar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param producto, El objeto, de tipo Producto, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun guardarProducto(producto: Producto) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             productosRepository.save(producto)
@@ -158,6 +237,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de borrar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param producto, El objeto, de tipo Producto, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun borrarProducto(producto: Producto) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             require(listarPedidos()?.map { it.productos?.contains(producto) }?.count() == 0)
@@ -169,6 +256,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de actualizar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param producto, El objeto, de tipo Producto, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun actualizarProducto(producto: Producto) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             productosRepository.save(producto)
@@ -178,6 +273,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de buscar el objeto, cuyo identificador es el dado por parámetros, en la base
+     * de datos de Mongo,si el usario tiene los permisos adecuados..
+     *
+     * @param id, El identificador, de tipo String, del objeto a encontar.
+     *
+     * @return Turno?, El objeto que se ha encontrado de tipo Turno. Si no se encuentra devolverá null.
+     */
     suspend fun encontrarTurno(id: ObjectId): Turno? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
@@ -188,6 +291,12 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de listar los objetos, de un tipo específico, de la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @return Flow<Turno>?, El flujo de objetos encontrados. Si no se encuentra devolverá null.
+     */
     suspend fun listarTurnos(): Flow<Turno>? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
@@ -198,14 +307,27 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de comprobar que el turno cumple con las siguiente restriccioón:
+     * el encordador asignado solo puede utilizar una máquina en un turno.
+     *
+     * @return Boolean, true si la cumple, false en caso contrario
+     */
     suspend fun isTurnoOk(turno: Turno): Boolean {
-        //consultar turnos y comprobar que su encordador solo utiliza esa maquina
         val turnosConElMismoEncordador = listarTurnos()?.filter { it.encordador == turno.encordador }
         val maquinaUtilizada = turnosConElMismoEncordador?.firstOrNull()?.maquina
 
         return turno.maquina == maquinaUtilizada
     }
 
+    /**
+     * Método encargado de insertar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param turno, El Turno, de tipo Maquina, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun guardarTurno(turno: Turno) {
         require(isTurnoOk(turno)) { "Este turno no ha podido añadirse porque el encordador que quiere asignarle ya esta utilizando otra máquina en ese turno." }
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
@@ -216,6 +338,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de borrar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param turno, El objeto, de tipo Turno, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun borrarTurno(turno: Turno) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             require(listarTarea()?.filter { it.turno == turno }?.count() == 0)
@@ -227,6 +357,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de actualizar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param tuurno, El objeto, de tipo Turno, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun actualizarTurno(turno: Turno) {
         require(isTurnoOk(turno)) { "Este turno no ha podido actualizarse porque el encordador que quiere asignarle ya esta utilizando otra máquina en ese turno." }
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
@@ -237,6 +375,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de buscar el objeto, cuyo identificador es el dado por parámetros, en la base
+     * de datos de Mongo,si el usario tiene los permisos adecuados..
+     *
+     * @param id, El identificador, de tipo String, del objeto a encontar.
+     *
+     * @return Pedido?, El objeto que se ha encontrado de tipo Pedido. Si no se encuentra devolverá null.
+     */
     suspend fun encontrarPedido(id: ObjectId): Pedido? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR) {
             logger.info("Operación realizada con éxito")
@@ -248,6 +394,12 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de listar los objetos, de un tipo específico, de la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @return Flow<Pedido>?, El flujo de objetos encontrados. Si no se encuentra devolverá null.
+     */
     suspend fun listarPedidos(): Flow<Pedido>? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR) {
             logger.info("Operación realizada con éxito")
@@ -258,6 +410,13 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de comprobar que el turno cumple con las siguiente restricción:
+     * el encordador asignado no puede tener más de dos pedidos asignados.
+     *
+     * @return Boolean, true si la cumple, false en caso contrario
+     */
+    //TODO: Completar
     private suspend fun isPedidoOk(pedido: Pedido): Boolean {
         //consultar tareas del pedido y consultar de la tarea el turno y del turno el encordador y no puede ser >2
         var isOverTwo = false
@@ -277,6 +436,14 @@ class MongoController
         return isOverTwo
     }
 
+    /**
+     * Método encargado de insertar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param pedido, El objeto, de tipo Pedido, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun guardarPedido(pedido: Pedido) {
         require(isPedidoOk(pedido)) { "Este pedido no ha podido guardarse correctamente ya que su encordador asignado ya tiene dos pedidos asignados." }
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR) {
@@ -287,6 +454,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de borrar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param pedido, El objeto, de tipo Pedido, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun borrarPedido(pedido: Pedido) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR) {
             pedidosRepository.delete(pedido)
@@ -296,6 +471,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de actualizar el objeto en la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param pedidp, El objeto, de tipo Pedido, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun actualizarPedido(pedido: Pedido) {
         require(isPedidoOk(pedido)) { "Este pedido no ha podido actualizarse correctamente ya que el encordador asignado ya tiene dos pedidos asignados." }
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion.rol == TipoUsuario.ENCORDADOR) {
@@ -306,6 +489,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de insertar el objeto en la base de datos de Mongo, en la caché y en la API
+     * si el usuario tiene los permisos adecuados.
+     *
+     * @param usuario, El objeto, de tipo Usuario, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun guardarUsuario(usuario: Usuario) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             usuariosRepository.save(usuario)
@@ -317,6 +508,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de borrar el objeto en la caché, la base de datos de Mongo y en la API,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param usuario, El objeto, de tipo Usuario, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun borrarUsuario(usuario: Usuario) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             require(listarPedidos()?.filter { it.usuario == usuario }?.count() == 0)
@@ -334,6 +533,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de actualizar el objeto en la caché, en la base de datos de Mongo y en la API,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param usuario, El objeto, de tipo Usuario, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun actualizarUsuario(usuario: Usuario) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             usuariosRepository.save(usuario)
@@ -345,10 +552,11 @@ class MongoController
         }
     }
 
+
     suspend fun encontrarUsuario(id: ObjectId): Usuario? {
-        if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
+        return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
-            return try {
+            try {
                 usuariosCacheRepository.findById(id.toString())
             } catch (e: Exception) {
                 logger.error { "Usuario con id: $id no encontrado en la cache." }
@@ -356,11 +564,17 @@ class MongoController
             }
         } else {
             logger.error("No está autorizado a realizar esta operación.")
-            return null
+            null
         }
     }
 
-    fun listarUsuarios(): Flow<Usuario>? {
+    /**
+     * Método encargado de listar los objetos, de un tipo específico, de la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @return Flow<List<Usuario>>?, El flujo de la lista de objetos encontrados. Si no se encuentra devolverá null.
+     */
+    suspend fun listarUsuarios(): Flow<Usuario>? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
             usuariosRepository.findAll()
@@ -370,6 +584,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de insertar el objeto en la base de datos de Mongo y en la API,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param tarea, El objeto, de tipo Tarea, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun guardarTarea(tarea: Tarea) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             tareasRepository.save(tarea)
@@ -380,6 +602,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de borrar el objeto en la base de datos de Mongo y de la API,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param tarea, El objeto, de tipo Tarea, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun borrarTarea(tarea: Tarea) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             require(listarPedidos()?.map { it.tareas?.contains(tarea) }?.count() == 0)
@@ -393,6 +623,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de actualizar el objeto en la base de datos de Mongo y en la API,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @param tarea, El objeto, de tipo Tarea, al que se le realizará la operación.
+     *
+     * @return Unit
+     */
     suspend fun actualizarTarea(tarea: Tarea) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             tareasRepository.save(tarea)
@@ -403,6 +641,12 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de listar los objetos, de un tipo específico, de la base de datos de Mongo,
+     * si el usario tiene los permisos adecuados.
+     *
+     * @return Flow<Tarea>?, El flujo de objetos encontrados. Si no se encuentra devolverá null.
+     */
     suspend fun listarTarea(): Flow<Tarea>? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
@@ -413,6 +657,14 @@ class MongoController
         }
     }
 
+    /**
+     * Método encargado de buscar el objeto, cuyo identificador es el dado por parámetros, en la base
+     * de datos de Mongo y si no lo encuentra en la API,si el usario tiene los permisos adecuados.
+     *
+     * @param id, El identificador, de tipo String, del objeto a encontar.
+     *
+     * @return Tarea?, El objeto que se ha encontrado de tipo Tarea. Si no se encuentra devolverá null.
+     */
     suspend fun encontrarTarea(id: ObjectId): Tarea? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             if (tareasRepository.findById(id) == null) {
