@@ -19,7 +19,7 @@ data class Usuario(
     val id: ObjectId = ObjectId.get(),
     @Contextual
     val uuid: String = UUID.randomUUID().toString(),
-    val nombre: String,
+    var nombre: String,
     val apellido: String,
     val email: String,
     var password: String,

@@ -37,7 +37,7 @@ data class Pedido(
     @Contextual
     val fechaProgramada: LocalDate,
     @Contextual
-    val fechaEntrega: LocalDate,
+    var fechaEntrega: LocalDate,
     val precio: Float
 )
 

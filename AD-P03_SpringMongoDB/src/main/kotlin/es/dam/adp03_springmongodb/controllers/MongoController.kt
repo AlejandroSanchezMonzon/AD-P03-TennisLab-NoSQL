@@ -348,7 +348,7 @@ class MongoController
      */
     suspend fun borrarTurno(turno: Turno) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
-            require(listarTarea()?.filter { it.turno == turno }?.count() == 0)
+            require(listarTareas()?.filter { it.turno == turno }?.count() == 0)
             { "Antes de realizar la operación, elimine o actualice la tarea/s asociados a este turno. " }
             turnosRepository.delete(turno)
             logger.info("Operación realizada con éxito")
@@ -639,7 +639,7 @@ class MongoController
      *
      * @return Flow<Tarea>?, El flujo de objetos encontrados. Si no se encuentra devolverá null.
      */
-    suspend fun listarTarea(): Flow<Tarea>? {
+    suspend fun listarTareas(): Flow<Tarea>? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
             tareasRepository.findAll()

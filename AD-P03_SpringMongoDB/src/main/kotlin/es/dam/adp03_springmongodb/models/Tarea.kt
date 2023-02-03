@@ -22,7 +22,7 @@ data class Tarea(
     @Contextual
     val uuid: String = UUID.randomUUID().toString(),
     val precio: Float,
-    val descripcion: String,
+    var descripcion: String,
     val tipo: TipoTarea,
     @DocumentReference()
     @Field("turno")

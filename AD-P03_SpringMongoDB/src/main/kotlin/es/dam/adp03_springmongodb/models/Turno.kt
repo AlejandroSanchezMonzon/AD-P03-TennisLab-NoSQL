@@ -23,7 +23,7 @@ data class Turno(
     @Contextual
     val uuid: String = UUID.randomUUID().toString(),
     @Contextual
-    val comienzo: LocalDateTime,
+    var comienzo: LocalDateTime,
     @Contextual
     val final: LocalDateTime,
     @DocumentReference
