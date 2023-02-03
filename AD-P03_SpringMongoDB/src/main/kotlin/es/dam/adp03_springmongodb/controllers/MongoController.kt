@@ -416,24 +416,16 @@ class MongoController
      *
      * @return Boolean, true si la cumple, false en caso contrario
      */
-    //TODO: Completar
     private suspend fun isPedidoOk(pedido: Pedido): Boolean {
-        //consultar tareas del pedido y consultar de la tarea el turno y del turno el encordador y no puede ser >2
-        var isOverTwo = false
+        val usuarios =
+            listarPedidos()!!.toList().flatMap { it.tareas!! }.map { it.turno }
+                .groupBy { it.encordador }
+                .filter { (_, turno) -> turno.size >= 2 }
+                .map { it.key }
 
-        val encordadoresOcupados: MutableList<Usuario>? = null
-        listarPedidos()?.collect { it ->
-            it.tareas?.forEach { tarea ->
-                tarea.turno.encordador.let { it1 -> encordadoresOcupados?.add(it1) }
-            }
+        return pedido.tareas!!.any {
+            usuarios.contains(it.turno.encordador)
         }
-
-        val encordadoresPedidoActual: MutableList<Usuario>? = null
-        pedido.tareas?.forEach { tarea ->
-            tarea.turno.encordador.let { encordadoresPedidoActual?.add(it) }
-        }
-
-        return isOverTwo
     }
 
     /**

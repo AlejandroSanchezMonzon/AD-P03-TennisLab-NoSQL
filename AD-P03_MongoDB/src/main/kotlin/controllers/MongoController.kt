@@ -397,24 +397,16 @@ class MongoController(
      *
      * @return Boolean, true si la cumple, false en caso contrario
      */
-    //TODO: Completar
     private suspend fun isPedidoOk(pedido: Pedido): Boolean {
-        //consultar tareas del pedido y consultar de la tarea el turno y del turno el encordador y no puede ser >2
-        var isOverTwo = false
+        val usuarios =
+            listarPedidos()!!.toList().flatMap { it.tareas!! }.map { it.turno }
+                .groupBy { it.encordador }
+                .filter { (_, turno) -> turno.size >= 2 }
+                .map { it.key }
 
-        val encordadoresOcupados: MutableList<Usuario>? = null
-        listarPedidos()?.collect { it ->
-            it.tareas?.forEach { tarea ->
-                encordadoresOcupados?.add(tarea.turno.encordador)
-            }
+        return pedido.tareas!!.any {
+            usuarios.contains(it.turno.encordador)
         }
-
-        val encordadoresPedidoActual: MutableList<Usuario>? = null
-        pedido.tareas?.forEach { tarea ->
-            encordadoresPedidoActual?.add(tarea.turno.encordador)
-        }
-
-        return isOverTwo
     }
 
     /**
@@ -532,7 +524,7 @@ class MongoController(
             logger.error("No está autorizado a realizar esta operación.")
         }
     }
-    
+
     /**
      * Método encargado de buscar el objeto, cuyo identificador es el dado por parámetros, en la caché,
      * si no lo encuentra en la base de datos de Mongo y si no lo encuentra en la API
