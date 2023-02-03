@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.repositories.tareas
 
 import es.dam.adp03_springmongodb.exceptions.RestException
@@ -20,6 +25,15 @@ private val logger = KotlinLogging.logger {}
 class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
     private val client by lazy { KtorFitClient.instance }
 
+    /**
+     * Método encargado de utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve una lista de todos los objetos que hay
+     * de tipo TareaAPI en la API REST.
+     *
+     * @throws RestException, cuando no ha sido posible devolver los objetos encontradas como un flujo.
+     *
+     * @return Flow<Tarea>, el flujo de objetos encontrados transfromados a modelo.
+     */
     override suspend fun findAll(): Flow<Tarea> = withContext(Dispatchers.IO) {
         logger.info { "findAll()" }
         val call = client.getAllTareas()
@@ -37,6 +51,15 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
         }
     }
 
+    /**
+     * Método encargado de utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto con el identificador dado que hay
+     * de tipo TareaAPI en la API REST.
+     *
+     * @param id identificador de tipo String del objeto a consultar.
+     *
+     * @return Tarea?, el objeto que tiene el identificador introducido por parámetros, si no se encuentra, devolverá nulo.
+     */
     override suspend fun findById(id: ObjectId): Tarea {
         logger.info { "finById(id=$id)" }
         val call = client.getTareaById(id)
@@ -49,6 +72,17 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto a insertar
+     * de tipo TareaAPI en la API REST.
+     *
+     * @param entity Objeto a insetar en la base de datos.
+     *
+     * @throws RestException, cuando no ha sido posible insertar el objeto.
+     *
+     * @return Tarea, el objeto que ha sido insertado.
+     */
     override suspend fun save(entity: Tarea): Tarea {
         logger.info { "save(entity=$entity)" }
         try {
@@ -68,6 +102,17 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto a actualizar
+     * de tipo TareaAPI en la API REST.
+     *
+     * @param entity Objeto a actualizar en la base de datos.
+     *
+     * @throws RestException, cuando no ha sido posible actualizar el objeto.
+     *
+     * @return Tarea, el objeto que ha sido actualizado o insertado.
+     */
     override suspend fun update(entity: Tarea): Tarea {
         logger.info { "update(entity=$entity)" }
         try {
@@ -87,6 +132,17 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto a eliminar
+     * de tipo TareaAPI en la API REST.
+     *
+     * @param entity Objeto a borrar en la base de datos.
+     *
+     * @throws RestException, cuando no ha sido posible borrar el objeto.
+     *
+     * @return Tarea, el objeto introducido por parámetros.
+     */
     override suspend fun delete(entity: Tarea): Tarea {
         logger.info { "delete(entity=$entity)" }
         try {

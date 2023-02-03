@@ -29,6 +29,11 @@ suspend fun TareaAPIDTO.toModelTarea(): Tarea {
     )
 }
 
+/**
+ * Esta función de extensión sirve como mapeo del objeto Turno al Objeto TurnoAPIDTO, el cual usamos para trabajar con el en relación a la API.
+ *
+ * @return TareaAPIDTO, el objeto convertido del modelo.
+ */
 fun Tarea.toTareaAPIDTO(): TareaAPIDTO {
     return TareaAPIDTO(
         id = id.toInt(),
@@ -38,6 +43,12 @@ fun Tarea.toTareaAPIDTO(): TareaAPIDTO {
     )
 }
 
+/**
+ * Función que dependiendo de si la fecha dada es mayor o menor a la actual marca la tarea como completada o no.
+ *
+ * @param final Fecha dada.
+ * @return  True o false, dependiendo de si ha sido completada o no.
+ */
 fun setCompleted(final: LocalDateTime): Boolean {
     return !final.isAfter(LocalDateTime.now())
 }

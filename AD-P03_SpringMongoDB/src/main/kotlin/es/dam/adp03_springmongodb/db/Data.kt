@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.db
 
 import es.dam.adp03_springmongodb.models.*
@@ -7,6 +12,11 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
+/**
+ * Función que contiene una lista de Usurios con datos ficticios de prueba.
+ *
+ * @return La lista de Usuarios.
+ */
 fun getUsuariosInit() = listOf(
     Usuario(
         id = ObjectId(50.toString().padStart(24, '0')),
@@ -73,6 +83,11 @@ fun getUsuariosInit() = listOf(
     )
 )
 
+/**
+ * Función que contiene una lista de Turnos con datos ficticios de prueba.
+ *
+ * @return La lista de Turnos.
+ */
 suspend fun getTurnosInit() = listOf(
     Turno(
         id = ObjectId(5.toString().padStart(24, '0')),
@@ -113,7 +128,6 @@ suspend fun getTurnosInit() = listOf(
  *
  * @return La lista de Productos.
  */
-
 fun getProductosInit() = listOf(
     Producto(
         id = ObjectId(51.toString().padStart(24, '0')),
@@ -212,7 +226,6 @@ fun getProductosInit() = listOf(
  *
  * @return La lista de Pedidos.
  */
-
 suspend fun getPedidosInit() = listOf(
     Pedido(
         id = ObjectId(50.toString().padStart(24, '0')),

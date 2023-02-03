@@ -49,6 +49,11 @@ fun UsuarioAPIDTO.toModelUsuario(): Usuario {
     )
 }
 
+/**
+ * Función de extensión que mapea el objeto Usuario al objeto UsuarioAPIDTO, el cual utilizamos para trabajar en la API.
+ *
+ * @return UsuarioAPIDTO, el objeto convertido del objeto Usuario.
+ */
 fun UsuarioModelo.toUsuarioAPIDTO(): UsuarioAPIDTO {
     return UsuarioAPIDTO(
         id = id.toInt(),

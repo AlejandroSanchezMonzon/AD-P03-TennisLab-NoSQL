@@ -4,15 +4,17 @@
  */
 package db
 
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.toList
 import models.*
-import repositories.usuarios.UsuariosRepository
 import utils.cifrarPassword
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
+/**
+ * Función que contiene una lista de Usurios con datos ficticios de prueba.
+ *
+ * @return La lista de Usuarios.
+ */
 fun getUsuariosInit() = listOf(
     Usuario(
         id = "50",

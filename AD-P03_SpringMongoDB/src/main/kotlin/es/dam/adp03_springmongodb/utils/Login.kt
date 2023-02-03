@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.utils
 
 import com.github.ajalt.mordant.terminal.Terminal
@@ -14,6 +19,12 @@ class Login {
     @Autowired
     private lateinit var usuariosRepository: IUsuariosRepository
 
+    /**
+     * Método encargado de buscar el usuario que esteé intentando iniciar sesión en el repositorio de Mongo para validar
+     * que exista.
+     *
+     * @return Usuario, el usuario que se encuentra en la base de datos con los valores de email y contraseña que se especifiquen.
+     */
     suspend fun logIn(): Usuario {
         var usuarioEncontrado: Usuario?
 

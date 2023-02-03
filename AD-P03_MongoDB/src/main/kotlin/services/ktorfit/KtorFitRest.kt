@@ -6,9 +6,6 @@ package services.ktorfit
 
 import de.jensklingenberg.ktorfit.http.*
 import dto.*
-import exceptions.RestException
-import models.Tarea
-import models.Usuario
 
 interface KtorFitRest {
     // Usuarios
@@ -103,9 +100,9 @@ interface KtorFitRest {
      * atributos son dados por parámetros.
      *
      * @param id,  El identidicador, tipo String, del usuario a actualizar.
-     * @param usuario, El usuario, tipo Usuario, a insertar.
+     * @param tarea, El usuario, tipo Tarea, a insertar.
      *
-     * @return UsuarioAPIDTO, el usuario insertado con los atributos que tiene en la API REST.
+     * @return TareaAPIDTO, la tarea insertado con los atributos que tiene en la API REST.
      */
     @PUT("todos/{id}")
     suspend fun updateTarea(@Path("id") id: String, @Body tarea: TareaAPIDTO): TareaAPIDTO

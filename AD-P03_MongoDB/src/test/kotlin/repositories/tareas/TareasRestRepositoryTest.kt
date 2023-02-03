@@ -72,7 +72,7 @@ internal class TareasRestRepositoryTest {
     )
 
     @BeforeAll
-    fun setUp() = runTest{
+    fun setUp() = runTest {
         tareasRepository.deleteAll()
         usuariosRepository.save(usuario)
         maquinasRepository.save(maquina)
@@ -80,26 +80,26 @@ internal class TareasRestRepositoryTest {
     }
 
     @AfterEach
-    fun tearDown() = runTest{
+    fun tearDown() = runTest {
         tareasRepository.deleteAll()
     }
 
     @AfterAll
-    fun tearAllDown() = runTest{
+    fun tearAllDown() = runTest {
         usuariosRepository.delete(usuario)
         maquinasRepository.delete(maquina)
         turnosRepository.delete(turno)
     }
 
     @Test
-     fun findAll() = runTest {
+    fun findAll() = runTest {
         val res = tareasRepository.findAll()
 
         assert(res.toList().isEmpty())
     }
 
     @Test
-     fun findById() = runTest {
+    fun findById() = runTest {
         tareasRepository.save(tarea)
 
         val res = tareasRepository.findById(tarea.id)
@@ -108,14 +108,14 @@ internal class TareasRestRepositoryTest {
     }
 
     @Test
-     fun findByIdNoExiste() = runTest {
+    fun findByIdNoExiste() = runTest {
         assertThrows<RuntimeException> {
             tareasRepository.findById("-5")
         }
     }
 
     @Test
-     fun save() = runTest{
+    fun save() = runTest {
         val res = tareasRepository.save(tarea)
 
         assertAll(
@@ -130,7 +130,7 @@ internal class TareasRestRepositoryTest {
     }
 
     @Test
-     fun update()  = runTest{
+    fun update() = runTest {
         tareasRepository.save(tarea)
         val operacion = tareasRepository.update(
             Tarea(
@@ -150,7 +150,7 @@ internal class TareasRestRepositoryTest {
     }
 
     @Test
-     fun deleteNoExiste()  = runTest{
+    fun deleteNoExiste() = runTest {
         assertThrows<RuntimeException> {
             tareasRepository.delete(tarea)
         }
@@ -158,7 +158,7 @@ internal class TareasRestRepositoryTest {
     }
 
     @Test
-     fun delete() = runTest{
+    fun delete() = runTest {
         tareasRepository.save(tarea)
 
         val res = tareasRepository.delete(tarea)
