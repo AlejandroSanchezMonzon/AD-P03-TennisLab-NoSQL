@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import models.*
 import org.junit.jupiter.api.*
-
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Assertions.assertAll
 import repositories.maquinas.MaquinasRepository
@@ -72,7 +71,7 @@ internal class TareasRepositoryTest {
         turno = turno
     )
 
-    @BeforeAll
+    @BeforeEach
      fun setUp() = runTest{
         tareasRepository.deleteAll()
         usuariosRepository.save(usuario)
@@ -101,10 +100,13 @@ internal class TareasRepositoryTest {
 
     @Test
      fun findById() = runTest{
-        tareasRepository.save(tarea)
+        val prueba = tareasRepository.save(tarea)
 
-        val res = tareasRepository.findById(tarea.id)
-
+        val res = tareasRepository.findById("0")
+        println(prueba)
+        println(res)
+        println(tarea)
+        tareasRepository.findAll().toList().forEach { println(it) }
         assert(res == tarea)
     }
 
@@ -145,7 +147,7 @@ internal class TareasRepositoryTest {
         val res = tareasRepository.findById(operacion.id)
 
         assertAll(
-            { assertEquals(res?.id, operacion.descripcion) }
+            { assertEquals(res?.descripcion, operacion.descripcion) }
         )
     }
 

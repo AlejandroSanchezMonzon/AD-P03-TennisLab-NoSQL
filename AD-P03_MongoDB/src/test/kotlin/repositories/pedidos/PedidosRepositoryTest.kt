@@ -67,13 +67,13 @@ internal class PedidosRepositoryTest {
     }
 
     @AfterEach
-    suspend fun tearDown() = runTest {
+     fun tearDown() = runTest {
         pedidosRepository.deleteAll()
 
     }
 
     @AfterAll
-    suspend fun tearAllDown() {
+     fun tearAllDown() = runTest{
         usuariosRepository.delete(usuario)
         productosRepository.delete(producto)
     }

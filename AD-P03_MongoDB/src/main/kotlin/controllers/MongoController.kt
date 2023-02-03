@@ -52,8 +52,9 @@ class MongoController(
      *
      * @return Unit
      */
-    suspend fun descargarDatos() {
-        usuariosRestRepository.findAll().collect {
+    suspend fun descargarDatos(){
+        borrarDatos()
+        usuariosRestRepository.findAll().collect{
             logger.info("save - $it")
             usuariosRepository.save(it)
         }
@@ -73,11 +74,22 @@ class MongoController(
             logger.info("save - $tarea")
             tareasRepository.save(tarea)
         }
-
         getPedidosInit().forEach { pedido ->
             logger.info("save - $pedido")
             pedidosRepository.save(pedido)
         }
+
+        println( tareasRestRepository.findById("1"))
+
+    }
+
+    private suspend fun borrarDatos(){
+        usuariosRepository.deleteAll()
+        maquinasRepository.deleteAll()
+        productosRepository.deleteAll()
+        turnosRepository.deleteAll()
+        tareasRepository.deleteAll()
+        pedidosRepository.deleteAll()
     }
 
     /**

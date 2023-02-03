@@ -1,13 +1,14 @@
 package repositories.usuarios
 
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import models.TipoUsuario
 import models.Usuario
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.Assertions.assertAll
 import services.sqldelight.SqlDeLightClient
 import utils.cifrarPassword
 import java.util.*
@@ -17,32 +18,38 @@ internal class UsuariosCacheRepositoryTest {
     private val usuariosRepository = UsuariosCacheRepository(SqlDeLightClient())
 
     private val usuario = Usuario(
-        id = "1",
+        id = "11",
         uuid = UUID.randomUUID(),
         nombre = "Jude",
         apellido = "James",
         email = "jude@james.com",
         password = cifrarPassword("James"),
-        rol = TipoUsuario.ENCORDADOR
+        rol = TipoUsuario.TENISTA
     )
 
     init {
         MockKAnnotations.init(this)
     }
 
-    @Test
-    fun refresh() {
+    @BeforeEach
+    fun setUp() = runTest {
+        usuariosRepository.deleteAll()
+    }
+
+    @AfterEach
+    fun tearDown() = runTest{
+        usuariosRepository.deleteAll()
     }
 
     @Test
-    suspend fun findAll() {
-        val res = usuariosRepository.findAll()
+     fun findAll() = runTest {
+        val res = usuariosRepository.findAll().first().toList()
 
-        assert(res.toList().isEmpty())
+        assert(res.isEmpty())
     }
 
     @Test
-    suspend fun findById() {
+     fun findById() = runTest {
         usuariosRepository.save(usuario)
 
         val res = usuariosRepository.findById(usuario.id.toLong())
@@ -51,8 +58,16 @@ internal class UsuariosCacheRepositoryTest {
     }
 
     @Test
-    suspend fun save() {
+    fun findByIdNoExiste() = runTest {
+        val res = usuariosRepository.findById(usuario.id.toLong())
+
+        assert(res == null)
+    }
+
+    @Test
+     fun save() = runTest {
         val res = usuariosRepository.save(usuario)
+        usuariosRepository.findAll().first().toList().forEach { println("all" + it)}
 
         assertAll(
             { assertEquals(res.id, usuario.id) },
@@ -60,16 +75,14 @@ internal class UsuariosCacheRepositoryTest {
             { assertEquals(res.nombre, usuario.nombre) },
             { assertEquals(res.apellido, usuario.apellido) },
             { assertEquals(res.email, usuario.email) },
-            { assertEquals(res.rol, usuario.rol) },
+            { assertEquals(res.rol, usuario.rol) }
         )
-
-        usuariosRepository.delete(usuario)
-    }
+     }
 
     @Test
-    suspend fun update() {
+     fun update() = runTest {
         usuariosRepository.save(usuario)
-        val operacion = usuariosRepository.update(
+        val res = usuariosRepository.update(
             Usuario(
                 id = "1",
                 uuid = UUID.randomUUID(),
@@ -80,27 +93,32 @@ internal class UsuariosCacheRepositoryTest {
                 rol = TipoUsuario.ENCORDADOR
             )
         )
-        val res = usuariosRepository.findById(operacion.id.toLong())
 
         assertAll(
-            { assertEquals(res.id, operacion.id) },
-            { assertEquals(res.uuid, operacion.uuid) },
-            { assertEquals(res.nombre, operacion.nombre) },
-            { assertEquals(res.apellido, operacion.apellido) },
-            { assertEquals(res.email, operacion.email) },
-
-            )
-
-        usuariosRepository.delete(usuario)
+            { assertEquals(res?.id, "1") },
+            { assertEquals(res?.nombre, "actualizado") },
+            { assertEquals(res?.apellido, "actualizado") },
+            { assertEquals(res?.email,"actualizado") },
+        )
     }
 
     @Test
-    suspend fun delete() {
+     fun delete() = runTest {
         usuariosRepository.save(usuario)
 
         val res = usuariosRepository.delete(usuario)
 
         assert(res==usuario)
+    }
+
+    @Test
+    fun deleteNoExiste() = runTest {
+        val d = usuariosRepository.findAll().first().toList().forEach { "all" + println(it) }
+        val preuba = usuariosRepository.findById(usuario.id.toLong())
+        val res = usuariosRepository.delete(usuario)
+
+        println(res)
+        assert(res==null)
     }
 
 }

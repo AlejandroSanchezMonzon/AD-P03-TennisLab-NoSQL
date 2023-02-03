@@ -21,8 +21,9 @@
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.sqldelight/jdbc-driver/1.5.4/a1ff7d697db063c2bcc8265a3721062f43b3783e/jdbc-driver-1.5.4.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.sqldelight/runtime-jvm/1.5.4/8d6d0b24ef7a442a44ffd0432b9100ddb4689ddd/runtime-jvm-1.5.4.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.microutils/kotlin-logging-jvm/3.0.4/fb66155bec41f7c2c8b9be53dbb7c191c83b9415/kotlin-logging-jvm-3.0.4.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-serialization-jvm/2.2.2/e41337a81e283c633f8adeccdb5b7b1f7329b28a/ktor-client-serialization-jvm-2.2.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-server-content-negotiation-jvm/2.2.2/8bda5f19a95843f3343321344e307a9b90536d04/ktor-server-content-negotiation-jvm-2.2.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-serialization-kotlinx-json-jvm/2.2.2/8736f471f0929988293bf46c2d521d421a0a3974/ktor-serialization-kotlinx-json-jvm-2.2.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-serialization-jvm/2.2.2/e41337a81e283c633f8adeccdb5b7b1f7329b28a/ktor-client-serialization-jvm-2.2.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-json-jvm/1.4.1/e6430b33f06dcdff88998abfcb2e78bc3cd0a1f6/kotlinx-serialization-json-jvm-1.4.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.jensklingenberg.ktorfit/ktorfit-lib-jvm/1.0.0-beta16/b57ce3aec9f0c6f09d83beefb5be6bd31e138bab/ktorfit-lib-jvm-1.0.0-beta16.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-content-negotiation-jvm/2.2.2/3ef04cb7207acf7d84e667623baeb1e1999f02ba/ktor-client-content-negotiation-jvm-2.2.2.jar</arg>
@@ -30,10 +31,12 @@
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.insert-koin/koin-core-jvm/3.3.2/99b80e0ac946c3b5714fd4e789f63fe8c33860e1/koin-core-jvm-3.3.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.insert-koin/koin-annotations-jvm/1.1.0/82d67fa0b5a1a847debb8308b6f80a7be0fce1ef/koin-annotations-jvm-1.1.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-auth-jvm/2.2.2/71b62fd1e27c5bddf5300ddbe2c0e5b1c8622e5d/ktor-client-auth-jvm-2.2.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-server-request-validation-jvm/2.2.2/bb21c7c6ec47123b54121b6f4eabbd22698749da/ktor-server-request-validation-jvm-2.2.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.mockk/mockk-jvm/1.13.2/c49caf8df0e041adcef609ac3d2d28e64f8abc40/mockk-jvm-1.13.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-server-core-jvm/2.2.2/12d6bd3c07a8a9c9462e93fc9f1c93f3b6889ae4/ktor-server-core-jvm-2.2.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-serialization-kotlinx-jvm/2.2.2/e8cf2d978ad8eb53113eb05f360cbc64a323c9d2/ktor-serialization-kotlinx-jvm-2.2.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-json-jvm/2.2.2/ad0768b2aa877d81ddc17cfab0b0cb24e6ac8c2d/ktor-client-json-jvm-2.2.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-core-jvm/2.2.2/ba71596a4ba4ae67e9107089476ef7b37006fd56/ktor-client-core-jvm-2.2.2.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-serialization-kotlinx-jvm/2.2.2/e8cf2d978ad8eb53113eb05f360cbc64a323c9d2/ktor-serialization-kotlinx-jvm-2.2.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-websocket-serialization-jvm/2.2.2/173f9cd45cc70d6a0619a7463c85d76a4b50422a/ktor-websocket-serialization-jvm-2.2.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-serialization-jvm/2.2.2/d1dbaa1cc2b731d2765f55fc7f8aed19ccf692ab/ktor-serialization-jvm-2.2.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-events-jvm/2.2.2/77a0ee9d29590367ff180f2ced0fc3b791c208ff/ktor-events-jvm-2.2.2.jar</arg>
@@ -70,13 +73,13 @@
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.litote.kmongo/kmongo-shared/4.7.2/ba667fa8f910674059d791a73f49184f1f82b7b7/kmongo-shared-4.7.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.litote.kmongo/kmongo-id-jackson/4.7.2/8cac9d996aae41926a1e3535d7febc38cf1ea70e/kmongo-id-jackson-4.7.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.litote.kmongo/kmongo-id/4.7.2/5e8ee52689532c59f6cd83cb225013810b558a92/kmongo-id-4.7.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.litote.kmongo/kmongo-data/4.7.2/83c40f973394e492fa8390026ee54e984476e54c/kmongo-data-4.7.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.litote/kreflect/1.0.0/d4cb279241ea39a46f231b127a0f45618461d625/kreflect-1.0.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.13.4.2/325c06bdfeb628cfb80ebaaf1a26cc1eb558a585/jackson-databind-2.13.4.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.13.4/858c6cc78e1f08a885b1613e1d817c829df70a6e/jackson-annotations-2.13.4.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.13.4/cf934c681294b97ef6d80082faeefbe1edadf56/jackson-core-2.13.4.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-kotlin/2.13.4/f9cfefe0d853fc5704e6e366d531c82a1f8c3881/jackson-module-kotlin-2.13.4.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.litote/kreflect/1.0.0/d4cb279241ea39a46f231b127a0f45618461d625/kreflect-1.0.0.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.7.20/12b2501e33bb6373e8e347c86d85481863629381/kotlin-reflect-1.7.20.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.litote.kmongo/kmongo-data/4.7.2/83c40f973394e492fa8390026ee54e984476e54c/kmongo-data-4.7.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.7.22/e61a16c5c838d324529a6aa72dfb88ea98958a29/kotlin-reflect-1.7.22.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.8.0/1796921c7a3e2e2665a83e6c8d33399336cd39bc/kotlin-stdlib-1.8.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.8.0/f7197e7cc76453ac59f8b0f8d5137cc600becd36/kotlin-stdlib-common-1.8.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/2.0.3/deef7fc81f00bd5e6205bb097be1040b4094f007/slf4j-api-2.0.3.jar</arg>
@@ -95,6 +98,7 @@
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongodb-driver-reactivestreams/4.7.2/d882d12c9d966deb4ad10deea06fc6593f8421c4/mongodb-driver-reactivestreams-4.7.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/mongodb-driver-core/4.7.2/d5c4c651aaa0978ab31e241a6a954339f70ecd6b/mongodb-driver-core-4.7.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mongodb/bson/4.7.2/7b89ebf549410351f3c3c643836d912ca2bad74a/bson-4.7.2.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.4.2/4c40a633e7994cfb0354244efb6d03fcb11c3ecf/config-1.4.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.reactivestreams/reactive-streams/1.0.3/d9fb7a7926ffa635b3dcaa5049fb2bfa25b3e7d0/reactive-streams-1.0.3.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.objenesis/objenesis/3.2/7fadf57620c8b8abdf7519533e5527367cb51f09/objenesis-3.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.12.10/f34127d93639fad8c6fb84b3ca30292697d6c55d/byte-buddy-1.12.10.jar</arg>
@@ -159,6 +163,8 @@
     <orderEntry type="library" name="Gradle: com.squareup.sqldelight:sqlite-driver:1.5.4" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.sqldelight:runtime-jvm:1.5.4" level="project" />
     <orderEntry type="library" name="Gradle: io.github.microutils:kotlin-logging-jvm:3.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-server-content-negotiation-jvm:2.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-serialization-kotlinx-json-jvm:2.2.2" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0" level="project" />
     <orderEntry type="library" name="Gradle: org.litote.kmongo:kmongo-async:4.7.2" level="project" />
     <orderEntry type="library" name="Gradle: org.litote.kmongo:kmongo:4.7.2" level="project" />
@@ -169,8 +175,9 @@
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.8.0" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.sqldelight:jdbc-driver:1.5.4" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:2.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-client-serialization-jvm:2.2.2" level="project" />
-    <orderEntry type="library" name="Gradle: io.ktor:ktor-serialization-kotlinx-json-jvm:2.2.2" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.4.1" level="project" />
     <orderEntry type="library" name="Gradle: de.jensklingenberg.ktorfit:ktorfit-lib-jvm:1.0.0-beta16" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-client-content-negotiation-jvm:2.2.2" level="project" />
@@ -178,10 +185,10 @@
     <orderEntry type="library" name="Gradle: io.insert-koin:koin-core-jvm:3.3.2" level="project" />
     <orderEntry type="library" name="Gradle: io.insert-koin:koin-annotations-jvm:1.1.0" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-client-auth-jvm:2.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-server-request-validation-jvm:2.2.2" level="project" />
     <orderEntry type="library" name="Gradle: io.mockk:mockk-jvm:1.13.2" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm:1.6.4" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.8.0" level="project" />
     <orderEntry type="library" name="Gradle: org.litote.kmongo:kmongo-async-core:4.7.2" level="project" />
     <orderEntry type="library" name="Gradle: org.litote.kmongo:kmongo-jackson-mapping:4.7.2" level="project" />
@@ -197,7 +204,9 @@
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.apiguardian:apiguardian-api:1.1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.platform:junit-platform-commons:1.9.2" level="project" />
     <orderEntry type="library" name="Gradle: org.opentest4j:opentest4j:1.2.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-server-core-jvm:2.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-serialization-kotlinx-jvm:2.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-http-jvm:2.2.2" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" name="Gradle: org.litote.kmongo:kmongo-async-shared:4.7.2" level="project" />
     <orderEntry type="library" name="Gradle: org.litote.kmongo:kmongo-property:4.7.2" level="project" />
@@ -208,10 +217,10 @@
     <orderEntry type="library" name="Gradle: org.litote.jackson:jackson-module-loader:0.4.0" level="project" />
     <orderEntry type="library" name="Gradle: de.undercouch:bson4jackson:2.13.1" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:mongodb-driver-sync:4.7.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.7.22" level="project" />
+    <orderEntry type="library" name="Gradle: com.typesafe:config:1.4.2" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-client-json-jvm:2.2.2" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-client-core-jvm:2.2.2" level="project" />
-    <orderEntry type="library" name="Gradle: io.ktor:ktor-serialization-kotlinx-jvm:2.2.2" level="project" />
-    <orderEntry type="library" name="Gradle: io.ktor:ktor-http-jvm:2.2.2" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.4.1" level="project" />
     <orderEntry type="library" name="Gradle: de.jensklingenberg.ktorfit:ktorfit-annotations-jvm:1.0.0-beta16" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-serialization-jvm:2.2.2" level="project" />
@@ -221,27 +230,27 @@
     <orderEntry type="library" name="Gradle: io.mockk:mockk-agent-api-jvm:1.13.2" level="project" />
     <orderEntry type="library" name="Gradle: io.mockk:mockk-core-jvm:1.13.2" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:mongodb-driver-reactivestreams:4.7.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.litote:kreflect:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.litote.kmongo:kmongo-data:4.7.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.litote:kreflect:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.litote.kmongo:kmongo-id:4.7.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.7.20" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.13.4" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.13.4" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:mongodb-driver-core:4.7.2" level="project" />
     <orderEntry type="library" name="Gradle: org.mongodb:bson:4.7.2" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-events-jvm:2.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-utils-jvm:2.2.2" level="project" />
     <orderEntry type="library" name="Gradle: org.objenesis:objenesis:3.2" level="project" />
     <orderEntry type="library" name="Gradle: net.bytebuddy:byte-buddy:1.12.10" level="project" />
     <orderEntry type="library" name="Gradle: net.bytebuddy:byte-buddy-agent:1.12.10" level="project" />
     <orderEntry type="library" name="Gradle: org.reactivestreams:reactive-streams:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-websocket-serialization-jvm:2.2.2" level="project" />
-    <orderEntry type="library" name="Gradle: io.ktor:ktor-events-jvm:2.2.2" level="project" />
-    <orderEntry type="library" name="Gradle: io.ktor:ktor-utils-jvm:2.2.2" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-websockets-jvm:2.2.2" level="project" />
     <orderEntry type="library" name="Gradle: io.ktor:ktor-io-jvm:2.2.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.xerial:sqlite-jdbc:3.34.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: io.ktor:ktor-client-cio-jvm:2.1.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.jupiter:junit-jupiter:5.9.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: junit:junit:4.13.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.fusesource.jansi:jansi:2.4.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains:markdown-jvm:0.3.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.9.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />

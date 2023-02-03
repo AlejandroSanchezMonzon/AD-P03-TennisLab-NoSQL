@@ -63,15 +63,15 @@ class UsuariosRestRepository: IUsuariosRepository {
      *
      * @return Usuario?, el objeto que tiene el identificador introducido por parámetros, si no se encuentra, devolverá nulo.
      */
-    override suspend fun findById(id: String): Usuario {
+    override suspend fun findById(id: String): Usuario? {
         logger.debug { "finById(id=$id)" }
         val call = client.getUsuarioById(id)
-        try {
+        return try {
             logger.debug { "findById(id=$id) - Realizado correctamente." }
-            return call.toModelUsuario()
+            call.toModelUsuario()
         } catch (e: Exception) {
             logger.error { "findById(id=$id) - Error." }
-            throw RestException("Error al obtener el usuario con id $id: ${e.message}")
+            null
         }
     }
 
@@ -92,7 +92,7 @@ class UsuariosRestRepository: IUsuariosRepository {
             val res = client.createUsuario(entity.toUsuarioAPIDTO())
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Usuario(
-                id = res.id.toString(),
+                id = entity.id,
                 uuid = entity.uuid,
                 nombre = res.name,
                 apellido = res.username,

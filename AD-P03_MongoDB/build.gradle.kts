@@ -53,7 +53,6 @@ dependencies {
     // Kotlin Logging
     implementation("io.github.microutils:kotlin-logging-jvm:$micrologging_version")
 
-
     // Corrutinas
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
 
@@ -111,6 +110,13 @@ dependencies {
     testImplementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     // Auth para tokens usando el metodo de clienteAuth
     implementation("io.ktor:ktor-client-auth:$ktor_version")
+
+    // JSON content negotiation
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
+
+    // Content validation
+    implementation("io.ktor:ktor-server-request-validation:$ktor_version")
 
 
 }

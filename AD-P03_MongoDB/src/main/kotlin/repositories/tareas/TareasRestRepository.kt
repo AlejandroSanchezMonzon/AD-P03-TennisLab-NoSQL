@@ -65,12 +65,13 @@ class TareasRestRepository : ITareasRepository {
     override suspend fun findById(id: String): Tarea? {
         logger.debug { "finById(id=$id)" }
         val call = client.getTareaById(id)
-        try {
+        println(call)
+        return try {
             logger.debug { "findById(id=$id) - Realizado correctamente." }
-            return call.toModelTarea()
+            call.toModelTarea()
         } catch (e: Exception) {
             logger.error { "findById(id=$id) - Error." }
-            return null
+            null
         }
     }
 
@@ -91,10 +92,10 @@ class TareasRestRepository : ITareasRepository {
             val res = client.createTarea(entity.toTareaAPIDTO())
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Tarea(
-                id = entity.id.toString(),
+                id = entity.id,
                 uuid = entity.uuid,
                 precio = entity.precio,
-                descripcion = res.title,
+                descripcion = res.title!!,
                 tipo = entity.tipo,
                 turno = entity.turno
             )
@@ -124,7 +125,7 @@ class TareasRestRepository : ITareasRepository {
                 id = entity.toString(),
                 uuid = entity.uuid,
                 precio = entity.precio,
-                descripcion = res.title,
+                descripcion = res.title!!,
                 tipo = entity.tipo,
                 turno = entity.turno
             )
