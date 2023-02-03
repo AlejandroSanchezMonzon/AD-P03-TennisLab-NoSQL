@@ -1,16 +1,17 @@
 package repositories.usuarios
 
+import io.mockk.MockKAnnotations
 import kotlinx.coroutines.flow.toList
-import models.Maquina
-import models.TipoMaquina
+import kotlinx.coroutines.test.runTest
 import models.TipoUsuario
 import models.Usuario
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import utils.cifrarPassword
-import java.time.LocalDate
 import java.util.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -27,15 +28,29 @@ internal class UsuariosRepositoryTest {
         rol = TipoUsuario.ENCORDADOR
     )
 
+    init {
+        MockKAnnotations.init(this)
+    }
+
+    @BeforeAll
+    fun setUp() = runTest {
+        usuariosRepository.deleteAll()
+    }
+
+    @AfterEach
+    fun tearDown() = runTest{
+        usuariosRepository.deleteAll()
+    }
+
     @Test
-    suspend fun findAll() {
+     fun findAll()  = runTest{
         val res = usuariosRepository.findAll()
 
         assert(res.toList().isEmpty())
     }
 
     @Test
-    suspend fun findById() {
+     fun findById()  = runTest{
         usuariosRepository.save(usuario)
 
         val res = usuariosRepository.findById(usuario.id)
@@ -44,15 +59,14 @@ internal class UsuariosRepositoryTest {
     }
 
     @Test
-    suspend fun findByIdNoExiste() {
+     fun findByIdNoExiste() = runTest {
         val res = usuariosRepository.findById("-5")
 
         assert(res == null)
-
     }
 
     @Test
-    suspend fun save() {
+     fun save() = runTest {
         val res = usuariosRepository.save(usuario)
 
         assertAll(
@@ -63,12 +77,10 @@ internal class UsuariosRepositoryTest {
             { assertEquals(res.email, usuario.email) },
             { assertEquals(res.rol, usuario.rol) },
         )
-
-        usuariosRepository.delete(usuario)
     }
 
     @Test
-    suspend fun update() {
+     fun update() = runTest {
         usuariosRepository.save(usuario)
         val operacion = usuariosRepository.update(
             Usuario(
@@ -91,23 +103,21 @@ internal class UsuariosRepositoryTest {
             { assertEquals(res?.email, operacion.email) },
 
         )
-
-        usuariosRepository.delete(usuario)
     }
 
     @Test
-    suspend fun delete() {
+     fun delete() = runTest {
         usuariosRepository.save(usuario)
 
         val res = usuariosRepository.delete(usuario)
 
-        assert(res==usuario)
+        assert(res)
     }
 
     @Test
-    suspend fun deleteNoExiste() {
+     fun deleteNoExiste()  = runTest{
         val res = usuariosRepository.delete(usuario)
 
-        assert(res == null)
+        assert(!res)
     }
 }

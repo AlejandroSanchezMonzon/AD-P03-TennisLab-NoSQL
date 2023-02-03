@@ -1,6 +1,9 @@
 package repositories.maquinas
 
+import io.mockk.MockKAnnotations
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.runTest
 import models.Maquina
 import models.TipoMaquina
 import org.junit.jupiter.api.*
@@ -26,16 +29,30 @@ internal class MaquinasRepositoryTest {
         "rigidez = 80.0"
     )
 
+    init {
+        MockKAnnotations.init(this)
+    }
+
+    @BeforeAll
+     fun setUp() = runTest {
+
+        maquinasRepository.deleteAll()
+    }
+
+    @AfterEach
+     fun tearDown() = runTest{
+        maquinasRepository.deleteAll()
+    }
 
     @Test
-    suspend fun findAll() {
+     fun findAll()= runTest {
         val res = maquinasRepository.findAll()
 
         assert(res.toList().isEmpty())
     }
 
     @Test
-    suspend fun findById() {
+     fun findById() = runTest{
         maquinasRepository.save(maquina)
 
         val res = maquinasRepository.findById(maquina.id)
@@ -44,14 +61,14 @@ internal class MaquinasRepositoryTest {
     }
 
     @Test
-    suspend fun findByIdNoExiste() {
+     fun findByIdNoExiste() = runTest{
         val res = maquinasRepository.findById("-5")
 
         assert(res == null)
     }
 
     @Test
-    suspend fun save() {
+     fun save()= runTest {
         val res = maquinasRepository.save(maquina)
 
         assertAll(
@@ -65,12 +82,10 @@ internal class MaquinasRepositoryTest {
             { assertEquals(res.descripcion, maquina.descripcion) }
 
         )
-
-        maquinasRepository.delete(maquina)
     }
 
     @Test
-    suspend fun update() {
+     fun update()= runTest {
         maquinasRepository.save(maquina)
         val operacion = maquinasRepository.update(
             Maquina(
@@ -97,23 +112,20 @@ internal class MaquinasRepositoryTest {
             { assertEquals(res?.descripcion, operacion.descripcion) }
 
         )
-
-        maquinasRepository.delete(maquina)
     }
 
     @Test
-    suspend fun delete() {
+     fun delete() = runTest{
         maquinasRepository.save(maquina)
-
         val res = maquinasRepository.delete(maquina)
 
-        assert(res==maquina)
+        assert(res)
     }
 
     @Test
-    suspend fun deleteNoExiste() {
+     fun deleteNoExiste()= runTest {
         val res = maquinasRepository.delete(maquina)
 
-        assert(res==null)
+        assert(!res)
     }
 }

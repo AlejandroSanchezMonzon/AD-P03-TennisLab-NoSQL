@@ -1,5 +1,6 @@
 package repositories.usuarios
 
+import io.mockk.MockKAnnotations
 import kotlinx.coroutines.flow.toList
 import models.TipoUsuario
 import models.Usuario
@@ -23,6 +24,10 @@ internal class UsuariosRestRepositoryTest {
         password = cifrarPassword("James"),
         rol = TipoUsuario.ENCORDADOR
     )
+
+    init {
+        MockKAnnotations.init(this)
+    }
 
     @Test
     suspend fun findAll() {
@@ -106,7 +111,7 @@ internal class UsuariosRestRepositoryTest {
 
         val res = usuariosRepository.delete(usuario)
 
-        assert(res==usuario)
+        assert(res)
     }
 
     @Test

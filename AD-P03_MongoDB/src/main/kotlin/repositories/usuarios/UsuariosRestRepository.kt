@@ -148,15 +148,26 @@ class UsuariosRestRepository: IUsuariosRepository {
      *
      * @return Usuario, el objeto introducido por parámetros.
      */
-    override suspend fun delete(entity: Usuario): Usuario {
+    override suspend fun delete(entity: Usuario): Boolean {
         logger.debug { "delete(entity=$entity)" }
         try {
             client.deleteUsuario(entity.id)
             logger.debug { "delete(entity=$entity) - Realizado correctamente." }
-            return entity
+            return true
         } catch (e: Exception) {
             logger.error { "delete(entity=$entity) - Error." }
             throw RestException("Error al eliminar el usuario con id ${entity.id}: ${e.message}")
+        }
+    }
+
+    suspend fun deleteAll() {
+        logger.debug { "deleteAll()" }
+        try {
+            client.deleteAllUsuarios()
+            logger.debug { "deleteAll() - Realizado correctamente." }
+        } catch (e: Exception) {
+            logger.error { "deleteAll() - Error." }
+            throw RestException("Error al eliminar los usuarios: ${e.message}")
         }
     }
 }

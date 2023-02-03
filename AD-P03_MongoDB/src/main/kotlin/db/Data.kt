@@ -345,7 +345,7 @@ fun getMaquinasInit() = listOf(
     Maquina(
         id = "50",
         uuid = UUID.randomUUID(),
-        marca = "Vevor",
+        marca = "Vevir",
         modelo = "2021",
         fechaAdquisicion = LocalDate.of(2021, 11, 19),
         numeroSerie = 15,
@@ -357,7 +357,7 @@ fun getMaquinasInit() = listOf(
     Maquina(
         id = "1",
         uuid = UUID.randomUUID(),
-        marca = "Vevor",
+        marca = "Vevir",
         modelo = "2022",
         fechaAdquisicion = LocalDate.of(2022, 5, 28),
         numeroSerie = 12,
@@ -369,7 +369,7 @@ fun getMaquinasInit() = listOf(
     Maquina(
         id = "2",
         uuid = UUID.randomUUID(),
-        marca = "Gamma",
+        marca = "Gammi",
         modelo = "X2",
         fechaAdquisicion = LocalDate.of(2022, 11, 5),
         numeroSerie = 10,

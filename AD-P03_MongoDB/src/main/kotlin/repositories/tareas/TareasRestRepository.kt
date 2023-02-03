@@ -91,7 +91,7 @@ class TareasRestRepository : ITareasRepository {
             val res = client.createTarea(entity.toTareaAPIDTO())
             logger.debug { "save(entity=$entity) - Realizado correctamente." }
             return Tarea(
-                id = res.id.toString(),
+                id = entity.id.toString(),
                 uuid = entity.uuid,
                 precio = entity.precio,
                 descripcion = res.title,
@@ -121,7 +121,7 @@ class TareasRestRepository : ITareasRepository {
             val res = client.updateTarea(entity.id, entity.toTareaAPIDTO())
             logger.debug { "update(entity=$entity) - Realizado correctamente." }
             return Tarea(
-                id = res.id.toString(),
+                id = entity.toString(),
                 uuid = entity.uuid,
                 precio = entity.precio,
                 descripcion = res.title,
@@ -145,15 +145,26 @@ class TareasRestRepository : ITareasRepository {
      *
      * @return Tarea, el objeto introducido por parámetros.
      */
-    override suspend fun delete(entity: Tarea): Tarea {
+    override suspend fun delete(entity: Tarea): Boolean {
         logger.debug { "delete(entity=$entity)" }
         try {
             client.deleteTarea(entity.id)
             logger.debug { "delete(entity=$entity) - Realizado correctamente." }
-            return entity
+            return true
         } catch (e: Exception) {
             logger.error { "delete(entity=$entity) - Error." }
             throw RestException("Error al eliminar la tarea con id ${entity.id}: ${e.message}")
+        }
+    }
+
+     suspend fun deleteAll() {
+        logger.debug { "deleteAll()" }
+        try {
+            client.deleteAllTareas()
+            logger.debug { "deleteAll() - Realizado correctamente." }
+        } catch (e: Exception) {
+            logger.error { "deleteAll() - Error." }
+            throw RestException("Error al eliminar las tareas: ${e.message}")
         }
     }
 }
