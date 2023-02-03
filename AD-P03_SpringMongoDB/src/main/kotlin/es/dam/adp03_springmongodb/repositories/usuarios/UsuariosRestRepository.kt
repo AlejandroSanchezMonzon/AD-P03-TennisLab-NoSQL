@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.repositories.usuarios
 
 import es.dam.adp03_springmongodb.exceptions.RestException
@@ -22,6 +27,15 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
 
     private val client by lazy { KtorFitClient.instance }
 
+    /**
+     * Método encargado de utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve una lista de todos los objetos que hay
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @throws RestException, cuando no ha sido posible devolver los objetos encontradas como un flujo.
+     *
+     * @return Flow<Usuario>, el flujo de objetos encontrados transfromados a modelo.
+     */
     override suspend fun findAll(): Flow<Usuario> = withContext(Dispatchers.IO) {
         logger.info { "findAll()" }
         val call = client.getAllUsuarios()
@@ -40,6 +54,15 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
         }
     }
 
+    /**
+     * Método encargado de utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto con el identificador dado que hay
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @param id identificador de tipo String del objeto a consultar.
+     *
+     * @return Usuario?, el objeto que tiene el identificador introducido por parámetros, si no se encuentra, devolverá nulo.
+     */
     override suspend fun findById(id: ObjectId): Usuario {
         logger.info { "finById(id=$id)" }
         val call = client.getUsuarioById(id)
@@ -52,6 +75,17 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto a insertar
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @param entity Objeto a insetar en la base de datos.
+     *
+     * @throws RestException, cuando no ha sido posible insertar el objeto.
+     *
+     * @return Usuario, el objeto que ha sido insertado.
+     */
     override suspend fun save(entity: Usuario): Usuario {
         logger.info { "save(entity=$entity)" }
         try {
@@ -64,6 +98,17 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto a actualizar
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @param entity Objeto a actualizar en la base de datos.
+     *
+     * @throws RestException, cuando no ha sido posible actualizar el objeto.
+     *
+     * @return Usuario, el objeto que ha sido actualizado o insertado.
+     */
     override suspend fun update(entity: Usuario): Usuario {
         logger.info { "update(entity=$entity)" }
         try {
@@ -84,6 +129,17 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve el objeto a eliminar
+     * de tipo UsuarioAPI en la API REST.
+     *
+     * @param entity Objeto a borrar en la base de datos.
+     *
+     * @throws RestException, cuando no ha sido posible borrar el objeto.
+     *
+     * @return Usuario, el objeto introducido por parámetros.
+     */
     override suspend fun delete(entity: Usuario): Usuario {
         logger.info { "delete(entity=$entity)" }
         try {

@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.models
 
 import kotlinx.serialization.Contextual
@@ -14,7 +19,7 @@ data class Usuario(
     val id: ObjectId = ObjectId.get(),
     @Contextual
     val uuid: String = UUID.randomUUID().toString(),
-    val nombre: String,
+    var nombre: String,
     val apellido: String,
     val email: String,
     var password: String,

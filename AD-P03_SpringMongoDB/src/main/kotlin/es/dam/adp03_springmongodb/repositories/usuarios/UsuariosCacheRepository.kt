@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.repositories.usuarios
 
 import com.squareup.sqldelight.runtime.coroutines.asFlow
@@ -51,6 +56,13 @@ class UsuariosCacheRepository
         }
     }
 
+    /**
+     * Método encargado de utilizar el cliente SqlDeLightClient para acceder a la base de datos creada a
+     * través de fichero .sq, ejecuta un método, definido también en el fichero mencionado, que devuelve
+     * una query de Usuario de todos los objetos que hay.
+     *
+     * @return Flow<List<Usuario>>, el flujo de la lista de objetos encontrados transfromados a modelo.
+     */
     fun findAll(): Flow<List<Usuario>> {
         logger.info { "Cache -> findAll() " }
 
@@ -58,12 +70,37 @@ class UsuariosCacheRepository
             .map { it.map { usuario -> usuario.toModel() } }
     }
 
-    fun findById(id: String): Usuario {
-        logger.info { "Cache -> findById($id)" }
-
-        return cache.selectUsuarioById(id).executeAsOne().toModel()
+    /**
+     * Método encargado de utilizar el cliente SqlDeLightClient para acceder a la base de datos creada a
+     * través de fichero .sq, ejecuta un método, definido también en el fichero mencionado, que devuelve
+     * una query del Usuario cuyo identificador es el dado por parámetros.
+     *
+     * @param id identificador de tipo Flot del objeto a consultar.
+     *
+     * @return Usuario, el objeto que tiene el identificador introducido por parámetros transfromado a modelo.
+     */
+    fun findById(id: String): Usuario? {
+        logger.debug { "Cache -> findById($id)" }
+        return try {
+            cache.selectUsuarioById(id).executeAsOne().toModel()
+        } catch (e: Exception) {
+            logger.error { "Usuario no encontrado." }
+            null
+        }
     }
 
+    /**
+     * Método encargado de utilizar el cliente SqlDeLightClient para acceder a la base de datos creada a
+     * través de fichero .sq, ejecuta un método, definido también en el fichero mencionado, el cual
+     * inserta el Usuario dado por parámetros.
+     *
+     * Antes de hacer la inserción a la caché se encarga de crear el usuario en remoto para que no
+     * haya inconsistencia de datos.
+     *
+     * @param entity Objeto a insetar en la base de datos.
+     *
+     * @return Usuario, el objeto que ha sido insertado.
+     */
     suspend fun save(entity: Usuario): Usuario {
         logger.info { "Cache -> save($entity)" }
         val dto = remote.createUsuario(entity.toUsuarioAPIDTO())
@@ -81,6 +118,18 @@ class UsuariosCacheRepository
         return usuario
     }
 
+    /**
+     * Método encargado de utilizar el cliente SqlDeLightClient para acceder a la base de datos creada a
+     * través de fichero .sq, ejecuta un método, definido también en el fichero mencionado, el cual
+     * actualiza los valores del Usuario cuyo identificador es el mismo que el dado por parámetros.
+     *
+     * Después de esta operación se encarga de actualizar el usuario en remoto para que no haya ninguna
+     * inconsistencia de datos.
+     *
+     * @param entity Objeto a actualizar en la base de datos.
+     **
+     * @return Usuario, el objeto que ha sido actualizado.
+     */
     suspend fun update(entity: Usuario): Usuario {
         logger.info { "Cache -> update($entity)" }
         cache.updateUsuario(
@@ -98,6 +147,18 @@ class UsuariosCacheRepository
         return dto.toModelUsuario()
     }
 
+    /**
+     * Método encargado de utilizar el cliente SqlDeLightClient para acceder a la base de datos creada a
+     * través de fichero .sq, ejecuta un método, definido también en el fichero mencionado, el cual
+     * borra el Usuario dado por parámetros.
+     *
+     * Después de esta operación se encarga de borrar el usuario en remoto para que no haya ninguna
+     * inconsistencia de datos.
+     *
+     * @param entity Objeto a borrar en la base de datos.
+     *
+     * @return Usuario, el objeto introducido por parámetros.
+     */
     suspend fun delete(entity: Usuario): Usuario {
         logger.info { "Cache -> delete($entity)" }
 

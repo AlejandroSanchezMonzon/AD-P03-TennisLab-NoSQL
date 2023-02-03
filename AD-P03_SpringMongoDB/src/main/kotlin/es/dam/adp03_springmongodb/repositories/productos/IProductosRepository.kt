@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.repositories.productos
 
 import es.dam.adp03_springmongodb.models.Producto
@@ -6,5 +11,5 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface IProductosRepository: CoroutineCrudRepository<Producto, ObjectId> {
+interface IProductosRepository : CoroutineCrudRepository<Producto, ObjectId> {
 }

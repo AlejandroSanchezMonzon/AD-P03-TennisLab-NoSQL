@@ -41,7 +41,15 @@ class UsuariosCacheRepository(
                 cache.deleteAllUsuarios()
                 remote.getAllUsuarios().forEach { usuarioAPI ->
                     val usuario = usuarioAPI.toModelUsuario()
-                    cache.createUsuario(usuario.id.toLong(), usuario.uuid.toString(), usuario.nombre, usuario.apellido, usuario.email, usuario.password, usuario.rol.toString())
+                    cache.createUsuario(
+                        usuario.id.toLong(),
+                        usuario.uuid.toString(),
+                        usuario.nombre,
+                        usuario.apellido,
+                        usuario.email,
+                        usuario.password,
+                        usuario.rol.toString()
+                    )
                 }
                 delay(COOLDOWN)
             } while (true)
@@ -76,7 +84,7 @@ class UsuariosCacheRepository(
      */
     fun findById(id: Long): Usuario? {
         logger.debug { "Cache -> findById($id)" }
-        return try{
+        return try {
             cache.selectUsuarioById(id).executeAsOne().toModel()
         } catch (e: Exception) {
             logger.error { "Usuario no encontrado." }

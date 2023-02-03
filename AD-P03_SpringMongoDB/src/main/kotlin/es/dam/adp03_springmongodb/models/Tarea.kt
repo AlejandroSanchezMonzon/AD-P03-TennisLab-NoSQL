@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.models
 
 import kotlinx.serialization.Contextual
@@ -17,7 +22,7 @@ data class Tarea(
     @Contextual
     val uuid: String = UUID.randomUUID().toString(),
     val precio: Float,
-    val descripcion: String,
+    var descripcion: String,
     val tipo: TipoTarea,
     @DocumentReference()
     @Field("turno")

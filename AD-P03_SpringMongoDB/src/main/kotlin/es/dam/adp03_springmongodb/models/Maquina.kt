@@ -1,3 +1,8 @@
+/**
+ * @author Mireya Sánchez Pinzón
+ * @author Alejandro Sánchez Monzón
+ */
+
 package es.dam.adp03_springmongodb.models
 
 import kotlinx.serialization.Contextual
@@ -21,7 +26,7 @@ data class Maquina(
     val fechaAdquisicion: LocalDate,
     val numeroSerie: Long,
     val tipo: TipoMaquina,
-    val descripcion: String
+    var descripcion: String
 )
 
 enum class TipoMaquina {
