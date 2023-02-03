@@ -26,7 +26,7 @@ data class Maquina(
     val fechaAdquisicion: LocalDate,
     val numeroSerie: Long,
     val tipo: TipoMaquina,
-    val descripcion: String
+    var descripcion: String
 )
 
 enum class TipoMaquina {

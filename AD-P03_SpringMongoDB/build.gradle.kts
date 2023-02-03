@@ -75,12 +75,18 @@ dependencies {
     // Terminal
     implementation("com.github.ajalt.mordant:mordant:2.0.0-beta8")
 
-
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 
-
-
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
+
+    // Test
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        // Desactivamos el mockito-core para usar mockk
+        exclude(module = "mockito-core")
+    }
+    testImplementation("com.ninja-squad:springmockk:4.0.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("io.projectreactor:reactor-test")
 }
 
 tasks.withType<KotlinCompile> {

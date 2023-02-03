@@ -348,7 +348,7 @@ class MongoController
      */
     suspend fun borrarTurno(turno: Turno) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
-            require(listarTarea()?.filter { it.turno == turno }?.count() == 0)
+            require(listarTareas()?.filter { it.turno == turno }?.count() == 0)
             { "Antes de realizar la operación, elimine o actualice la tarea/s asociados a este turno. " }
             turnosRepository.delete(turno)
             logger.info("Operación realizada con éxito")
@@ -416,24 +416,16 @@ class MongoController
      *
      * @return Boolean, true si la cumple, false en caso contrario
      */
-    //TODO: Completar
     private suspend fun isPedidoOk(pedido: Pedido): Boolean {
-        //consultar tareas del pedido y consultar de la tarea el turno y del turno el encordador y no puede ser >2
-        var isOverTwo = false
+        val usuarios =
+            listarPedidos()!!.toList().flatMap { it.tareas!! }.map { it.turno }
+                .groupBy { it.encordador }
+                .filter { (_, turno) -> turno.size >= 2 }
+                .map { it.key }
 
-        val encordadoresOcupados: MutableList<Usuario>? = null
-        listarPedidos()?.collect { it ->
-            it.tareas?.forEach { tarea ->
-                tarea.turno.encordador.let { it1 -> encordadoresOcupados?.add(it1) }
-            }
+        return pedido.tareas!!.any {
+            usuarios.contains(it.turno.encordador)
         }
-
-        val encordadoresPedidoActual: MutableList<Usuario>? = null
-        pedido.tareas?.forEach { tarea ->
-            tarea.turno.encordador.let { encordadoresPedidoActual?.add(it) }
-        }
-
-        return isOverTwo
     }
 
     /**
@@ -647,7 +639,7 @@ class MongoController
      *
      * @return Flow<Tarea>?, El flujo de objetos encontrados. Si no se encuentra devolverá null.
      */
-    suspend fun listarTarea(): Flow<Tarea>? {
+    suspend fun listarTareas(): Flow<Tarea>? {
         return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
             tareasRepository.findAll()
