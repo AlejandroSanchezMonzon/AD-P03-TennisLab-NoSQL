@@ -26,7 +26,7 @@ object SqlDeLightClient {
     fun removeAllData() {
         queries.transaction {
             logger.info { "Borrando datos de la cache..." }
-            queries.removeAllUsuarios()
+            queries.deleteAllUsuarios()
         }
     }
 }

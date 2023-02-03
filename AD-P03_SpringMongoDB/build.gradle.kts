@@ -28,11 +28,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    testImplementation("io.projectreactor:reactor-test")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 
 
     // KMongo Asíncrono
@@ -85,8 +83,8 @@ dependencies {
         exclude(module = "mockito-core")
     }
     testImplementation("com.ninja-squad:springmockk:4.0.0")
+    testImplementation("org.mockito:mockito-core")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-    testImplementation("io.projectreactor:reactor-test")
 }
 
 tasks.withType<KotlinCompile> {
