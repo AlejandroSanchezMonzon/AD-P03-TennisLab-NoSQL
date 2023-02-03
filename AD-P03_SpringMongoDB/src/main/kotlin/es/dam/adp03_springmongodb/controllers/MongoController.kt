@@ -33,39 +33,50 @@ class MongoController
     private val usuariosCacheRepository: UsuariosCacheRepository
 ) {
     private lateinit var usuarioSesion: Usuario
+
     fun setUsuarioSesion(usuario: Usuario) {
         usuarioSesion = usuario
     }
 
+    suspend fun deleteAll() {
+        usuariosRepository.deleteAll()
+        pedidosRepository.deleteAll()
+        maquinasRepository.deleteAll()
+        productosRepository.deleteAll()
+        tareasRepository.deleteAll()
+        turnosRepository.deleteAll()
+    }
+
     suspend fun descargarDatos() {
+        deleteAll()
+
         usuariosRestRepository.findAll().collect {
-            logger.info("save - $it")
             usuariosRepository.save(it)
+            logger.info("save - $it")
         }
         getUsuariosInit().forEach { usuario ->
-            logger.info("save - $usuario")
             usuariosRepository.save(usuario)
-            usuariosCacheRepository.save(usuario)
+            logger.info("save - $usuario")
         }
         getMaquinasInit().forEach { maquina ->
-            logger.info("save - $maquina")
             maquinasRepository.save(maquina)
+            logger.info("save - $maquina")
         }
         getProductosInit().forEach { producto ->
-            logger.info("save - $producto")
             productosRepository.save(producto)
+            logger.info("save - $producto")
         }
         getTurnosInit().forEach { turno ->
-            logger.info("save - $turno")
             turnosRepository.save(turno)
+            logger.info("save - $turno")
         }
         getTareasInit().forEach { tarea ->
-            logger.info("save - $tarea")
             tareasRepository.save(tarea)
+            logger.info("save - $tarea")
         }
         getPedidosInit().forEach { pedido ->
-            logger.info("save - $pedido")
             pedidosRepository.save(pedido)
+            logger.info("save - $pedido")
         }
     }
 
@@ -254,13 +265,13 @@ class MongoController
         val encordadoresOcupados: MutableList<Usuario>? = null
         listarPedidos()?.collect { it ->
             it.tareas?.forEach { tarea ->
-                encordadoresOcupados?.add(tarea.turno.encordador)
+                tarea.turno.encordador.let { it1 -> encordadoresOcupados?.add(it1) }
             }
         }
 
         val encordadoresPedidoActual: MutableList<Usuario>? = null
         pedido.tareas?.forEach { tarea ->
-            encordadoresPedidoActual?.add(tarea.turno.encordador)
+            tarea.turno.encordador.let { encordadoresPedidoActual?.add(it) }
         }
 
         return isOverTwo
@@ -314,8 +325,8 @@ class MongoController
             require(listarTurnos()?.filter { it.encordador == usuario }?.count() == 0)
             { "Antes de realizar la operación, elimine o actualice el turno/s asociados a este usuario. " }
 
-            usuariosCacheRepository.delete(usuario)
             usuariosRepository.delete(usuario)
+            usuariosCacheRepository.delete(usuario)
             usuariosRestRepository.delete(usuario)
             logger.info("Operación realizada con éxito")
         } else {
@@ -325,8 +336,8 @@ class MongoController
 
     suspend fun actualizarUsuario(usuario: Usuario) {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
-            usuariosCacheRepository.update(usuario)
             usuariosRepository.save(usuario)
+            usuariosCacheRepository.update(usuario)
             usuariosRestRepository.update(usuario)
             logger.info("Operación realizada con éxito")
         } else {
@@ -334,25 +345,14 @@ class MongoController
         }
     }
 
-    //TODO la cache no devuelve nulo nunca
     suspend fun encontrarUsuario(id: ObjectId): Usuario? {
         if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
-            if (usuariosCacheRepository.findById(id.toString()) == null) {
-                if (usuariosRepository.findById(id) == null) {
-                    if (usuariosRestRepository.findById(id) == null) {
-                        logger.error("No se ha encontrado el usuario.")
-                        return null
-                    } else {
-                        logger.info("Operación realizada con éxito")
-                        return usuariosRestRepository.findById(id)
-                    }
-                } else {
-                    logger.info("Operación realizada con éxito")
-                    return usuariosRepository.findById(id)
-                }
-            } else {
-                logger.info("Operación realizada con éxito")
-                return usuariosCacheRepository.findById(id.toString())
+            logger.info("Operación realizada con éxito")
+            return try {
+                usuariosCacheRepository.findById(id.toString())
+            } catch (e: Exception) {
+                logger.error { "Usuario con id: $id no encontrado en la cache." }
+                usuariosRepository.findById(id)
             }
         } else {
             logger.error("No está autorizado a realizar esta operación.")
@@ -360,13 +360,13 @@ class MongoController
         }
     }
 
-    fun listarUsuarios(): Flow<List<Usuario>>? {
-        if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
+    fun listarUsuarios(): Flow<Usuario>? {
+        return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.info("Operación realizada con éxito")
-            return usuariosCacheRepository.findAll()
+            usuariosRepository.findAll()
         } else {
             logger.error("No está autorizado a realizar esta operación.")
-            return null
+            null
         }
     }
 
@@ -413,25 +413,18 @@ class MongoController
         }
     }
 
-    //TODO la cache no devuelve nulo nunca
     suspend fun encontrarTarea(id: ObjectId): Tarea? {
-        var tareaEncontrada: Tarea? = null
-        if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
+        return if (usuarioSesion.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion.rol == TipoUsuario.ADMIN_ENCARGADO) {
             if (tareasRepository.findById(id) == null) {
-                if (tareasRestRepository.findById(id) == null) {
-                    logger.error("No se ha encontrado el usuario.")
-                    return null
-                } else {
-                    logger.info("Operación realizada con éxito")
-                    return tareasRestRepository.findById(id)
-                }
+                logger.info("Operación realizada con éxito")
+                tareasRestRepository.findById(id)
             } else {
                 logger.info("Operación realizada con éxito")
-                return tareasRepository.findById(id)
+                tareasRepository.findById(id)
             }
         } else {
             logger.error("No está autorizado a realizar esta operación.")
-            return null
+            null
         }
     }
 }

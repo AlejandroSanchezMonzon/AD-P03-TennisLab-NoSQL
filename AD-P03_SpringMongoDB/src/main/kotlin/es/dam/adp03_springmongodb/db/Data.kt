@@ -80,7 +80,7 @@ suspend fun getTurnosInit() = listOf(
         comienzo = LocalDateTime.of(2022, 12, 7, 17, 48),
         final = LocalDateTime.of(2022, 12, 7, 18, 30),
         maquina = getMaquinasInit()[0],
-        encordador = getUsuariosInit()[2]
+        encordador = getUsuariosInit()[5]
     ),
     Turno(
         id = ObjectId(1.toString().padStart(24, '0')),
@@ -104,7 +104,7 @@ suspend fun getTurnosInit() = listOf(
         comienzo = LocalDateTime.of(2022, 8, 5, 7, 0),
         final = LocalDateTime.of(2022, 12, 4, 20, 0),
         maquina = getMaquinasInit()[3],
-        encordador = getUsuariosInit()[4]
+        encordador = getUsuariosInit()[6]
     )
 )
 
@@ -342,7 +342,7 @@ suspend fun getTareasInit() = listOf(
 
 fun getMaquinasInit() = listOf(
     Maquina(
-        id = ObjectId(50.toString().padStart(24, '0')),
+        id = ObjectId(0.toString().padStart(24, '0')),
         uuid = UUID.randomUUID().toString(),
         marca = "Vevor",
         modelo = "2021",

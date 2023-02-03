@@ -3,7 +3,6 @@ package es.dam.adp03_springmongodb.services.sqldelight
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import database.AppDatabase
-import kotlinx.serialization.Serializable
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 
@@ -21,7 +20,7 @@ object SqlDeLightClient {
 
     fun removeAllData() {
         queries.transaction {
-            logger.debug { "Borrando datos de la cache..." }
+            logger.info { "Borrando datos de la cache..." }
             queries.removeAllUsuarios()
         }
     }

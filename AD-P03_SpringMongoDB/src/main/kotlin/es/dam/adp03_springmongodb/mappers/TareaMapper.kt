@@ -28,7 +28,7 @@ fun Tarea.toTareaAPIDTO(): TareaAPIDTO {
         id = id.toString(),
         completed = setCompleted(turno.final),
         title = tipo.toString(),
-        userId = turno.encordador.id.toString().toInt()
+        userId = turno.encordador?.id.toString().toInt()
     )
 }
 

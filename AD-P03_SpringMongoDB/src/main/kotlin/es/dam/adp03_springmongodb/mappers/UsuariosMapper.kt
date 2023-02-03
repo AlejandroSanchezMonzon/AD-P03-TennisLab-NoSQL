@@ -33,9 +33,9 @@ fun UsuarioModelo.toUsuarioSQL(): UsuarioSQL {
     )
 }
 
-fun UsuarioAPIDTO.toModelUsuario(): UsuarioModelo {
+suspend fun UsuarioAPIDTO.toModelUsuario(): UsuarioModelo {
     return UsuarioModelo(
-        id = ObjectId(id.toString().padStart(24, '0')),
+        id = ObjectId(id.padStart(24, '0')),
         uuid = UUID.randomUUID().toString(),
         nombre = name,
         apellido = username,
