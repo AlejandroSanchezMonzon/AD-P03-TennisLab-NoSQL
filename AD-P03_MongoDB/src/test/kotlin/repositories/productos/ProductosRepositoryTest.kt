@@ -1,16 +1,14 @@
 package repositories.productos
 
+import io.mockk.MockKAnnotations
 import kotlinx.coroutines.flow.toList
-import models.Maquina
+import kotlinx.coroutines.test.runTest
 import models.Producto
-import models.TipoMaquina
 import models.TipoProducto
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.TestInstance
-import java.time.LocalDate
+import org.junit.jupiter.api.Assertions.assertAll
 import java.util.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -27,15 +25,29 @@ internal class ProductosRepositoryTest {
         stock = 35,
     )
 
+    init {
+        MockKAnnotations.init(this)
+    }
+
+    @BeforeAll
+    fun setUp() = runTest {
+        productosRepository.deleteAll()
+    }
+
+    @AfterEach
+    fun tearDown() = runTest{
+        productosRepository.deleteAll()
+    }
+
     @Test
-    suspend fun findAll() {
+     fun findAll() = runTest{
         val res = productosRepository.findAll()
 
         assert(res.toList().isEmpty())
     }
 
     @Test
-    suspend fun findById() {
+     fun findById() = runTest{
         productosRepository.save(producto)
 
         val res = productosRepository.findById(producto.id)
@@ -44,14 +56,14 @@ internal class ProductosRepositoryTest {
     }
 
     @Test
-    suspend fun findByIdNoExiste() {
+     fun findByIdNoExiste()= runTest {
         val res = productosRepository.findById("-5")
 
         assert(res == null)
     }
 
     @Test
-    suspend fun save() {
+     fun save() = runTest{
         val res = productosRepository.save(producto)
 
         assertAll(
@@ -63,12 +75,10 @@ internal class ProductosRepositoryTest {
             { assertEquals(res.precio, producto.precio) },
             { assertEquals(res.stock, producto.stock) },
         )
-
-        productosRepository.delete(producto)
     }
 
     @Test
-    suspend fun update() {
+     fun update()= runTest {
         val operacion = productosRepository.update(
             Producto(
                 id = "0",
@@ -92,23 +102,21 @@ internal class ProductosRepositoryTest {
             { assertEquals(res?.stock, operacion.stock) },
 
         )
-
-        productosRepository.delete(producto)
     }
 
     @Test
-    suspend fun deleteNoExiste() {
+     fun deleteNoExiste()= runTest {
         val res = productosRepository.delete(producto)
 
-        assert(res==null)
+        assert(!res)
     }
 
     @Test
-    suspend fun delete() {
+     fun delete() = runTest{
         productosRepository.save(producto)
 
         val res = productosRepository.delete(producto)
 
-        assert(res==producto)
+        assert(res)
     }
 }

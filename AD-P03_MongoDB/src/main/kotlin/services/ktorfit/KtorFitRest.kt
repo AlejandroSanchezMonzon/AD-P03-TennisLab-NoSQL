@@ -64,6 +64,9 @@ interface KtorFitRest {
     @DELETE("users/{id}")
     suspend fun deleteUsuario(@Path("id") id: String): Unit
 
+    @DELETE("users")
+    suspend fun deleteAllUsuarios(): Unit
+
     // Tareas
 
     /**
@@ -116,4 +119,7 @@ interface KtorFitRest {
      */
     @DELETE("todos/{id}")
     suspend fun deleteTarea(@Path("id") id: String): Unit
+
+    @DELETE("todos")
+    suspend fun deleteAllTareas(): Unit
 }

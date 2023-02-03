@@ -1,13 +1,13 @@
 package repositories.turnos
 
+import io.mockk.MockKAnnotations
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.runTest
 import models.*
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.Assertions.assertAll
 import repositories.maquinas.MaquinasRepository
 import repositories.usuarios.UsuariosRepository
 import utils.cifrarPassword
@@ -20,6 +20,10 @@ internal class TurnosRepositoryTest {
     private val usuariosRepository = UsuariosRepository()
     private val maquinasRepository = MaquinasRepository()
     private val turnosRepository = TurnosRepository()
+
+    init {
+        MockKAnnotations.init(this)
+    }
 
     private val usuario = Usuario(
         id = "1",
@@ -54,26 +58,33 @@ internal class TurnosRepositoryTest {
     )
 
     @BeforeAll
-    suspend fun setUp() {
+     fun setUp() = runTest{
+        turnosRepository.deleteAll()
         usuariosRepository.save(usuario)
         maquinasRepository.save(maquina)
     }
+    @AfterEach
+     fun tearDown() = runTest {
+        turnosRepository.deleteAll()
+
+    }
 
     @AfterAll
-    suspend fun tearDown() {
+     fun tearAllDown() = runTest{
+        turnosRepository.deleteAll()
         usuariosRepository.delete(usuario)
         maquinasRepository.delete(maquina)
     }
 
     @Test
-    suspend fun findAll() {
+     fun findAll() = runTest{
         val res = turnosRepository.findAll()
 
         assert(res.toList().isEmpty())
     }
 
     @Test
-    suspend fun findById() {
+     fun findById()= runTest {
         turnosRepository.save(turno)
 
         val res = turnosRepository.findById(turno.id)
@@ -82,15 +93,14 @@ internal class TurnosRepositoryTest {
     }
 
     @Test
-    suspend fun findByIdNoExiste() {
+     fun findByIdNoExiste() = runTest{
         val res = turnosRepository.findById("-5")
 
         assert(res == null)
-
     }
 
     @Test
-    suspend fun save() {
+     fun save() = runTest{
         val res = turnosRepository.save(turno)
 
         assertAll(
@@ -101,12 +111,10 @@ internal class TurnosRepositoryTest {
             { assertEquals(res.maquina, turno.maquina) },
             { assertEquals(res.encordador, turno.encordador) }
         )
-
-        turnosRepository.delete(turno)
     }
 
     @Test
-    suspend fun update() {
+     fun update() = runTest{
         turnosRepository.save(turno)
         val operacion = turnosRepository.update(
             Turno(
@@ -128,22 +136,20 @@ internal class TurnosRepositoryTest {
             { assertEquals(res?.final, operacion.final) },
 
         )
-
-        turnosRepository.delete(turno)
     }
 
     @Test
-    suspend fun delete() {
+     fun delete() = runTest{
         turnosRepository.save(turno)
 
         val res = turnosRepository.delete(turno)
 
-        assert(res==turno)
+        assert(res)
     }
     @Test
-    suspend fun deleteNoExiste() {
+     fun deleteNoExiste() = runTest{
         val res = turnosRepository.delete(turno)
 
-        assert(res == null)
+        assert(!res)
     }
 }

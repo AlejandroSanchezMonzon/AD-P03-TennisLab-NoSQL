@@ -1,13 +1,13 @@
 package repositories.tareas
 
+import io.mockk.MockKAnnotations
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.runTest
 import models.*
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.Assertions.assertAll
 import repositories.maquinas.MaquinasRepository
 import repositories.turnos.TurnosRepository
 import repositories.usuarios.UsuariosRepository
@@ -22,6 +22,10 @@ internal class TareasRepositoryTest {
     private val maquinasRepository = MaquinasRepository()
     private val turnosRepository = TurnosRepository()
     private val tareasRepository = TareasRepository()
+
+    init {
+        MockKAnnotations.init(this)
+    }
 
     private val usuario = Usuario(
         id = "1",
@@ -69,28 +73,34 @@ internal class TareasRepositoryTest {
     )
 
     @BeforeAll
-    suspend fun setUp() {
+     fun setUp() = runTest{
+        tareasRepository.deleteAll()
         usuariosRepository.save(usuario)
         maquinasRepository.save(maquina)
         turnosRepository.save(turno)
     }
 
+    @AfterEach
+    fun tearDown() = runTest{
+        tareasRepository.deleteAll()
+    }
+
     @AfterAll
-    suspend fun tearDown() {
+     fun tearAllDown() = runTest{
         usuariosRepository.delete(usuario)
         maquinasRepository.delete(maquina)
         turnosRepository.delete(turno)
     }
 
     @Test
-    suspend fun findAll() {
+     fun findAll() = runTest{
         val res = tareasRepository.findAll()
 
         assert(res.toList().isEmpty())
     }
 
     @Test
-    suspend fun findById() {
+     fun findById() = runTest{
         tareasRepository.save(tarea)
 
         val res = tareasRepository.findById(tarea.id)
@@ -99,15 +109,14 @@ internal class TareasRepositoryTest {
     }
 
     @Test
-    suspend fun findByIdNoExiste() {
+     fun findByIdNoExiste() = runTest{
         val res = tareasRepository.findById("-5")
 
         assert(res == null)
-
     }
 
     @Test
-    suspend fun save() {
+     fun save() = runTest{
         val res = tareasRepository.save(tarea)
 
         assertAll(
@@ -118,12 +127,10 @@ internal class TareasRepositoryTest {
             { assertEquals(res.descripcion, tarea.descripcion) },
             { assertEquals(res.turno, tarea.turno) }
         )
-
-        tareasRepository.delete(tarea)
     }
 
     @Test
-    suspend fun update() {
+     fun update() = runTest{
         tareasRepository.save(tarea)
         val operacion = tareasRepository.update(
             Tarea(
@@ -140,24 +147,22 @@ internal class TareasRepositoryTest {
         assertAll(
             { assertEquals(res?.id, operacion.descripcion) }
         )
-
-        tareasRepository.delete(tarea)
     }
 
     @Test
-    suspend fun deleteNoExiste() {
+     fun deleteNoExiste() = runTest{
         val res = tareasRepository.delete(tarea)
 
-        assert(res == null)
+        assert(!res)
     }
 
     @Test
-    suspend fun delete() {
+     fun delete() = runTest{
         tareasRepository.save(tarea)
 
         val res = tareasRepository.delete(tarea)
 
-        assert(res == tarea)
+        assert(res)
     }
 
 

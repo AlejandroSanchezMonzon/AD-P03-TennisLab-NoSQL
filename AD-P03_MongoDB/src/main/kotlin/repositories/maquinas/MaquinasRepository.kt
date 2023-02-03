@@ -7,6 +7,7 @@ package repositories.maquinas
 import db.MongoDbManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.toList
 import models.Maquina
 import mu.KotlinLogging
 import org.koin.core.annotation.Named
@@ -87,14 +88,17 @@ class MaquinasRepository: IMaquinasRepository {
      *
      * @return Maquina?, el objeto introducido por parámetros, si no se encuentra, devolverá nulo.
      */
-    override suspend fun delete(entity: Maquina): Maquina? {
+    override suspend fun delete(entity: Maquina): Boolean {
         logger.debug { "delete($entity) - borrando" }
-        val result = MongoDbManager.database.getCollection<Maquina>()
-            .deleteOneById(entity.id)
-        return if(!result.wasAcknowledged()){
-            entity
-        }else{
-            null
-        }
+        return MongoDbManager.database.getCollection<Maquina>()
+            .deleteOneById(entity.id).wasAcknowledged()
+    }
+
+     suspend fun deleteAll() {
+        logger.debug { "deleteAll() - borrando" }
+         val ids = findAll().toList().map { it.id }.forEach {
+             MongoDbManager.database.getCollection<Maquina>()
+             .deleteOneById(it)}
+
     }
 }

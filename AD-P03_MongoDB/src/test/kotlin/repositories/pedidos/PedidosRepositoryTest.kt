@@ -1,6 +1,8 @@
 package repositories.pedidos
 
+import io.mockk.MockKAnnotations
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.runTest
 import models.*
 import org.junit.jupiter.api.*
 
@@ -52,27 +54,41 @@ internal class PedidosRepositoryTest {
     precio = 120.0f
     )
 
+    init {
+        MockKAnnotations.init(this)
+    }
+
     @BeforeAll
-    suspend fun setUp() {
+    fun setUp() = runTest {
+        pedidosRepository.deleteAll()
         usuariosRepository.save(usuario)
         productosRepository.save(producto)
+
+    }
+
+    @AfterEach
+    suspend fun tearDown() = runTest {
+        pedidosRepository.deleteAll()
+
     }
 
     @AfterAll
-    suspend fun tearDown() {
+    suspend fun tearAllDown() {
         usuariosRepository.delete(usuario)
         productosRepository.delete(producto)
     }
 
     @Test
-    suspend fun findAll() {
+     fun findAll() = runTest{
         val res = pedidosRepository.findAll()
+
+        res.toList().forEach { println(it) }
 
         assert(res.toList().isEmpty())
     }
 
     @Test
-    suspend fun findById() {
+     fun findById() = runTest{
         pedidosRepository.save(pedido)
 
         val res = pedidosRepository.findById(pedido.id)
@@ -81,7 +97,7 @@ internal class PedidosRepositoryTest {
     }
 
     @Test
-    suspend fun findByIdNoExiste() {
+     fun findByIdNoExiste() = runTest{
         val res = pedidosRepository.findById("-5")
 
         assert(res == null)
@@ -89,7 +105,7 @@ internal class PedidosRepositoryTest {
     }
 
     @Test
-    suspend fun save() {
+     fun save() = runTest{
         val res = pedidosRepository.save(pedido)
 
         assertAll(
@@ -105,11 +121,10 @@ internal class PedidosRepositoryTest {
             { assertEquals(res.precio, pedido.precio) }
         )
 
-        pedidosRepository.delete(pedido)
     }
 
     @Test
-    suspend fun update() {
+     fun update() = runTest{
         pedidosRepository.save(pedido)
         val operacion = pedidosRepository.update(
             Pedido(
@@ -129,7 +144,7 @@ internal class PedidosRepositoryTest {
 
         val res = pedidosRepository.findById(operacion.id)
 
-        Assertions.assertAll(
+        assertAll(
             { assertEquals(res?.id, operacion.id) },
             { assertEquals(res?.uuid, operacion.uuid) },
             { assertEquals(res?.estado, operacion.estado) },
@@ -142,23 +157,21 @@ internal class PedidosRepositoryTest {
             { assertEquals(res?.precio, operacion.precio) }
 
         )
-
-        pedidosRepository.delete(pedido)
     }
 
     @Test
-    suspend fun delete() {
+     fun delete() = runTest{
         pedidosRepository.save(pedido)
 
         val res = pedidosRepository.delete(pedido)
 
-        assert(res==pedido)
+        assert(res)
     }
 
     @Test
-    suspend fun deleteNoExiste() {
+     fun deleteNoExiste() = runTest{
         val res = pedidosRepository.delete(pedido)
 
-        assert(res==null)
+        assert(!res)
     }
 }

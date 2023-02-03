@@ -7,6 +7,8 @@ package repositories.turnos
 import db.MongoDbManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.toList
+import models.Maquina
 import models.Turno
 import mu.KotlinLogging
 import org.koin.core.annotation.Named
@@ -87,14 +89,17 @@ class TurnosRepository: ITurnosRepository {
      *
      * @return Turno?, el objeto introducido por parámetros, si no se encuentra, devolverá nulo.
      */
-    override suspend fun delete(entity: Turno): Turno? {
+    override suspend fun delete(entity: Turno): Boolean {
         logger.debug { "delete($entity) - borrando" }
-        val result = MongoDbManager.database.getCollection<Turno>()
-            .deleteOneById(entity.id)
-        return if(!result.wasAcknowledged()){
-            entity
-        }else{
-            null
-        }
+        return MongoDbManager.database.getCollection<Turno>()
+            .deleteOneById(entity.id).wasAcknowledged()
+    }
+
+    suspend fun deleteAll() {
+        logger.debug { "deleteAll() - borrando" }
+        val ids = findAll().toList().map { it.id }.forEach {
+            MongoDbManager.database.getCollection<Turno>()
+                .deleteOneById(it)}
+
     }
 }

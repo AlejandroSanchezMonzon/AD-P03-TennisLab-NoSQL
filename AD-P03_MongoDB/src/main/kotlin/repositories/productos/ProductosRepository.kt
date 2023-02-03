@@ -7,6 +7,8 @@ package repositories.productos
 import db.MongoDbManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.toList
+import models.Maquina
 import models.Producto
 import mu.KotlinLogging
 import org.koin.core.annotation.Named
@@ -92,14 +94,17 @@ class ProductosRepository: IProductosRepository {
      *
      * @return Producto?, el objeto introducido por parámetros, si no se encuentra, devolverá nulo.
      */
-    override suspend fun delete(entity: Producto): Producto? {
+    override suspend fun delete(entity: Producto): Boolean {
         logger.debug { "delete($entity) - borrando" }
-        val result = MongoDbManager.database.getCollection<Producto>()
-            .deleteOneById(entity.id)
-        return if(!result.wasAcknowledged()){
-            entity
-        }else{
-            null
-        }
+        return MongoDbManager.database.getCollection<Producto>()
+            .deleteOneById(entity.id).wasAcknowledged()
+    }
+
+    suspend fun deleteAll() {
+        logger.debug { "deleteAll() - borrando" }
+        val ids = findAll().toList().map { it.id }.forEach {
+            MongoDbManager.database.getCollection<Producto>()
+                .deleteOneById(it)}
+
     }
 }
