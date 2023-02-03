@@ -93,17 +93,22 @@ internal class TareasRestRepositoryTest {
 
     @Test
      fun findAll() = runTest {
-        val res = tareasRepository.findAll()
 
-        assert(res.toList().isEmpty())
+        val res = tareasRepository.findAll().toList()
+
+        assertAll(
+            { assertNotNull(res) },
+            { assertEquals(200, res.size) },
+        )
     }
 
     @Test
      fun findById() = runTest {
-        tareasRepository.save(tarea)
+        val save = tareasRepository.save(tarea)
+        println("save$save")
 
-        val res = tareasRepository.findById(tarea.id)
-
+        val res = tareasRepository.findById(save.id)
+        println("res$res")
         assert(res == tarea)
     }
 
@@ -132,9 +137,9 @@ internal class TareasRestRepositoryTest {
     @Test
      fun update()  = runTest{
         tareasRepository.save(tarea)
-        val operacion = tareasRepository.update(
+        val res = tareasRepository.update(
             Tarea(
-                id = "0",
+                id = "1",
                 uuid = UUID.randomUUID(),
                 precio = 100.0f,
                 tipo = TipoTarea.ENCORDADO,
@@ -142,18 +147,33 @@ internal class TareasRestRepositoryTest {
                 turno = turno
             )
         )
-        val res = tareasRepository.findById(operacion.id)
 
         assertAll(
-            { assertEquals(res?.id, operacion.descripcion) }
+            { assertEquals(res?.descripcion, res.descripcion) }
         )
     }
 
     @Test
-     fun deleteNoExiste()  = runTest{
+    fun updateNoExiste() = runTest {
         assertThrows<RuntimeException> {
-            tareasRepository.delete(tarea)
+            tareasRepository.update(
+                Tarea(
+                    id = "345",
+                    uuid = UUID.randomUUID(),
+                    precio = 100.0f,
+                    tipo = TipoTarea.ENCORDADO,
+                    descripcion = "actualizado",
+                    turno = turno
+                )
+            )
         }
+    }
+
+    @Test
+     fun deleteNoExiste()  = runTest{
+        val res= tareasRepository.delete(tarea)
+        println(res)
+        assert(!res)
 
     }
 

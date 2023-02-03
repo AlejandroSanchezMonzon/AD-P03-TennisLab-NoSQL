@@ -7,16 +7,11 @@ package repositories.tareas
 import db.MongoDbManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.toList
-import models.Maquina
 import models.Tarea
 import mu.KotlinLogging
 import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
-import org.litote.kmongo.deleteOneById
-import org.litote.kmongo.findOneById
-import org.litote.kmongo.getCollection
-import org.litote.kmongo.save
+import org.litote.kmongo.*
 
 private val logger = KotlinLogging.logger {}
 
@@ -44,6 +39,7 @@ class TareasRepository: ITareasRepository {
      */
     override suspend fun findById(id: String): Tarea? {
         logger.debug { "findById($id)" }
+        println(id)
         return MongoDbManager.database.getCollection<Tarea>()
             .findOneById(id)
     }
@@ -80,24 +76,35 @@ class TareasRepository: ITareasRepository {
 
     /**
      * Método encargado de utilizar el objeto MongoDbManager para acceder a la base de datos de Mongo y a través
-     * de la búsqueda de la coleccion Tarea, ejecutar un método que devuelve un DeleteResult el cual va a devolver
-     * True si el cambio es conocido. Lanza una excepción en caso contrario.
+     * de la búsqueda de la coleccion Maquina, ejecutar un método que borra el objeto cuyo identificador es dado por parámetros.
      *
      * @param entity Objeto a borrar en la base de datos.
      *
-     * @return Tarea?, el objeto introducido por parámetros, si no se encuentra, devolverá nulo.
+     * @return Boolean, true si se ha podido borrar, false si no.
      */
     override suspend fun delete(entity: Tarea): Boolean {
         logger.debug { "delete($entity) - borrando" }
-        return MongoDbManager.database.getCollection<Tarea>()
-            .deleteOneById(entity.id).wasAcknowledged()
-    }
-
-    suspend fun deleteAll() {
-        logger.debug { "deleteAll() - borrando" }
-        val ids = findAll().toList().map { it.id }.forEach {
+        val encontrado = findById(entity.id)
+        return if(encontrado != null){
             MongoDbManager.database.getCollection<Tarea>()
-                .deleteOneById(it)}
+                .deleteOneById(entity.id)
+            true
+        }else{
+            logger.debug { "No se ha encontrado la tarea." }
+            false
+        }
+    }
+
+    /**
+     * Método encargado de utilizar el objeto MongoDbManager para acceder a la base de datos de Mongo y a través
+     * de la búsqueda de la coleccion Maquina, ejecutar un método que borra todos los objetos de esa colección.
+     */
+     fun deleteAll() {
+        logger.debug { "deleteAll() - borrando" }
+            MongoDbManager.database.getCollection<Tarea>()
+                .deleteMany()
 
     }
+
+
 }

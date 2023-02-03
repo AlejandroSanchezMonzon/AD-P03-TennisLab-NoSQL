@@ -23,7 +23,7 @@ suspend fun TareaAPIDTO.toModelTarea(): Tarea {
         id = id.toString(),
         uuid = UUID.randomUUID(),
         precio = (1..100).random().toFloat(),
-        descripcion = title,
+        descripcion = title!!,
         tipo = randomTareaType(),
         turno = getTurnosInit().random()
     )

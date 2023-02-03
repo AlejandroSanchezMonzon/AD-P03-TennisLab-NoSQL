@@ -53,6 +53,7 @@ class MongoController(
      * @return Unit
      */
     suspend fun descargarDatos(){
+        borrarDatos()
         usuariosRestRepository.findAll().collect{
             logger.info("save - $it")
             usuariosRepository.save(it)
@@ -73,11 +74,22 @@ class MongoController(
             logger.info("save - $tarea")
             tareasRepository.save(tarea)
         }
-
         getPedidosInit().forEach { pedido ->
             logger.info("save - $pedido")
             pedidosRepository.save(pedido)
         }
+
+        println( tareasRestRepository.findById("1"))
+
+    }
+
+    private suspend fun borrarDatos(){
+        usuariosRepository.deleteAll()
+        maquinasRepository.deleteAll()
+        productosRepository.deleteAll()
+        turnosRepository.deleteAll()
+        tareasRepository.deleteAll()
+        pedidosRepository.deleteAll()
     }
 
     /**
@@ -331,7 +343,7 @@ class MongoController(
      */
     suspend fun borrarTurno(turno: Turno) {
         if(usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO){
-            require(listarTarea()?.filter { it.turno == turno }?.count() == 0)
+            require(listarTareas()?.filter { it.turno == turno }?.count() == 0)
             {"Antes de realizar la operación, elimine o actualice la tarea/s asociados a este turno. "}
             turnosRepository.delete(turno)
             logger.debug("Operación realizada con éxito")
@@ -650,7 +662,7 @@ class MongoController(
      * @return Flow<Tarea>?, El flujo de objetos encontrados. Si no se encuentra devolverá null.
      */
     //TODO: API
-    suspend fun listarTarea(): Flow<Tarea>? {
+    suspend fun listarTareas(): Flow<Tarea>? {
         return if(usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO){
             logger.debug("Operación realizada con éxito")
             tareasRepository.findAll()

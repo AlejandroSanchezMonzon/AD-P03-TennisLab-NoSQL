@@ -2,6 +2,7 @@ package repositories.usuarios
 
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.runTest
 import models.TipoUsuario
 import models.Usuario
 import org.junit.jupiter.api.Test
@@ -16,7 +17,7 @@ internal class UsuariosRestRepositoryTest {
     private val usuariosRepository = UsuariosRestRepository()
 
     private val usuario = Usuario(
-        id = "1",
+        id = "11",
         uuid = UUID.randomUUID(),
         nombre = "Jude",
         apellido = "James",
@@ -30,22 +31,24 @@ internal class UsuariosRestRepositoryTest {
     }
 
     @Test
-    suspend fun findAll() {
-        val res = usuariosRepository.findAll()
+     fun findAll() = runTest{
+        val res = usuariosRepository.findAll().toList()
 
-        assert(res.toList().isEmpty())
+        assertAll(
+            { assertNotNull(res) },
+            { assertEquals(10, res.size) },
+        )
     }
 
     @Test
-    suspend fun findById() {
-        assertThrows<RuntimeException> {
-            usuariosRepository.findById(usuario.id)
-        }
+     fun findById() = runTest {
+          val res =  usuariosRepository.findById(usuario.id)
+        assert(res?.nombre == usuario.nombre)
 
     }
 
     @Test
-    suspend fun save() {
+     fun save() = runTest {
         val res = usuariosRepository.save(usuario)
 
         assertAll(
@@ -57,39 +60,33 @@ internal class UsuariosRestRepositoryTest {
             { assertEquals(res.rol, usuario.rol) },
         )
 
-        usuariosRepository.delete(usuario)
     }
 
     @Test
-    suspend fun update() {
+     fun update()  = runTest{
         usuariosRepository.save(usuario)
-        val operacion = usuariosRepository.update(
+        val res = usuariosRepository.update(
             Usuario(
                 id = "1",
                 uuid = UUID.randomUUID(),
                 nombre = "actualizado",
                 apellido = "actualizado",
                 email = "actualizado",
-                password = cifrarPassword("James"),
+                password = cifrarPassword("actualizado"),
                 rol = TipoUsuario.ENCORDADOR
             )
         )
-        val res = usuariosRepository.findById(operacion.id)
 
         assertAll(
-            { assertEquals(res.id, operacion.id) },
-            { assertEquals(res.uuid, operacion.uuid) },
-            { assertEquals(res.nombre, operacion.nombre) },
-            { assertEquals(res.apellido, operacion.apellido) },
-            { assertEquals(res.email, operacion.email) },
-
-            )
-
-        usuariosRepository.delete(usuario)
+            { assertEquals("1", res.id) },
+            { assertEquals("actualizado", res.nombre) },
+            { assertEquals("actualizado", res.apellido) },
+            { assertEquals("actualizado", res.email) },
+        )
     }
 
     @Test
-    suspend fun updateNoExiste() {
+     fun updateNoExiste() = runTest {
         assertThrows<RuntimeException> {
             usuariosRepository.update(
                 Usuario(
@@ -106,7 +103,7 @@ internal class UsuariosRestRepositoryTest {
     }
 
     @Test
-    suspend fun delete() {
+     fun delete()  = runTest{
         usuariosRepository.save(usuario)
 
         val res = usuariosRepository.delete(usuario)
@@ -115,10 +112,19 @@ internal class UsuariosRestRepositoryTest {
     }
 
     @Test
-    suspend fun deleteNoExiste() {
-        assertThrows<RuntimeException> {
-            usuariosRepository.delete(usuario)
-        }
+     fun deleteNoExiste() = runTest {
+        val delete = usuariosRepository.delete( Usuario(
+            id = "99",
+            uuid = UUID.randomUUID(),
+            nombre = "borrado",
+            apellido = "borrado",
+            email = "borrado",
+            password = cifrarPassword("James"),
+            rol = TipoUsuario.ENCORDADOR
+        ))
+
+        println(delete)
+        assert(!delete)
 
     }
 }
