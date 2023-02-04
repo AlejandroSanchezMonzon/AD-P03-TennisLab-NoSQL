@@ -435,18 +435,19 @@ class MongoController(
      * @return Boolean, true si la cumple, false en caso contrario
      */
     private suspend fun isPedidoOk(pedido: Pedido): Boolean {
-        /*val usuarios =
-            listarPedidos()!!.toList().flatMap { it.tareas!! }.map { it.turno }
-                .groupBy { it.encordador }
-                .filter { (_, turno) -> turno.size >= 2 }
-                .map { it.key }
+        return if(pedido.tareas == null){
+            true
+        }else{
+            val usuarios =
+                listarPedidos()!!.toList().flatMap { it.tareas!! }.map { it.turno }
+                    .groupBy { it.encordador }
+                    .filter { (_, turno) -> turno.size >= 2 }
+                    .map { it.key }
 
-        return pedido.tareas!!.any {
-            usuarios.contains(it.turno.encordador)
+            pedido.tareas!!.any {
+                usuarios.contains(it.turno.encordador)
+            }
         }
-
-         */
-        return true
     }
 
     /**
@@ -459,6 +460,7 @@ class MongoController(
      */
     suspend fun guardarPedido(pedido: Pedido) {
         require(isPedidoOk(pedido)) { "Este pedido no ha podido guardarse correctamente ya que su encordador asignado ya tiene dos pedidos asignados." }
+        require(pedido.tareas != null || pedido.productos != null){ "El pedido no se puede realizar, su contenido está vacío." }
         if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
             pedidosRepository.save(pedido)
             logger.debug("Operación realizada con éxito")
