@@ -19,7 +19,6 @@ import org.bson.types.ObjectId
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -28,7 +27,7 @@ import java.util.*
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MockKExtension::class)
 @SpringBootTest
-class MongoControllerTest {
+internal class MongoControllerTest {
     @Mock
     private lateinit var maquinasRepository: IMaquinasRepository
 
@@ -46,7 +45,7 @@ class MongoControllerTest {
 
     @Mock
     private lateinit var usuariosRepository: IUsuariosRepository
-    
+
     private lateinit var controller: MongoController
 
 

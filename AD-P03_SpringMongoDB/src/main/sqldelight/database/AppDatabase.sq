@@ -23,5 +23,5 @@ UPDATE Usuario SET uuid = ?, nombre = ?, apellido = ?, email = ?, password = ?, 
 deleteUsuario:
 DELETE FROM Usuario WHERE id = ?;
 
-removeAllUsuarios:
+deleteAllUsuarios:
 DELETE FROM Usuario;

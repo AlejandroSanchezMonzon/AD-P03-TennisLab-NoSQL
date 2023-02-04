@@ -63,6 +63,9 @@ interface KtorFitRest {
     @DELETE("users/{id}")
     suspend fun deleteUsuario(@Path("id") id: ObjectId): Unit
 
+    @DELETE("todos")
+    suspend fun deleteAllUsuarios(): Unit
+
     // Tareas
 
     /**
