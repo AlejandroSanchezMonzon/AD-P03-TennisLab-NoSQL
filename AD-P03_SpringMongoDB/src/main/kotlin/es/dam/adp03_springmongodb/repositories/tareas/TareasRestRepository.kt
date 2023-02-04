@@ -39,11 +39,13 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
         val call = client.getAllTareas()
         val tareas: MutableList<Tarea> = mutableListOf<Tarea>()
 
+        call.forEach {
+            tareas.add(it.toModelTarea())
+        }
+
         try {
             logger.info { "findAll() - Realizado correctamente." }
-            call.forEach {
-                tareas.add(it.toModelTarea())
-            }
+
             return@withContext tareas.asFlow()
         } catch (e: Exception) {
             logger.error { "findAll() - Error." }
@@ -60,15 +62,16 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
      *
      * @return Tarea?, el objeto que tiene el identificador introducido por parámetros, si no se encuentra, devolverá nulo.
      */
-    override suspend fun findById(id: ObjectId): Tarea {
-        logger.info { "finById(id=$id)" }
+    override suspend fun findById(id: ObjectId): Tarea? {
+        logger.debug { "finById(id=$id)" }
         val call = client.getTareaById(id)
-        try {
-            logger.info { "findById(id=$id) - Realizado correctamente." }
-            return call.toModelTarea()
+        println(call)
+        return try {
+            logger.debug { "findById(id=$id) - Realizado correctamente." }
+            call.toModelTarea()
         } catch (e: Exception) {
             logger.error { "findById(id=$id) - Error." }
-            throw RestException("Error al obtener la tarea con id $id: ${e.message}")
+            null
         }
     }
 
@@ -89,7 +92,7 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
             val res = client.createTarea(entity.toTareaAPIDTO())
             logger.info { "save(entity=$entity) - Realizado correctamente." }
             return Tarea(
-                id = ObjectId(res.id.toString().padStart(24, '0')),
+                id = ObjectId(res.id.padStart(24, '0')),
                 uuid = entity.uuid,
                 precio = entity.precio,
                 descripcion = res.title,
@@ -143,15 +146,30 @@ class TareasRestRepository : CRUDRepository<Tarea, ObjectId> {
      *
      * @return Tarea, el objeto introducido por parámetros.
      */
-    override suspend fun delete(entity: Tarea): Tarea {
-        logger.info { "delete(entity=$entity)" }
+    override suspend fun delete(entity: Tarea): Boolean {
+        logger.debug { "delete(entity=$entity)" }
         try {
             client.deleteTarea(entity.id)
-            logger.info { "delete(entity=$entity) - Realizado correctamente." }
-            return entity
+            logger.debug { "delete(entity=$entity) - Realizado correctamente." }
+            return true
         } catch (e: Exception) {
             logger.error { "delete(entity=$entity) - Error." }
             throw RestException("Error al eliminar la tarea con id ${entity.id}: ${e.message}")
+        }
+    }
+
+    /**
+     * Método encargado de utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que se encarga de eliminar todas las tareas.
+     */
+    suspend fun deleteAll() {
+        logger.debug { "deleteAll()" }
+        try {
+            client.deleteAllTareas()
+            logger.debug { "deleteAll() - Realizado correctamente." }
+        } catch (e: Exception) {
+            logger.error { "deleteAll() - Error." }
+            throw RestException("Error al eliminar las tareas: ${e.message}")
         }
     }
 }

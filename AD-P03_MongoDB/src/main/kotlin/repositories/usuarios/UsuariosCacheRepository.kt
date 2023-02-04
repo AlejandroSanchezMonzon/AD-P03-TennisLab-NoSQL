@@ -66,9 +66,6 @@ class UsuariosCacheRepository(
      fun findAll(): Flow<List<Usuario>>{
         logger.debug { "Cache -> findAll() " }
 
-        val prueba = cache.selectUsuarios().asFlow().mapToList()
-            .map { it.map { usuario -> usuario.toModel() } }
-
         return cache.selectUsuarios().asFlow().mapToList()
             .map { it.map { usuario -> usuario.toModel() } }
     }
@@ -169,6 +166,11 @@ class UsuariosCacheRepository(
         }
     }
 
+    /**
+     * Método encargado de utilizar el cliente SqlDeLightClient para acceder a la base de datos creada a
+     * través de fichero .sq, ejecuta un método, definido también en el fichero mencionado, el cual
+     * borra todos los usuarios.
+     */
     suspend fun deleteAll() {
         logger.debug { "Cache -> deleteAll()" }
 
