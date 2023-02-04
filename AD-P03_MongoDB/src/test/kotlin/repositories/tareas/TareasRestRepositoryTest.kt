@@ -105,10 +105,8 @@ internal class TareasRestRepositoryTest {
     @Test
      fun findById() = runTest {
         val save = tareasRepository.save(tarea)
-        println("save$save")
-
         val res = tareasRepository.findById(save.id)
-        println("res$res")
+
         assert(res == tarea)
     }
 

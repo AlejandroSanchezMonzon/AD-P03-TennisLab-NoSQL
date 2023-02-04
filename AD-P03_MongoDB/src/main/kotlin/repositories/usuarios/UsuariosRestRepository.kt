@@ -146,7 +146,7 @@ class UsuariosRestRepository: IUsuariosRepository {
      *
      * @throws RestException, cuando no ha sido posible borrar el objeto.
      *
-     * @return Usuario, el objeto introducido por parámetros.
+     * @return Boolean, tue si se ha podido realizar la operación, false si no.
      */
     override suspend fun delete(entity: Usuario): Boolean {
         logger.debug { "delete(entity=$entity)" }
@@ -160,6 +160,10 @@ class UsuariosRestRepository: IUsuariosRepository {
         }
     }
 
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve se encarga de eliminar todos los usuarios.
+     */
     suspend fun deleteAll() {
         logger.debug { "deleteAll()" }
         try {

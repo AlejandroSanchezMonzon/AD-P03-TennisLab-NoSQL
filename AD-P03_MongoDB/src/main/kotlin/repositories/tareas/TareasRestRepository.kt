@@ -158,6 +158,10 @@ class TareasRestRepository : ITareasRepository {
         }
     }
 
+    /**
+     * Método encargado de utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que se encarga de eliminar todas las tareas.
+     */
      suspend fun deleteAll() {
         logger.debug { "deleteAll()" }
         try {
