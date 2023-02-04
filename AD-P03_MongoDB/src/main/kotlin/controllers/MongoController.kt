@@ -20,6 +20,9 @@ import repositories.usuarios.UsuariosCacheRepository
 import repositories.usuarios.UsuariosRepository
 import repositories.usuarios.UsuariosRestRepository
 import usuarioSesion
+import utils.cifrarPassword
+import java.time.LocalDate
+import java.util.*
 
 val logger = KotlinLogging.logger { }
 
@@ -79,11 +82,33 @@ class MongoController(
             pedidosRepository.save(pedido)
         }
 
-        println( tareasRestRepository.findById("1"))
+        println( usuariosRepository.update(Usuario(
+            id = "50",
+            nombre = "asdfg",
+            apellido = "asghj",
+            email = "sghjk",
+            password = cifrarPassword("James"),
+            rol = TipoUsuario.TENISTA
+        )))
+        usuariosRepository.findAll().toList().forEach { println(it) }
+        pedidosRepository.delete(Pedido(
+            id = "51",
+            uuid = UUID.randomUUID(),
+            tareas = null,
+            productos = listOf(getProductosInit()[2]),
+            estado = TipoEstado.EN_PROCESO,
+            usuario = getUsuariosInit()[0],
+            fechaTope = LocalDate.of(2022, 12, 15),
+            fechaEntrada = LocalDate.of(2022, 11, 10),
+            fechaProgramada = LocalDate.of(2022, 12, 10),
+            fechaEntrega = LocalDate.of(2022, 12, 10),
+            precio = 120.0f
+        ))
+        pedidosRepository.findAll()?.toList()?.forEach { println(it) }
 
     }
 
-    private suspend fun borrarDatos(){
+    private fun borrarDatos(){
         usuariosRepository.deleteAll()
         maquinasRepository.deleteAll()
         productosRepository.deleteAll()
@@ -102,7 +127,7 @@ class MongoController(
      */
     suspend fun guardarMaquina(maquina: Maquina) {
         if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
-            maquinasRepository.save(maquina)
+            val prueba = maquinasRepository.save(maquina)
             logger.debug("Operación realizada con éxito")
         } else {
             logger.error("No está autorizado a realizar esta operación.")
@@ -172,7 +197,7 @@ class MongoController(
     suspend fun listarMaquinas(): Flow<Maquina>? {
         return if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO) {
             logger.debug("Operación realizada con éxito")
-            maquinasRepository.findAll()
+            return maquinasRepository.findAll()
         } else {
             logger.error("No está autorizado a realizar esta operación.")
             null
@@ -410,7 +435,7 @@ class MongoController(
      * @return Boolean, true si la cumple, false en caso contrario
      */
     private suspend fun isPedidoOk(pedido: Pedido): Boolean {
-        val usuarios =
+        /*val usuarios =
             listarPedidos()!!.toList().flatMap { it.tareas!! }.map { it.turno }
                 .groupBy { it.encordador }
                 .filter { (_, turno) -> turno.size >= 2 }
@@ -419,6 +444,9 @@ class MongoController(
         return pedido.tareas!!.any {
             usuarios.contains(it.turno.encordador)
         }
+
+         */
+        return true
     }
 
     /**
@@ -449,7 +477,9 @@ class MongoController(
      */
     suspend fun borrarPedido(pedido: Pedido) {
         if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
+            println("ba")
             pedidosRepository.delete(pedido)
+            println("bo")
             logger.debug("Operación realizada con éxito")
         } else {
             logger.error("No está autorizado a realizar esta operación.")
@@ -472,7 +502,7 @@ class MongoController(
         } else {
             logger.error("No está autorizado a realizar esta operación.")
         }
-    }
+     }
 
     /**
      * Método encargado de insertar el objeto en la base de datos de Mongo, en la caché y en la API
