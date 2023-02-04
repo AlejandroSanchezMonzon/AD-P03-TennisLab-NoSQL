@@ -17,7 +17,7 @@ private val logger = KotlinLogging.logger {}
 
 @Single
 @Named("MaquinasRepository")
-class MaquinasRepository: IMaquinasRepository {
+class MaquinasRepository : IMaquinasRepository {
 
     /**
      * Método encargado de utilizar el objeto MongoDbManager para acceder a la base de datos de Mongo y a través
@@ -27,7 +27,8 @@ class MaquinasRepository: IMaquinasRepository {
      */
     override suspend fun findAll(): Flow<Maquina> {
         logger.debug { "findAll()" }
-        return MongoDbManager.database.getCollection<Maquina>().find().asFlow()}
+        return MongoDbManager.database.getCollection<Maquina>().find().asFlow()
+    }
 
     /**
      * Método encargado de utilizar el objeto MongoDbManager para acceder a la base de datos de Mongo y a través
@@ -86,11 +87,11 @@ class MaquinasRepository: IMaquinasRepository {
     override suspend fun delete(entity: Maquina): Boolean {
         logger.debug { "delete($entity) - borrando" }
         val encontrado = findById(entity.id)
-        return if(encontrado != null){
+        return if (encontrado != null) {
             MongoDbManager.database.getCollection<Maquina>()
                 .deleteOneById(entity.id)
             true
-        }else{
+        } else {
             logger.debug { "No se ha encontrado la máquina." }
             false
         }
@@ -102,7 +103,7 @@ class MaquinasRepository: IMaquinasRepository {
      */
     fun deleteAll() {
         logger.debug { "deleteAll() - borrando" }
-         MongoDbManager.database.getCollection<Maquina>()
+        MongoDbManager.database.getCollection<Maquina>()
             .deleteMany()
 
     }
