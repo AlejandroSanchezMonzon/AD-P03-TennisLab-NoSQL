@@ -55,9 +55,9 @@ class MongoController(
      *
      * @return Unit
      */
-    suspend fun descargarDatos(){
+    suspend fun descargarDatos() {
         borrarDatos()
-        usuariosRestRepository.findAll().collect{
+        usuariosRestRepository.findAll().collect {
             logger.info("save - $it")
             usuariosRepository.save(it)
         }
@@ -82,33 +82,39 @@ class MongoController(
             pedidosRepository.save(pedido)
         }
 
-        println( usuariosRepository.update(Usuario(
-            id = "50",
-            nombre = "asdfg",
-            apellido = "asghj",
-            email = "sghjk",
-            password = cifrarPassword("James"),
-            rol = TipoUsuario.TENISTA
-        )))
+        println(
+            usuariosRepository.update(
+                Usuario(
+                    id = "50",
+                    nombre = "asdfg",
+                    apellido = "asghj",
+                    email = "sghjk",
+                    password = cifrarPassword("James"),
+                    rol = TipoUsuario.TENISTA
+                )
+            )
+        )
         usuariosRepository.findAll().toList().forEach { println(it) }
-        pedidosRepository.delete(Pedido(
-            id = "51",
-            uuid = UUID.randomUUID(),
-            tareas = null,
-            productos = listOf(getProductosInit()[2]),
-            estado = TipoEstado.EN_PROCESO,
-            usuario = getUsuariosInit()[0],
-            fechaTope = LocalDate.of(2022, 12, 15),
-            fechaEntrada = LocalDate.of(2022, 11, 10),
-            fechaProgramada = LocalDate.of(2022, 12, 10),
-            fechaEntrega = LocalDate.of(2022, 12, 10),
-            precio = 120.0f
-        ))
+        pedidosRepository.delete(
+            Pedido(
+                id = "51",
+                uuid = UUID.randomUUID(),
+                tareas = null,
+                productos = listOf(getProductosInit()[2]),
+                estado = TipoEstado.EN_PROCESO,
+                usuario = getUsuariosInit()[0],
+                fechaTope = LocalDate.of(2022, 12, 15),
+                fechaEntrada = LocalDate.of(2022, 11, 10),
+                fechaProgramada = LocalDate.of(2022, 12, 10),
+                fechaEntrega = LocalDate.of(2022, 12, 10),
+                precio = 120.0f
+            )
+        )
         pedidosRepository.findAll()?.toList()?.forEach { println(it) }
 
     }
 
-    private fun borrarDatos(){
+    private fun borrarDatos() {
         usuariosRepository.deleteAll()
         maquinasRepository.deleteAll()
         productosRepository.deleteAll()
@@ -435,18 +441,19 @@ class MongoController(
      * @return Boolean, true si la cumple, false en caso contrario
      */
     private suspend fun isPedidoOk(pedido: Pedido): Boolean {
-        /*val usuarios =
-            listarPedidos()!!.toList().flatMap { it.tareas!! }.map { it.turno }
-                .groupBy { it.encordador }
-                .filter { (_, turno) -> turno.size >= 2 }
-                .map { it.key }
+        return if (pedido.tareas == null) {
+            true
+        } else {
+            val usuarios =
+                listarPedidos()!!.toList().flatMap { it.tareas!! }.map { it.turno }
+                    .groupBy { it.encordador }
+                    .filter { (_, turno) -> turno.size >= 2 }
+                    .map { it.key }
 
-        return pedido.tareas!!.any {
-            usuarios.contains(it.turno.encordador)
+            pedido.tareas.any {
+                usuarios.contains(it.turno.encordador)
+            }
         }
-
-         */
-        return true
     }
 
     /**
@@ -459,6 +466,8 @@ class MongoController(
      */
     suspend fun guardarPedido(pedido: Pedido) {
         require(isPedidoOk(pedido)) { "Este pedido no ha podido guardarse correctamente ya que su encordador asignado ya tiene dos pedidos asignados." }
+        require(pedido.tareas != null || pedido.productos != null) { "El pedido no se puede realizar, su contenido está vacío." }
+
         if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
             pedidosRepository.save(pedido)
             logger.debug("Operación realizada con éxito")
@@ -502,7 +511,7 @@ class MongoController(
         } else {
             logger.error("No está autorizado a realizar esta operación.")
         }
-     }
+    }
 
     /**
      * Método encargado de insertar el objeto en la base de datos de Mongo, en la caché y en la API
