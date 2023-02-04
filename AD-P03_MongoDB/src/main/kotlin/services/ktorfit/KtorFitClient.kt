@@ -10,11 +10,8 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import io.ktor.http.ContentType.Application.Json
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
-import mu.KotlinLogging
 
 object KtorFitClient {
     private const val API_URL = "https://jsonplaceholder.typicode.com/"

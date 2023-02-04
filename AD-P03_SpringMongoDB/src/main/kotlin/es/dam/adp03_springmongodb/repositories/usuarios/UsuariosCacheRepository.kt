@@ -38,7 +38,7 @@ class UsuariosCacheRepository
         launch {
             do {
                 logger.info { "Refrescando los datos de la cache..." }
-                cache.removeAllUsuarios()
+                cache.deleteAllUsuarios()
                 remote.getAllUsuarios().forEach { usuarioAPI ->
                     val usuario = usuarioAPI.toModelUsuario()
                     cache.createUsuario(
@@ -166,5 +166,12 @@ class UsuariosCacheRepository
         remote.deleteUsuario(entity.id)
 
         return entity
+    }
+
+    suspend fun deleteAll() {
+        logger.debug { "Cache -> deleteAll()" }
+
+        cache.deleteAllUsuarios()
+        remote.deleteAllUsuarios()
     }
 }
