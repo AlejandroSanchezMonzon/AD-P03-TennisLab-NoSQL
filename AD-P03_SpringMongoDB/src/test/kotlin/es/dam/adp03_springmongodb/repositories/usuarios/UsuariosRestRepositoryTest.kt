@@ -51,7 +51,7 @@ internal class UsuariosRestRepositoryTest {
     @Test
     fun findById() = runTest {
         val res = usuariosRepository.findById(usuario.id)
-        assert(res.nombre == usuario.nombre)
+        assert(res?.nombre == usuario.nombre)
 
     }
 

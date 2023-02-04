@@ -83,7 +83,7 @@ internal class UsuariosCacheRepositoryTest {
     @Test
     fun update() = runTest {
         usuariosRepository.save(usuario)
-        val res = usuariosRepository.update(
+        usuariosRepository.update(
             Usuario(
                 id = ObjectId("1".padStart(24, '0')),
                 uuid = UUID.randomUUID().toString(),
@@ -94,12 +94,13 @@ internal class UsuariosCacheRepositoryTest {
                 rol = TipoUsuario.ENCORDADOR
             )
         )
+        val res = usuariosRepository.findAll().first().toList().get(0)
 
         assertAll(
-            { assertEquals(res.id, ObjectId("1".padStart(24, '0'))) },
-            { assertEquals(res.nombre, "actualizado") },
-            { assertEquals(res.apellido, "actualizado") },
-            { assertEquals(res.email, "actualizado") },
+            { assertEquals(res?.id, ObjectId("1".padStart(24, '0'))) },
+            { assertEquals(res?.nombre, "actualizado") },
+            { assertEquals(res?.apellido, "actualizado") },
+            { assertEquals(res?.email, "actualizado") },
         )
     }
 

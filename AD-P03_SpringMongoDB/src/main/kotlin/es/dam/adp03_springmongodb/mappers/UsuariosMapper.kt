@@ -22,7 +22,7 @@ import es.dam.adp03_springmongodb.models.Usuario as UsuarioModelo
  */
 fun UsuarioSQL.toModel(): UsuarioModelo {
     return UsuarioModelo(
-        id = ObjectId(id.toString().padStart(24, '0')),
+        id = ObjectId(id.padStart(24, '0')),
         uuid = uuid,
         nombre = nombre,
         apellido = apellido,

@@ -40,6 +40,7 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
         logger.info { "findAll()" }
         val call = client.getAllUsuarios()
         val usuarios = mutableListOf<Usuario>()
+
         call.forEach {
             usuarios.add(it.toModelUsuario())
         }
@@ -63,15 +64,15 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
      *
      * @return Usuario?, el objeto que tiene el identificador introducido por parámetros, si no se encuentra, devolverá nulo.
      */
-    override suspend fun findById(id: ObjectId): Usuario {
+    override suspend fun findById(id: ObjectId): Usuario? {
         logger.info { "finById(id=$id)" }
         val call = client.getUsuarioById(id)
-        try {
+        return try {
             logger.info { "findById(id=$id) - Realizado correctamente." }
-            return call.toModelUsuario()
+            call.toModelUsuario()
         } catch (e: Exception) {
             logger.error { "findById(id=$id) - Error." }
-            throw RestException("Error al obtener el usuario con id $id: ${e.message}")
+            null
         }
     }
 
@@ -91,7 +92,15 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
         try {
             val res = client.createUsuario(entity.toUsuarioAPIDTO())
             logger.info { "save(entity=$entity) - Realizado correctamente." }
-            return res.toModelUsuario()
+            return Usuario(
+                id = entity.id,
+                uuid = entity.uuid,
+                nombre = res.name,
+                apellido = res.username,
+                email = res.email,
+                password = cifrarPassword(entity.password),
+                rol = entity.rol
+            )
         } catch (e: Exception) {
             logger.error { "save(entity=$entity) - Error." }
             throw RestException("Error al crear el usuario ${entity.id}: ${e.message}")
@@ -138,17 +147,32 @@ class UsuariosRestRepository : CRUDRepository<Usuario, ObjectId> {
      *
      * @throws RestException, cuando no ha sido posible borrar el objeto.
      *
-     * @return Usuario, el objeto introducido por parámetros.
+     * @return Boolean, tue si se ha podido realizar la operación, false si no.
      */
-    override suspend fun delete(entity: Usuario): Usuario {
+    override suspend fun delete(entity: Usuario): Boolean {
         logger.info { "delete(entity=$entity)" }
         try {
             client.deleteUsuario(entity.id)
             logger.info { "delete(entity=$entity) - Realizado correctamente." }
-            return entity
+            return true
         } catch (e: Exception) {
             logger.error { "delete(entity=$entity) - Error." }
             throw RestException("Error al eliminar el usuario con id ${entity.id}: ${e.message}")
+        }
+    }
+
+    /**
+     * Método encargadode utilizar una instancia del objeto KtorfitClient para acceder a la API y a través
+     * de la interfaz KtorfitRest, ejecutar un método que devuelve se encarga de eliminar todos los usuarios.
+     */
+    suspend fun deleteAll() {
+        logger.debug { "deleteAll()" }
+        try {
+            client.deleteAllUsuarios()
+            logger.debug { "deleteAll() - Realizado correctamente." }
+        } catch (e: Exception) {
+            logger.error { "deleteAll() - Error." }
+            throw RestException("Error al eliminar los usuarios: ${e.message}")
         }
     }
 }

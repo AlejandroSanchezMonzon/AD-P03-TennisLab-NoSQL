@@ -103,19 +103,17 @@ class UsuariosCacheRepository
      */
     suspend fun save(entity: Usuario): Usuario {
         logger.info { "Cache -> save($entity)" }
-        val dto = remote.createUsuario(entity.toUsuarioAPIDTO())
-        val usuario = dto.toModelUsuario()
-
+        remote.createUsuario(entity.toUsuarioAPIDTO())
         cache.createUsuario(
             entity.id.toString(),
-            usuario.uuid,
-            usuario.nombre,
-            usuario.apellido,
-            usuario.email,
-            usuario.password,
-            usuario.rol.toString()
+            entity.uuid,
+            entity.nombre,
+            entity.apellido,
+            entity.email,
+            entity.password,
+            entity.rol.toString()
         )
-        return usuario
+        return entity
     }
 
     /**
@@ -128,23 +126,27 @@ class UsuariosCacheRepository
      *
      * @param entity Objeto a actualizar en la base de datos.
      **
-     * @return Usuario, el objeto que ha sido actualizado.
+     * @return Usuario?, el objeto que ha sido actualizado, null si no ha sido posible actualizarlo.
      */
-    suspend fun update(entity: Usuario): Usuario {
-        logger.info { "Cache -> update($entity)" }
-        cache.updateUsuario(
-            id = entity.id.toString(),
-            uuid = entity.uuid,
-            nombre = entity.nombre,
-            apellido = entity.apellido,
-            email = entity.email,
-            password = entity.password,
-            rol = entity.rol.toString()
-        )
+    suspend fun update(entity: Usuario): Usuario? {
+        logger.debug { "Cache -> update($entity)" }
+        return try{
+            cache.updateUsuario(
+                id = entity.id.toString(),
+                uuid = entity.uuid,
+                nombre = entity.nombre,
+                apellido = entity.apellido,
+                email = entity.email,
+                password = entity.password,
+                rol = entity.rol.toString()
+            )
+            remote.updateUsuario(entity.id, entity.toUsuarioAPIDTO())
+            entity
 
-        val dto = remote.updateUsuario(entity.id, entity.toUsuarioAPIDTO())
-
-        return dto.toModelUsuario()
+        } catch (e: Exception) {
+            logger.error { "Usuario no encontrado." }
+            null
+        }
     }
 
     /**
@@ -157,17 +159,26 @@ class UsuariosCacheRepository
      *
      * @param entity Objeto a borrar en la base de datos.
      *
-     * @return Usuario, el objeto introducido por parámetros.
+     * @return Usuario?, el objeto borrado, nulo si no ha podido relizarse el borrado.
      */
-    suspend fun delete(entity: Usuario): Usuario {
-        logger.info { "Cache -> delete($entity)" }
-
-        cache.deleteUsuario(entity.id.toString())
-        remote.deleteUsuario(entity.id)
-
-        return entity
+    suspend fun delete(entity: Usuario): Usuario? {
+        logger.debug { "Cache -> delete($entity)" }
+        val encontrado = findById(entity.id.toString())
+        return if(encontrado != null){
+            cache.deleteUsuario(entity.id.toString())
+            remote.deleteUsuario(entity.id)
+            entity
+        }else{
+            logger.error { "Usuario no encontrado." }
+            null
+        }
     }
 
+    /**
+     * Método encargado de utilizar el cliente SqlDeLightClient para acceder a la base de datos creada a
+     * través de fichero .sq, ejecuta un método, definido también en el fichero mencionado, el cual
+     * borra todos los usuarios.
+     */
     suspend fun deleteAll() {
         logger.debug { "Cache -> deleteAll()" }
 

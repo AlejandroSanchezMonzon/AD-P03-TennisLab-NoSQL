@@ -63,7 +63,10 @@ interface KtorFitRest {
     @DELETE("users/{id}")
     suspend fun deleteUsuario(@Path("id") id: ObjectId): Unit
 
-    @DELETE("todos")
+    /**
+     * Método encargado de acceder a la API REST para borrar todos los usuarios.
+     */
+    @DELETE("users")
     suspend fun deleteAllUsuarios(): Unit
 
     // Tareas
@@ -118,4 +121,10 @@ interface KtorFitRest {
      */
     @DELETE("todos/{id}")
     suspend fun deleteTarea(@Path("id") id: ObjectId): Unit
+
+    /**
+     * Método encargado de acceder a la API REST para borrar todas las tareas.
+     */
+    @DELETE("todos")
+    suspend fun deleteAllTareas(): Unit
 }
