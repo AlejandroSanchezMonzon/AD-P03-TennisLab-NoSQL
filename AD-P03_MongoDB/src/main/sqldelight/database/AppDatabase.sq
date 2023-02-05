@@ -1,0 +1,27 @@
+CREATE TABLE Usuario (
+    id INTEGER PRIMARY KEY,
+    uuid TEXT UNIQUE NOT NULL,
+    nombre TEXT NOT NULL,
+    apellido TEXT NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL,
+    rol TEXT NOT NULL
+);
+
+selectUsuarios:
+SELECT * FROM Usuario;
+
+selectUsuarioById:
+SELECT * FROM Usuario WHERE id = ?;
+
+createUsuario:
+INSERT INTO Usuario(id, uuid, nombre, apellido, email, password, rol) VALUES (?, ?, ?, ?, ?, ?, ?);
+
+updateUsuario:
+UPDATE Usuario SET uuid = ?, nombre = ?, apellido = ?, email = ?, password = ?, rol = ? WHERE id = ?;
+
+deleteUsuario:
+DELETE FROM Usuario WHERE id = ?;
+
+deleteAllUsuarios:
+DELETE FROM Usuario;
