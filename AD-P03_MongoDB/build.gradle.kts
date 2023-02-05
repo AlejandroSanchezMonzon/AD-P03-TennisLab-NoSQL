@@ -52,6 +52,8 @@ dependencies {
 
     // Kotlin Logging
     implementation("io.github.microutils:kotlin-logging-jvm:$micrologging_version")
+    implementation("ch.qos.logback:logback-classic:1.4.5")
+
 
     // Corrutinas
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")

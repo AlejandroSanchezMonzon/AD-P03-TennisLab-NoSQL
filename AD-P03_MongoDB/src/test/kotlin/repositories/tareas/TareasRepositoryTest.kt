@@ -1,6 +1,7 @@
 package repositories.tareas
 
 import io.mockk.MockKAnnotations
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import models.*
@@ -14,6 +15,8 @@ import utils.cifrarPassword
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
+
+@OptIn(ExperimentalCoroutinesApi::class)
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class TareasRepositoryTest {
@@ -81,14 +84,10 @@ internal class TareasRepositoryTest {
 
     @AfterEach
     fun tearDown() = runTest{
-        tareasRepository.deleteAll()
-    }
-
-    @AfterAll
-     fun tearAllDown() = runTest{
         usuariosRepository.delete(usuario)
         maquinasRepository.delete(maquina)
         turnosRepository.delete(turno)
+        tareasRepository.deleteAll()
     }
 
     @Test

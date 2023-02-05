@@ -81,6 +81,7 @@ class MongoController(
             logger.info("save - $pedido")
             pedidosRepository.save(pedido)
         }
+<<<<<<< HEAD
 
         println(
             usuariosRepository.update(
@@ -112,6 +113,8 @@ class MongoController(
         )
         pedidosRepository.findAll()?.toList()?.forEach { println(it) }
 
+=======
+>>>>>>> f85e48c828fdd30efd229cd2c0ae9a49c64587e0
     }
 
     private fun borrarDatos() {
@@ -485,9 +488,7 @@ class MongoController(
      */
     suspend fun borrarPedido(pedido: Pedido) {
         if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
-            println("ba")
             pedidosRepository.delete(pedido)
-            println("bo")
             logger.debug("Operación realizada con éxito")
         } else {
             logger.error("No está autorizado a realizar esta operación.")
