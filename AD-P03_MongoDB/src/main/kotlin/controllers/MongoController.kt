@@ -20,8 +20,6 @@ import repositories.usuarios.UsuariosCacheRepository
 import repositories.usuarios.UsuariosRepository
 import repositories.usuarios.UsuariosRestRepository
 import usuarioSesion
-import utils.cifrarPassword
-import java.time.LocalDate
 import java.util.*
 
 val logger = KotlinLogging.logger { }
@@ -81,40 +79,6 @@ class MongoController(
             logger.info("save - $pedido")
             pedidosRepository.save(pedido)
         }
-<<<<<<< HEAD
-
-        println(
-            usuariosRepository.update(
-                Usuario(
-                    id = "50",
-                    nombre = "asdfg",
-                    apellido = "asghj",
-                    email = "sghjk",
-                    password = cifrarPassword("James"),
-                    rol = TipoUsuario.TENISTA
-                )
-            )
-        )
-        usuariosRepository.findAll().toList().forEach { println(it) }
-        pedidosRepository.delete(
-            Pedido(
-                id = "51",
-                uuid = UUID.randomUUID(),
-                tareas = null,
-                productos = listOf(getProductosInit()[2]),
-                estado = TipoEstado.EN_PROCESO,
-                usuario = getUsuariosInit()[0],
-                fechaTope = LocalDate.of(2022, 12, 15),
-                fechaEntrada = LocalDate.of(2022, 11, 10),
-                fechaProgramada = LocalDate.of(2022, 12, 10),
-                fechaEntrega = LocalDate.of(2022, 12, 10),
-                precio = 120.0f
-            )
-        )
-        pedidosRepository.findAll()?.toList()?.forEach { println(it) }
-
-=======
->>>>>>> f85e48c828fdd30efd229cd2c0ae9a49c64587e0
     }
 
     private fun borrarDatos() {
@@ -469,7 +433,7 @@ class MongoController(
      */
     suspend fun guardarPedido(pedido: Pedido) {
         require(isPedidoOk(pedido)) { "Este pedido no ha podido guardarse correctamente ya que su encordador asignado ya tiene dos pedidos asignados." }
-        require(pedido.tareas != null || pedido.productos != null){ "El pedido no se puede realizar, su contenido está vacío." }
+        require(pedido.tareas != null || pedido.productos != null) { "El pedido no se puede realizar, su contenido está vacío." }
         if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
             pedidosRepository.save(pedido)
             logger.debug("Operación realizada con éxito")
