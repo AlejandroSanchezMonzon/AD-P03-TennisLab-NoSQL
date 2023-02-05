@@ -3,6 +3,7 @@
  * @author Alejandro Sánchez Monzón
  */
 import controllers.MongoController
+import controllers.logger
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import mappers.toPedidoDTO
@@ -50,30 +51,46 @@ class KoinApp : KoinComponent {
         serviceJSON.writePedido("Informacion_completa_pedido", listOf(pedido))
 
         //Listado de pedidos pendientes en JSON.
-        val pedidosPendientes = controller.listarPedidos()?.toList()
-            ?.filter { it.estado == TipoEstado.EN_PROCESO }
-            ?.map { it.toPedidoDTO() }
+        try{
+            val pedidosPendientes = controller.listarPedidos()?.toList()
+                ?.filter { it.estado == TipoEstado.EN_PROCESO }
+                ?.map { it.toPedidoDTO() }
 
-        serviceJSON.writePedido("listado_pedidos_pendientes", pedidosPendientes!!)
+            serviceJSON.writePedido("listado_pedidos_pendientes", pedidosPendientes!!)
+        }catch (e: NullPointerException) {
+            logger.error { "Imposible sacar el informe." }
+        }
 
         //Listado de pedidos completados en JSON.
-        val pedidosCompletados = controller.listarPedidos()?.toList()
-            ?.filter { it.estado == TipoEstado.TERMINADO }
-            ?.map { it.toPedidoDTO() }
+        try{
+            val pedidosCompletados = controller.listarPedidos()?.toList()
+                ?.filter { it.estado == TipoEstado.TERMINADO }
+                ?.map { it.toPedidoDTO() }
 
-        serviceJSON.writePedido("listado_pedidos_completados", pedidosCompletados!!)
+            serviceJSON.writePedido("listado_pedidos_completados", pedidosCompletados!!)
+        }catch (e: NullPointerException) {
+            logger.error { "Imposible sacar el informe." }
+        }
 
         //Listado de productos y servicios que ofrecemos en JSON.
-        val productos = controller.listarProductos()?.toList()
-            ?.map { it.toProductoDTO() }
+        try{
+            val productos = controller.listarProductos()?.toList()
+                ?.map { it.toProductoDTO() }
 
-        serviceJSON.writeProducto("productos_ofrecidos", productos!!)
+            serviceJSON.writeProducto("productos_ofrecidos", productos!!)
+        }catch (e: NullPointerException) {
+            logger.error { "Imposible sacar el informe." }
+        }
 
         //Listado de asignaciones para los encordadores por fecha en JSON.
-        val asignaciones = controller.listarTurnos()?.toList()
-            ?.sortedBy { it.comienzo }
-            ?.map { it.toTurnoDTO() }
+        try{
+            val asignaciones = controller.listarTurnos()?.toList()
+                ?.sortedBy { it.comienzo }
+                ?.map { it.toTurnoDTO() }
 
-        serviceJSON.writeTurno("listado_asignaciones_encordadores_por_fecha", asignaciones!!)
+            serviceJSON.writeTurno("listado_asignaciones_encordadores_por_fecha", asignaciones!!)
+        }catch (e: NullPointerException) {
+            logger.error { "Imposible sacar el informe." }
+        }
     }
 }
