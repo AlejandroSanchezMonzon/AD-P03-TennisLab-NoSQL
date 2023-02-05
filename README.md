@@ -5,10 +5,10 @@
 <code> https://github.com/AlejandroSanchezMonzon/AD-P03-TennisLab-NoSQL </code>
 
 ## Enlace: vídeo y funcionamiento
-<code> </code> 
+<code> https://drive.google.com/file/d/1HgPdS8pBD0ZmLNIUrd1GCoonSlf2JDte/view?usp=share_link </code> 
 
 ## Documentación del proyecto
-<code> </code> 
+<code> https://github.com/AlejandroSanchezMonzon/AD-P03-TennisLab-NoSQL/tree/main/metadata </code> 
 
 ### Descripción general
 > Este proyecto basa su idea en la práctica de AD-P02-TennisLab-MySQL, en la que se implementó una base de datos relacional para gestionar una tienda de recursos de tenis. En esta ocasión, se ha implementado una base de datos NoSQL para gestionar el mismo servicio. 
