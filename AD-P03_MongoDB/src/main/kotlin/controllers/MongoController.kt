@@ -466,8 +466,7 @@ class MongoController(
      */
     suspend fun guardarPedido(pedido: Pedido) {
         require(isPedidoOk(pedido)) { "Este pedido no ha podido guardarse correctamente ya que su encordador asignado ya tiene dos pedidos asignados." }
-        require(pedido.tareas != null || pedido.productos != null) { "El pedido no se puede realizar, su contenido está vacío." }
-
+        require(pedido.tareas != null || pedido.productos != null){ "El pedido no se puede realizar, su contenido está vacío." }
         if (usuarioSesion?.rol == TipoUsuario.ADMIN_JEFE || usuarioSesion?.rol == TipoUsuario.ADMIN_ENCARGADO || usuarioSesion?.rol == TipoUsuario.ENCORDADOR) {
             pedidosRepository.save(pedido)
             logger.debug("Operación realizada con éxito")
