@@ -83,7 +83,6 @@ class PedidosRepository: IPedidosRepository {
      * @return Boolean, true si se ha podido borrar, false si no.
      */
     override suspend fun delete(entity: Pedido): Boolean {
-        println("bi")
         logger.debug { "delete($entity) - borrando" }
         val encontrado = findById(entity.id)
         return if(encontrado != null){
