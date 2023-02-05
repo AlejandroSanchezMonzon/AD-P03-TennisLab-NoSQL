@@ -1,0 +1,58 @@
+Manifest-Version: 1.0
+Main-Class: 
+Class-Path: listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.j
+ ar spring-tx-6.0.4.jar log4j-to-slf4j-2.19.0.jar reactive-streams-1.0.4
+ .jar junit-platform-commons-1.9.2.jar sqldelight-coroutines-extensions-
+ jvm-1.5.4.jar junit-jupiter-params-5.9.2.jar ktor-client-core-jvm-2.1.3
+ .jar spring-boot-test-3.0.2.jar kotlinx-coroutines-slf4j-1.6.4.jar mock
+ ito-junit-jupiter-4.8.1.jar byte-buddy-1.12.22.jar kmongo-async-core-4.
+ 7.2.jar guava-31.1-jre.jar mockito-core-4.8.1.jar annotations-13.0.jar 
+ hamcrest-2.2.jar json-path-2.7.0.jar kmongo-async-shared-4.7.2.jar mong
+ odb-driver-reactivestreams-4.8.2.jar assertj-core-3.23.1.jar ktor-seria
+ lization-kotlinx-jvm-2.1.3.jar kreflect-1.0.0.jar spring-context-6.0.4.
+ jar kotlinx-coroutines-test-jvm-1.6.4.jar springmockk-4.0.0.jar ktor-io
+ -jvm-2.1.3.jar spring-boot-starter-logging-3.0.2.jar jackson-annotation
+ s-2.14.1.jar kmongo-shared-4.7.2.jar sqlite-jdbc-3.39.4.1.jar ktor-http
+ -cio-jvm-2.1.3.jar kmongo-core-4.7.2.jar jakarta.xml.bind-api-4.0.0.jar
+  checker-qual-3.12.0.jar jackson-databind-2.14.1.jar ktor-websocket-ser
+ ialization-jvm-2.1.3.jar logback-core-1.4.5.jar kotlin-logging-jvm-3.0.
+ 4.jar kotlin-stdlib-jdk7-1.7.21.jar mongodb-driver-core-4.8.2.jar ktor-
+ serialization-kotlinx-json-jvm-2.1.3.jar slf4j-api-2.0.6.jar ktorfit-li
+ b-jvm-1.0.0-beta16.jar bson-record-codec-4.8.2.jar ktor-utils-jvm-2.1.3
+ .jar bson4jackson-2.13.1.jar android-json-0.0.20131108.vaadin1.jar spri
+ ng-data-commons-3.0.1.jar jakarta.activation-api-2.1.1.jar jackson-modu
+ le-loader-0.4.0.jar spring-core-6.0.4.jar kotlin-reflect-1.7.21.jar j2o
+ bjc-annotations-1.3.jar json-smart-2.4.8.jar ktor-websockets-jvm-2.1.3.
+ jar mockk-agent-api-jvm-1.13.3.jar kmongo-jackson-mapping-4.7.2.jar spr
+ ing-jcl-6.0.4.jar ktor-network-jvm-2.1.3.jar kmongo-data-4.7.2.jar ktor
+ -client-json-jvm-2.1.3.jar colormath-jvm-3.2.1.jar ktor-serialization-j
+ vm-2.1.3.jar junit-jupiter-engine-5.9.2.jar spring-data-mongodb-4.0.1.j
+ ar spring-beans-6.0.4.jar spring-expression-6.0.4.jar spring-boot-autoc
+ onfigure-3.0.2.jar ktor-http-jvm-2.1.3.jar ktor-client-cio-jvm-2.1.3.ja
+ r kotlin-stdlib-common-1.7.21.jar spring-boot-3.0.2.jar jul-to-slf4j-2.
+ 0.6.jar kotlinx-coroutines-reactor-1.6.4.jar objenesis-3.3.jar kotlinx-
+ coroutines-jdk8-1.6.4.jar sqlite-driver-1.5.4.jar failureaccess-1.0.1.j
+ ar kotlin-stdlib-jdk8-1.7.21.jar bson-4.8.2.jar jdbc-driver-1.5.4.jar s
+ nakeyaml-1.33.jar spring-boot-test-autoconfigure-3.0.2.jar kmongo-id-ja
+ ckson-4.7.2.jar asm-9.1.jar spring-test-6.0.4.jar spring-boot-starter-3
+ .0.2.jar jsonassert-1.5.1.jar mockk-core-jvm-1.13.3.jar spring-boot-sta
+ rter-data-mongodb-reactive-3.0.2.jar jsr305-3.0.2.jar xmlunit-core-2.9.
+ 1.jar junit-platform-engine-1.9.2.jar runtime-jvm-1.5.4.jar ktor-events
+ -jvm-2.1.3.jar ktor-client-serialization-jvm-2.1.3.jar kmongo-id-serial
+ ization-4.1.3.jar kotlinx-serialization-json-jvm-1.4.1.jar kotlinx-coro
+ utines-core-jvm-1.6.4.jar kotlin-stdlib-1.7.21.jar ktor-network-tls-jvm
+ -2.1.3.jar kmongo-async-4.7.2.jar mockk-jvm-1.13.3.jar spring-aop-6.0.4
+ .jar spring-boot-starter-data-mongodb-3.0.2.jar reactor-core-3.5.2.jar 
+ opentest4j-1.2.0.jar spring-boot-starter-test-3.0.2.jar reactor-kotlin-
+ extensions-1.2.1.jar mockk-dsl-jvm-1.13.3.jar byte-buddy-agent-1.12.22.
+ jar jakarta.annotation-api-2.1.1.jar hamcrest-core-2.2.jar jackson-core
+ -2.14.1.jar mordant-jvm-2.0.0-beta8.jar error_prone_annotations-2.11.0.
+ jar junit-jupiter-api-5.9.2.jar jackson-module-kotlin-2.14.1.jar mockk-
+ agent-jvm-1.13.3.jar junit-4.13.2.jar mongodb-driver-sync-4.8.2.jar mar
+ kdown-jvm-0.3.1.jar log4j-api-2.19.0.jar kmongo-id-4.7.2.jar junit-jupi
+ ter-5.9.2.jar logback-classic-1.4.5.jar kmongo-4.7.2.jar kotlinx-corout
+ ines-reactive-1.6.4.jar ktor-client-content-negotiation-jvm-2.1.3.jar a
+ ccessors-smart-2.4.8.jar kmongo-property-4.7.2.jar kotlinx-serializatio
+ n-core-jvm-1.4.1.jar apiguardian-api-1.1.2.jar ktorfit-annotations-jvm-
+ 1.0.0-beta16.jar
+

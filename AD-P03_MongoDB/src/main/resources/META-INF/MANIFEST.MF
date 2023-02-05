@@ -1,0 +1,45 @@
+Manifest-Version: 1.0
+Main-Class: 
+Class-Path: ktor-websockets-jvm-2.2.2.jar sqlite-jdbc-3.34.0.jar junit-p
+ latform-engine-1.9.2.jar mongodb-driver-core-4.7.2.jar kmongo-id-jackso
+ n-4.7.2.jar kotlinx-serialization-json-jvm-1.4.1.jar ktor-network-jvm-2
+ .1.3.jar jackson-module-kotlin-2.13.4.jar config-1.4.2.jar runtime-jvm-
+ 1.5.4.jar ktor-client-content-negotiation-jvm-2.2.2.jar kmongo-jackson-
+ mapping-4.7.2.jar sqldelight-coroutines-extensions-jvm-1.5.4.jar apigua
+ rdian-api-1.1.2.jar jsr305-3.0.2.jar junit-platform-commons-1.9.2.jar m
+ ockk-dsl-jvm-1.13.2.jar checker-qual-3.12.0.jar kotlin-test-1.8.0.jar m
+ ockk-agent-jvm-1.13.2.jar ktor-server-content-negotiation-jvm-2.2.2.jar
+  kmongo-data-4.7.2.jar ktorfit-annotations-jvm-1.0.0-beta16.jar kmongo-
+ property-4.7.2.jar kmongo-id-4.7.2.jar mockk-agent-api-jvm-1.13.2.jar m
+ ongodb-driver-sync-4.7.2.jar ktor-server-core-jvm-2.2.2.jar guava-31.1-
+ jre.jar ktor-utils-jvm-2.2.2.jar ktor-client-json-jvm-2.2.2.jar kotlin-
+ stdlib-common-1.8.0.jar junit-jupiter-api-5.9.2.jar jdbc-driver-1.5.4.j
+ ar kotlinx-coroutines-jdk8-1.6.4.jar mongodb-driver-reactivestreams-4.7
+ .2.jar kotlin-reflect-1.7.22.jar objenesis-3.2.jar ktor-client-auth-jvm
+ -2.2.2.jar ktor-serialization-kotlinx-jvm-2.2.2.jar kotlinx-serializati
+ on-core-jvm-1.4.1.jar jackson-annotations-2.13.4.jar ktor-client-serial
+ ization-jvm-2.2.2.jar sqlite-driver-1.5.4.jar bson-4.7.2.jar ktor-webso
+ cket-serialization-jvm-2.2.2.jar ktor-network-tls-jvm-2.1.3.jar kotlin-
+ test-junit5-1.8.0.jar koin-core-jvm-3.3.2.jar kotlinx-coroutines-core-j
+ vm-1.6.4.jar j2objc-annotations-1.3.jar jackson-module-loader-0.4.0.jar
+  mordant-jvm-2.0.0-beta8.jar kmongo-core-4.7.2.jar kreflect-1.0.0.jar k
+ tor-client-core-jvm-2.2.2.jar kotlin-logging-jvm-3.0.4.jar opentest4j-1
+ .2.0.jar mockk-jvm-1.13.2.jar byte-buddy-1.12.10.jar error_prone_annota
+ tions-2.11.0.jar kmongo-shared-4.7.2.jar junit-4.13.2.jar kotlin-stdlib
+ -jdk8-1.8.0.jar kotlinx-coroutines-slf4j-1.6.4.jar jackson-core-2.13.4.
+ jar kotlin-stdlib-1.8.0.jar kotlinx-coroutines-test-jvm-1.6.4.jar liste
+ nablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar junit-jupiter
+ -5.9.2.jar bson-record-codec-4.7.2.jar slf4j-api-2.0.4.jar ktor-client-
+ cio-jvm-2.1.3.jar ktor-http-jvm-2.2.2.jar colormath-jvm-3.2.1.jar ktor-
+ serialization-kotlinx-json-jvm-2.2.2.jar ktor-server-request-validation
+ -jvm-2.2.2.jar junit-jupiter-engine-5.9.2.jar kmongo-async-core-4.7.2.j
+ ar jackson-databind-2.13.4.2.jar ktor-serialization-jvm-2.2.2.jar jansi
+ -2.4.0.jar reactor-core-3.2.22.RELEASE.jar logback-classic-1.4.5.jar ko
+ in-annotations-jvm-1.1.0.jar junit-jupiter-params-5.9.2.jar byte-buddy-
+ agent-1.12.10.jar hamcrest-core-1.3.jar logback-core-1.4.5.jar markdown
+ -jvm-0.3.1.jar mockk-core-jvm-1.13.2.jar kmongo-async-4.7.2.jar reactiv
+ e-streams-1.0.3.jar ktor-io-jvm-2.2.2.jar kotlin-stdlib-jdk7-1.8.0.jar 
+ ktor-http-cio-jvm-2.1.3.jar failureaccess-1.0.1.jar bson4jackson-2.13.1
+ .jar kmongo-4.7.2.jar kmongo-async-shared-4.7.2.jar annotations-13.0.ja
+ r ktorfit-lib-jvm-1.0.0-beta16.jar ktor-events-jvm-2.2.2.jar
+
